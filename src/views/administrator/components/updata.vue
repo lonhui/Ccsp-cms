@@ -1,0 +1,149 @@
+<template>
+    <div class="box">
+        <div class="centont">
+            <table>
+                <tr>
+                    <td><span class="demonstration">{{$t('table.account')}}:</span></td>
+                    <td><el-input v-model="datas.account" :placeholder="$t('button.pleaseentercontent')" style="width:80%"></el-input></td>
+                </tr>
+                <tr>
+                    <td><span class="demonstration">{{$t('table.password')}}:</span></td>
+                    <td><el-input v-model="datas.password" :placeholder="$t('button.pleaseentercontent')" style="width:80%"></el-input></td>
+                </tr>
+                <tr>
+                     <td><span class="demonstration">{{$t('table.role')}}:</span></td>
+                    <td>
+                        <el-select v-model="datas.role_id" :placeholder="$t('button.pleasechoose')">
+                            <el-option v-for="item in options1" :key="item.state" :label="item.label" :value="item.state">
+                            </el-option>
+                        </el-select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="demonstration">{{$t('table.username1')}}</span></td>
+                    <td><el-input v-model="datas.name" :placeholder="$t('button.pleaseentercontent')" style="width:80%"></el-input></td>
+                </tr>
+                <tr>
+                    <td><span class="demonstration">{{$t('table.status')}}:</span></td>
+                    <td>
+                        <el-select v-model="datas.status" :placeholder="$t('button.pleasechoose')">
+                            <el-option v-for="item in options" :key="item.state" :label="item.label" :value="item.state">
+                            </el-option>
+                        </el-select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><el-button type="primary" @click="closeShow">{{$t('button.cancel')}}</el-button><el-button type="primary" @click="updata()">{{$t('button.submit')}}</el-button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return{
+            options: [{
+                state: 1,
+                label:this.$t('table.Enabled')
+            }, {
+                state: 0,
+                label: this.$t('table.Disabled')
+            }],
+            options1:[],
+            roleData:[]
+        }
+    },
+    props:['datas'],
+    mounted(){
+      this.getRole()
+    },
+    methods:{
+        closeShow(){
+            this.$emit('on-close')
+        },
+        updata(){
+            console.log(this.datas.role_id)
+            for(let i = 0;i < this.roleData.length;i++){
+                if(this.roleData[i].id === this.datas.role_id){
+                    this.datas.description = this.roleData[i].description
+                    break
+                }
+            }
+            this.$http.post('http://ccsp.caping.co.id/cms/sys/user/update',this.datas,{'headers':{
+                'X-abn-session-token':this.GLOBAL.token
+            }}
+            ).then(function(response){
+                console.log(response);
+                const datas = response.data;
+                if(datas.message==="OK"){
+                    this.$message({
+                        message: this.$t('message.updateSucc'),
+                        type: 'success'
+                    })
+                    this.$emit('on-close')
+                }else{
+                    this.$message({
+                        message: this.$t('message.fail'),
+                        type: 'error'
+                    })
+                }
+            },function(error){
+                console.log(error);
+            })
+        },
+        getRole(){
+            this.$http.get('http://ccsp.caping.co.id/cms/sys/role/list',{'headers':{
+                'X-abn-session-token':this.GLOBAL.token
+            }}
+            ).then(function(response){
+                this.options1=[]
+                console.log(response)
+                const datas = response.data;
+                this.roleData = datas.data.roles
+                for(let i = 0;i < datas.data.roles.length;i++){
+                    const roles={
+                        state:null,
+                        label:null,
+                    }
+                    roles.label = datas.data.roles[i].description
+                    roles.state = datas.data.roles[i].id
+                    this.options1.push(roles)
+                }
+            },function(error){
+                console.log(error)
+            })
+        }
+    }
+}
+</script>
+
+<style scoped>
+.box{
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(7, 17, 27, 0.8);
+    overflow-y: auto;
+}
+.centont{
+    width: 450px;
+    height: 550px;
+    margin: 50px auto;
+    border-radius:10px 10px 10px 10px;
+    background-color: #fff
+}
+table{
+    width: 80%;
+    margin: 0 auto;
+    line-height: 80px;
+    position: relative;
+    top: 30px;
+}
+</style>
+

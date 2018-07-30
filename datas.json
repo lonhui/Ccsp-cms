@@ -1,0 +1,126 @@
+{
+    "eventList":{
+        "data":[
+            {
+                "tableData3": [{
+                    "number": "001",
+                    "date": "2016-05-03",
+                    "name": "王小虎",
+                    "address": "上海市普陀区金沙江路 1518 弄"
+                }, {
+                    "number": "002",
+                    "date": "2016-05-02",
+                    "name": "王小虎",
+                    "address": "上海市普陀区金沙江路 1518 弄"
+                }, {
+                    "number": "003",
+                "date": "2016-05-02",
+                "name": "王小虎",
+                "address": "上海市普陀区金沙江路 1518 弄"
+                }, {
+                    "number": "004",
+                "date": "2016-05-02",
+                "name": "王小虎",
+                "address": "上海市普陀区金沙江路 1518 弄"
+                }, {
+                    "number": "005",
+                "date": "2016-05-02",
+                "name": "王小虎",
+                "address": "上海市普陀区金沙江路 1518 弄"
+                }
+                ]
+            }            
+        ]
+    },
+    "adminList":{
+        "data":[
+            {
+                "username":"sdsf",
+                "name":"王小虎",
+                "department":"技术部",
+                "role":"程序猿",
+                "Account":"在线",
+                "date":"2016-05-02"
+            },
+            {
+                "username":"sdsf",
+                "name":"王小虎",
+                "department":"技术部",
+                "role":"程序猿",
+                "Account":"在线",
+                "date":"2016-05-02"
+            },
+            {
+                "username":"sdsf",
+                "name":"王小虎",
+                "department":"技术部",
+                "role":"程序猿",
+                "Account":"在线",
+                "date":"2016-05-02"
+            },
+            {
+                "username":"sdsf",
+                "name":"王小虎",
+                "department":"技术部",
+                "role":"程序猿",
+                "Account":"在线",
+                "date":"2016-05-02"
+            }
+        ]
+    },
+    "weekRank":{
+        "data":[
+            {
+                "uid":"123",
+                "coin":"243",
+                "money":"435"
+            },
+            {
+                "uid":"123",
+                "coin":"243",
+                "money":"435"
+            },
+            {
+                "uid":"123",
+                "coin":"243",
+                "money":"435"
+            },
+            {
+                "uid":"123",
+                "coin":"243",
+                "money":"435"
+            },
+            {
+                "uid":"123",
+                "coin":"243",
+                "money":"435"
+            },
+            {
+                "uid":"123",
+                "coin":"243",
+                "money":"435"
+            },
+            {
+                "uid":"123",
+                "coin":"243",
+                "money":"435"
+            },
+            {
+                "uid":"123",
+                "coin":"243",
+                "money":"435"
+            },
+            {
+                "uid":"123",
+                "coin":"243",
+                "money":"435"
+            },
+            {
+                "uid":"123",
+                "coin":"243",
+                "money":"435"
+            }
+        ]
+    }
+    
+}
