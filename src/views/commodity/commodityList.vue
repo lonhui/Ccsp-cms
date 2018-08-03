@@ -64,11 +64,11 @@
                     </tr>
                     <tr>
                         <td><span class="demonstration">{{$t('table.Effectivetime')}}:</span></td>
-                        <td> <el-date-picker v-model="form.addTime" align="right" type="date"></el-date-picker></td>
+                        <td> <el-date-picker v-model="form.addTime" type="datetime" :placeholder="$t('button.Selectdatetime')" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker></td>
                     </tr>
                     <tr>
                         <td><span class="demonstration">{{$t('table.Failuretime')}}:</span></td>
-                        <td> <el-date-picker v-model="form.endTime" align="right" type="date"></el-date-picker></td>
+                        <td><el-date-picker v-model="form.endTime" type="datetime" :placeholder="$t('button.Selectdatetime')" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker></td>
                     </tr>
                      <tr>
                         <td><span class="demonstration">{{$t('table.uploadimage')}}:</span></td>
@@ -120,7 +120,7 @@ export default {
             current:null,
             addTime:null,
             endTime:null,
-            imgUrl:''
+            image:''
         },
         options: [{
           value: 1,
@@ -143,7 +143,7 @@ export default {
     //上传图片start
     handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
-        this.form.imgUrl = res.Message
+        this.form.image = res.Message
         this.iconUploading = false
     },
     handleAvatarError(err, file) {
@@ -177,10 +177,10 @@ export default {
             current:item.current,
             addTime:item.addTime,
             endTime:item.endTime,
-            imgUrl:item.image,
+            image:item.image,
             productType:item.productType
         }
-        this.imageUrl = this.form.imgUrl
+        this.imageUrl = this.form.image
         this.updateShow = true
       },
       add(){
@@ -193,9 +193,9 @@ export default {
             current:null,
             addTime:null,
             endTime:null,
-            imgUrl:''
+            image:''
         }
-        this.imageUrl = this.form.imgUrl
+        this.imageUrl = this.form.image
         this.updateShow = true
       },
       closeUpdateShow(){
