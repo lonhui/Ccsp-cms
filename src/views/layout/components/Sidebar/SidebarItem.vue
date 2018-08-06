@@ -45,111 +45,8 @@ export default {
   
   data() {
     return{
+        test:[],
       collapse:false,
-    //   items: [
-    //                 {
-    //                     icon: 'el-icon-menu',
-    //                     index: 'dashboard',
-    //                     title: this.$t('route.home')
-    //                 },
-    //                 {
-    //                     icon: 'el-icon-tickets',
-    //                     index: 'data-center',
-    //                     title: this.$t('route.userManagement'),
-    //                     subs:[
-    //                       {
-    //                             index: 'userList',
-    //                             title: this.$t('route.userlist')
-    //                         },
-    //                         {
-    //                             index: 'userEquipmentList',
-    //                             title: this.$t('route.userequipmentlist')
-    //                         }
-    //                     ]
-    //                 },
-    //                 {
-    //                     icon: 'el-icon-tickets',
-    //                     index: 'commodity',
-    //                     title: this.$t('route.commoditymanagement'),
-    //                     subs:[
-    //                       {
-    //                             index: 'commodityList',
-    //                             title: this.$t('route.productlist')
-    //                         },
-    //                         {
-    //                             index: 'dailyTransactionRecord',
-    //                             title: this.$t('route.dailytransactionrecord')
-    //                         }
-    //                         ,{
-    //                             index: 'exchangeFee',
-    //                             title: this.$t('route.callchargemanagement')
-    //                         }
-    //                         ,{
-    //                             index: 'promoCode',
-    //                             title:  this.$t('route.discountcodemanagement')
-    //                         }
-    //                     ]
-    //                 },
-    //                 {
-    //                     icon: 'el-icon-tickets',
-    //                     index: 'event',
-    //                     title:  this.$t('route.eventManagement'),
-    //                     subs: [
-    //                         {
-    //                             index: 'eventList',
-    //                             title:  this.$t('route.listofevents')
-    //                         },
-    //                         {
-    //                             index: 'read',
-    //                             title: this.$t('route.readingeventpreview')
-    //                         },
-    //                         {
-    //                             index: 'special',
-    //                             title: this.$t('route.specialcontentmanagement')
-    //                         },
-    //                         {
-    //                             index: 'kaiBao',
-    //                             title: this.$t('route.opentreasurecasepreview')
-    //                         },
-    //                         {
-    //                             index: 'invite',
-    //                             title:  this.$t('route.invitationevent')
-    //                         },
-    //                         {
-    //                             index: 'invitationTracking',
-    //                             title: this.$t('route.invitationtracking')
-    //                         },
-    //                         {
-    //                             index: 'trigger',
-    //                             title: this.$t('route.triggeredevents')
-    //                         },
-    //                         {
-    //                             index: 'share',
-    //                             title: this.$t('route.signin')
-    //                         }
-    //                     ]
-    //                 },
-    //                 {
-    //                     icon: 'el-icon-star-on',
-    //                     index: 'admin',
-    //                     title: this.$t('route.administratorsettings'),
-    //                     subs:[
-    //                         {
-    //                             index: 'adminList',
-    //                             title: '管理员列表'
-    //                         }
-    //                         ,{
-    //                             index: 'roleList',
-    //                             title: '角色列表'
-    //                         }
-    //                     ]
-    //                 },
-    //                 {
-    //                     icon: 'el-icon-setting',
-    //                     index: 'system',
-    //                     title: this.$t('route.systemConfiguration')
-    //                 }
-    //             ],
         items:[],
         item1:[
                 {
@@ -170,7 +67,6 @@ export default {
     mounted() {
         this.getMenu()
         this.bbtn()
-      
     },
     methods:{
         
@@ -236,7 +132,6 @@ export default {
                                 }else if(this.newlang == 'id'){
                                     sub.title = menuList[i].vlink
                                 }
-                                //sub.title = menuList[i].name
                                 this.item1[j].subs.push(sub)
                            }
                         }
@@ -245,7 +140,7 @@ export default {
             },function(error){
                 console.log(error)
             })
-            console.log(this.item1)
+            // let routes = this.$router.options.routes
         },
        
         bbtn:function(){
