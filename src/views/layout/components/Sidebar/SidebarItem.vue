@@ -71,16 +71,15 @@ export default {
     methods:{
         
         getMenu(){
-            const token = getToken()
-            this.GLOBAL.token = token
-            if (this.GLOBAL.token == '1') {
-             this.$router.push({ path: '/login'})
-            }
+            if(!getToken()){
+                this.$router.push('/')
+            }else{
+
+            
             this.$http.get('http://ccsp.caping.co.id/cms/sys/user/menu',{'headers':{
-                    'X-abn-session-token':this.GLOBAL.token
+                    'X-abn-session-token':getToken()
                 }}
                 ).then(function(response){
-                    console.log(response)
                     const datas = response.data
                     const menuList = datas.data
                     for(let i = 0;i < menuList.length;i++){
@@ -138,8 +137,9 @@ export default {
                     }
                 }
             },function(error){
-                console.log(error)
+                // console.log(error)
             })
+            }
             // let routes = this.$router.options.routes
         },
        

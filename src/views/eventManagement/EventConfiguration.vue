@@ -69,23 +69,21 @@ export default {
         },
         // 分页
         handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        // console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        // console.log(`当前页: ${val}`);
         },
         getData(){
             this.$http({
                 method:'GET',
                 url:'http://ccsp.caping.co.id/cms/set/event/list'+'?pageSize='+6+'&pageNum='+this.currentPage1
             }).then(function(response){
-                console.log(response)
                 const datas = response.data
                 this.tableData = datas.data.data
                 this.totalCount = datas.data.total
             },function(error){
-                
-                console.log(error);
+                // console.log(error)
             })
         }
     },

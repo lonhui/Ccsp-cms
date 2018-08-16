@@ -130,14 +130,13 @@ export default {
                 method:'GET',
                 url:'http://ccsp.caping.co.id/cms/statistic/event'+'?startTime='+this.startTime+'&endTime='+this.endTime
             }).then(function(response){
-                console.log(response)
                 const datas = response.data
                 this.tableData3 = datas.data.data
                 this.totalCount = datas.data.totalCount
                 this.closeFullScreen()
             },function(error){
                 this.closeFullScreen()
-                console.log(error);
+                // console.log(error)
             })
         },
         openFullScreen() {
@@ -182,11 +181,6 @@ export default {
             }else{
                 this.currentPage=1
             }
-        }
-    },
-    watch: {
-        'multipleSelection':function(){
-           console.log(this.multipleSelection)
         }
     }
 }

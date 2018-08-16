@@ -103,10 +103,10 @@ export default {
     methods:{
         // 分页
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            // console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            // console.log(`当前页: ${val}`);
         },
         getEndTime() {
             const myday = new Date()
@@ -135,7 +135,6 @@ export default {
             var that = this;
             that.$http.post('http://ccsp.caping.co.id/cms/statistic/browse',data
             ).then(function(response){
-                console.log(response);
                 const datas = response.data;
                 if(datas.data!=null){
                     this.tableData = datas.data.list
@@ -145,7 +144,7 @@ export default {
                 this.loading = false
             },function(error){
                 this.loading = false
-                console.log(error)
+                // console.log(error)
             })
         },
          getOptions(){
@@ -154,7 +153,6 @@ export default {
                 method: 'GET',
                 url: 'http://ccsp.caping.co.id/cms/statistic/type'+'?type='+this.type
             }).then(function(response) {
-                console.log(response)
                 const datas = response.data
                
                 for(let i = 0;i < datas.data.length;i++){
@@ -171,10 +169,9 @@ export default {
                     }
                    
                     this.options.push(d)
-                    console.log(this.options)
                 }
             }, function(error) {
-                console.log(error)
+                // console.log(error)
             })
         },
          getLineData(){

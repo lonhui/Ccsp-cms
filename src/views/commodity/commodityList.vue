@@ -1,12 +1,13 @@
 <template>
 	<div class="commodity">
+        <div v-if="!addCommodityShow">
 			<div class="button">
 				<el-button type="warning" plain @click="Dropoff">{{$t('button.Dropoff')}}</el-button>
                 <el-button type="success" plain @click="Shelf">{{$t('button.Shelf')}}</el-button>
-				<el-button type="primary" plain @click="add">{{$t('button.addto')}}</el-button>
+                <el-button type="primary" plain @click="add">{{$t('button.addto')}}</el-button>
 			</div>
 			<div class="list">
-                <el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" v-loading="loading">
+                <el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" v-loading="loading">
                     <el-table-column type="selection" width="55"></el-table-column>
                     <el-table-column prop="id" width="100px" :label="$t('table.ProductNumber')"></el-table-column>
                     <el-table-column prop="image" :label="$t('table.image')"  width="100">
@@ -18,7 +19,7 @@
                         <el-table-column prop="currentPrice" :label="$t('table.Commodityprice')" width="100"></el-table-column>
                         <el-table-column prop="total" :label="$t('table.Thetotalamount')" width="100px"></el-table-column>
                     <el-table-column prop="current" :label="$t('table.margin')" width="90px"></el-table-column>
-                        <el-table-column prop="addTime" :label="$t('table.Effectivetime')" width="160px"></el-table-column>
+                        <el-table-column prop="addTime" :label="$t('table.createTime')" width="160px"></el-table-column>
                         <el-table-column prop="endTime" :label="$t('table.Failuretime')" width="160px"></el-table-column>
                     <el-table-column prop="state" :label="$t('table.status')" width="80px">
                         <template slot-scope="scope">
@@ -35,71 +36,16 @@
         <div class="block">
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage1" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
-        <div class="box" v-if="updateShow">
-            <div class="centont">
-                <table class="table">
-                    <tr>
-                        <td><span class="demonstration">{{$t('table.productname')}}:</span></td>
-                        <td><el-input :placeholder="$t('button.pleaseentercontent')" style="width:80%"  v-model="form.name"></el-input></td>
-                    </tr>
-                    <tr>
-                       <td><span class="demonstration">{{$t('table.ProductTypes')}}:</span></td>
-                       <td>
-                          <el-select v-model="productType" clearable :placeholder="$t('button.pleasechoose')">
-                            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                          </el-select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class="demonstration">{{$t('table.Commodityprice')}}:</span></td>
-                        <td><el-input v-model="form.currentPrice" :placeholder="$t('button.pleaseentercontent')" type="number" style="width:80%"></el-input></td>
-                    </tr>
-                    <tr>
-                        <td><span class="demonstration">{{$t('table.Thetotalamount')}}:</span></td>
-                        <td><el-input v-model="form.total" :placeholder="$t('button.pleaseentercontent')" type="number" style="width:80%"></el-input></td>
-                    </tr>
-                    <tr>
-                        <td><span class="demonstration">{{$t('table.margin')}}:</span></td>
-                        <td><el-input v-model="form.current" :placeholder="$t('button.pleaseentercontent')" type="number" style="width:80%"></el-input></td>
-                    </tr>
-                    <tr>
-                        <td><span class="demonstration">{{$t('table.Effectivetime')}}:</span></td>
-                        <td> <el-date-picker v-model="form.addTime" type="datetime" :placeholder="$t('button.Selectdatetime')" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker></td>
-                    </tr>
-                    <tr>
-                        <td><span class="demonstration">{{$t('table.Failuretime')}}:</span></td>
-                        <td><el-date-picker v-model="form.endTime" type="datetime" :placeholder="$t('button.Selectdatetime')" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker></td>
-                    </tr>
-                     <tr>
-                        <td><span class="demonstration">{{$t('table.uploadimage')}}:</span></td>
-                        <td>
-                            <el-upload class="avatar-uploader" 
-                                action="https://ai.caping.co.id/Start/uploadpic" 
-                                name="imageData"
-                                :data="a"
-                                :show-file-list="false" 
-                                :on-success="handleAvatarSuccess" 
-                                :before-upload="beforeAvatarUpload"
-                                :on-progress="handleAvatarProgress"
-                                :on-error="handleAvatarError">
-                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                                <i v-else class="el-icon-plus avatar-uploader-icon"  v-loading="iconUploading" element-loading-text="Loading"></i>
-                            </el-upload>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><el-button type="primary" @click="closeUpdateShow">{{$t('button.cancel')}}</el-button><el-button type="primary" @click="tijiao">{{$t('button.submit')}}</el-button></td>
-                    </tr>
-                   
-                </table>
-            </div>
-        </div>
+    </div>
+    <div class="components">
+        <v-addCommodity v-if="addCommodityShow" @on-close='closeAdd' :data='this.form'></v-addCommodity>
+    </div>
 	</div>
     
 </template>
 
 <script>
+import  addCommodity from './components/addCommodity'
 
 export default {
     data() {
@@ -122,6 +68,7 @@ export default {
             endTime:null,
             image:''
         },
+        addCommodityShow:false,
         options: [{
           value: 1,
           label: this.$t('table.Recharge')
@@ -136,10 +83,17 @@ export default {
         }
       }
     },
+    components:{
+        'v-addCommodity':addCommodity,
+    },
     mounted(){
       this.getTableData3()
     },
     methods: {
+        closeAdd(){
+            this.addCommodityShow = false
+            this.getTableData3()
+        },
     //上传图片start
     handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
@@ -170,43 +124,50 @@ export default {
         this.idx = index;
         const item = this.tableData3[index]
         this.form = {
-            id:item.id,
-            name:item.name,
-            currentPrice:item.currentPrice,
-            total:item.total,
-            current:item.current,
-            addTime:item.addTime,
-            endTime:item.endTime,
-            image:item.image,
-            productType:item.productType
+            id:item.id,//商品ID
+            name: item.name,//商品名称
+            productType:item.productType,//商品类型
+            productCategory:item.productCategory,//商品类别
+            currentPrice:item.currentPrice,//商品价格
+            originalPrice:item.originalPrice,//商品原始价格
+            total:item.total,//商品数量
+            current:item.current,//商品剩余数量
+            endTime:item.endTime,//失效时间
+            state:item.state,//商品状态 1为有效，0为无效
+            image:item.image,//商品图片
+            sourceWeb:item.sourceWeb,//来源网站
+            shortIntro:item.shortIntro,//商品短介绍
+            fullIntro:item.fullIntro,//商品详细介绍
+            termsConditions:item.termsConditions,//协议条款
         }
-        this.imageUrl = this.form.image
-        this.updateShow = true
+        this.addCommodityShow = true
       },
       add(){
          this.form={
-            id:null,
-            name:null,
-            productType:null,
-            currentPrice:null,
-            total:null,
-            current:null,
-            addTime:null,
-            endTime:null,
-            image:''
+            id:'',//商品ID
+            name: '',//商品名称
+            productType:null,//商品类型
+            productCategory:null,//商品类别
+            currentPrice:0,//商品价格
+            originalPrice:0,//商品原始价格
+            total:0,//商品数量
+            current:0,//商品剩余数量
+            endTime:'',//失效时间
+            state:true,//商品状态 1为有效，0为无效
+            image:'',//商品图片
+            sourceWeb:'',//来源网站
+            shortIntro:'',//商品短介绍
+            fullIntro:'',//商品详细介绍
+            termsConditions:'',//协议条款
         }
-        this.imageUrl = this.form.image
-        this.updateShow = true
-      },
-      closeUpdateShow(){
-        this.updateShow = false
+        this.addCommodityShow = true
       },
         // 分页
       handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        // console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        // console.log(`当前页: ${val}`);
       },
       toggleSelection(rows) {
         if (rows) {
@@ -226,100 +187,79 @@ export default {
         var that = this;
         that.$http.get('http://ccsp.caping.co.id/cms/product/list'
         ).then(function(response){
-            console.log(response)
             const datas = response.data;
             this.tableData3 = datas.data.data
             this.totalCount = datas.data.total
             this.loading = false
         },function(error){
             this.loading = false
-            console.log(error)
-        })
-      },
-      //提交修改或新增
-      tijiao(){
-        this.form.productType = this.productType
-        var that = this;
-        that.$http.post('http://ccsp.caping.co.id/cms/product/saveOrUpdate', this.form
-        ).then(function(response){
-            console.log(response);
-            const datas = response.data;
-            if(datas.message==="OK"){
-                this.$message({
-                    message: this.$t('message.updateSucc'),
-                    type: 'success'
-                })
-                this.closeUpdateShow()
-                this.getTableData3()
-            }else{
-                this.$message({
-                    message: this.$t('message.fail'),
-                    type: 'error'
-                })
-            }
-        },function(error){
-            console.log(error)
+            // console.log(error)
         })
       },
       //下架
       Dropoff(){
          const id=[]
-         for(let i=0;i<this.multipleSelection.length;i++){
-           id.push(this.multipleSelection[i].id)
-         }
-          var that = this;
-          that.$http.get('http://ccsp.caping.co.id/cms/product/ban'+'?ids='+id
-          ).then(function(response){
-              console.log(response)
-              const datas = response.data;
-              if(datas.code===0){
-                  this.$message({
-                    message: this.$t('message.succ'),
-                    type: 'success'
+         if(this.multipleSelection.length<1){
+             this.$message({
+                message: this.$t('message.ProductSelect'),
+                type: 'error'
+            })
+         }else{
+            for(let i=0;i<this.multipleSelection.length;i++){
+            id.push(this.multipleSelection[i].id)
+            }
+            this.$http.post(
+                    'http://ccsp.caping.co.id/cms/product/saveOrUpdate',
+                    {
+                        ids:id,
+                        state:0
+                    },
+                    {'headers':{'Content-Type':'application/json'}}
+                ).then(function(response){
+                    this.$message({
+                        message: this.$t('message.updateSucc'),
+                        type: 'success'
+                    })
+                    this.getTableData3()
+                },function(error){
+                    // console.log(error)
                 })
-              }else{
-                  this.$message({
-                    message: this.$t('message.fail'),
-                    type: 'error'
-                })
-              }
-          },function(error){
-              console.log(error)
-          })
+            }    
       },
       //上架
       Shelf(){
          const id=[]
-         for(let i=0;i<this.multipleSelection.length;i++){
-           id.push(this.multipleSelection[i].id)
+         if(this.multipleSelection.length<1){
+             this.$message({
+                message: this.$t('message.ProductSelect'),
+                type: 'error'
+            })
+         }else{
+            for(let i=0;i<this.multipleSelection.length;i++){
+            id.push(this.multipleSelection[i].id)
+            }
+            this.$http.post(
+                    'http://ccsp.caping.co.id/cms/product/saveOrUpdate',
+                    {
+                        ids:id,
+                        state:1
+                    },
+                    {'headers':{'Content-Type':'application/json'}}
+                ).then(function(response){
+                    this.$message({
+                        message: this.$t('message.updateSucc'),
+                        type: 'success'
+                    })
+                    this.getTableData3()
+                },function(error){
+                    // console.log(error)
+                })
          }
-          var that = this;
-          that.$http.get('http://ccsp.caping.co.id/cms/product/active'+'?ids='+id
-          ).then(function(response){
-              console.log(response)
-              const datas = response.data;
-              if(datas.code===0){
-                  this.$message({
-                    message: this.$t('message.succ'),
-                    type: 'success'
-                })
-              }else{
-                  this.$message({
-                    message: this.$t('message.fail'),
-                    type: 'error'
-                })
-              }
-          },function(error){
-              console.log(error)
-          })
       }
     },
      watch: {
     'currentPage1': function () {
       this.getTableData3()
-    },
-    'multipleSelection': function () {
-       console.log(this.multipleSelection)
     },
     'updateShow':function(){
         if(this.updateShow == true){

@@ -83,13 +83,12 @@ export default {
         method:'GET',
         url:'http://ccsp.caping.co.id/cms/statistic/event'+'?startTime='+this.startTime+'&endTime='+this.endTime,
       }).then(function(response){
-        console.log(response);
         const datas = response.data;
         this.eventDatas = datas.data.data
         this.closeFullScreen()  
       },function(error){
         this.loading = false
-        console.log(error);
+        // console.log(error)
       })
     },
     

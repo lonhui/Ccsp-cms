@@ -75,10 +75,10 @@ export default {
   methods: {
     // 分页
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`);
     },
     // 获取表格数据
     getTableDatas() {
@@ -88,7 +88,6 @@ export default {
         method:'GET',
         url:'http://ccsp.caping.co.id/cms/statistic/daily'+'?startTime='+this.startTime+'&endTime='+this.endTime+'&pageSize='+10+'&pageNum='+this.currentPage1,
       }).then(function(response){
-        console.log(response);
         const datas = response.data
         for(let i = 0;i < datas.data.data.length;i++){
           const a = {
@@ -108,7 +107,7 @@ export default {
         this.loading = false
       },function(error){
         this.loading = false
-        console.log(error);
+        // console.log(error)
       })
     },
     // 获取时间

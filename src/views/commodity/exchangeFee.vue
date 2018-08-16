@@ -96,10 +96,10 @@ export default {
     methods: {
         // 分页
       handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        // console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        // console.log(`当前页: ${val}`);
       },
        openUpdata(){
         this.updataShow = true
@@ -136,7 +136,6 @@ export default {
           method:'GET',
           url:'http://ccsp.caping.co.id/cms/product/mobile/list'+'?startTime='+this.startTime+'&endTime='+this.endTime+'&pageSize='+10+'&pageNum='+this.currentPage1+'&productCategory='+this.value,
       }).then(function(response){
-          console.log(response);
           const datas = response.data
           if(datas.data!=null){
             this.DataList = datas.data.list
@@ -145,7 +144,7 @@ export default {
         this.loading = false
       },function(error){
         this.loading = false
-          console.log(error);
+          // console.log(error)
       })
     },
     inquire() {

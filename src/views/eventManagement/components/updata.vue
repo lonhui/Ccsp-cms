@@ -61,7 +61,6 @@ export default {
                     status:this.data.status
                 }
             }).then(function(response){
-                console.log(response)
                 const datas = response.data
                  if(datas.message==="OK"){
                     this.$message({
@@ -76,7 +75,7 @@ export default {
                     })
                 }
             },function(error){
-                console.log(error);
+                // console.log(error)
             })
         }
     }

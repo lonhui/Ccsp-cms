@@ -76,7 +76,6 @@ export default {
                 'X-abn-session-token':this.GLOBAL.token
             }}
             ).then(function(response){
-                console.log(response);
                 const datas = response.data;
                 if(datas.message==="OK"){
                     this.$message({
@@ -91,7 +90,7 @@ export default {
                     })
                 }
             },function(error){
-                console.log(error);
+                // console.log(error)
             })
         },
         getRole(){
@@ -100,7 +99,6 @@ export default {
             }}
             ).then(function(response){
                 this.options1=[]
-                console.log(response)
                 const datas = response.data;
                 this.roleData = datas.data.roles
                 for(let i = 0;i < datas.data.roles.length;i++){
@@ -113,7 +111,7 @@ export default {
                     this.options1.push(roles)
                 }
             },function(error){
-                console.log(error)
+                // console.log(error)
             })
         }
     }

@@ -116,10 +116,10 @@ export default {
     methods:{
         // 分页
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            // console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            // console.log(`当前页: ${val}`);
         },
         getEndTime() {
             const myday = new Date()
@@ -147,7 +147,6 @@ export default {
             var that = this;
             that.$http.post('http://ccsp.caping.co.id/cms/statistic/sign',data
             ).then(function(response){
-                console.log(response);
                 const datas = response.data;
                 if(datas.data!=null){
                     this.tableData = datas.data.list
@@ -157,7 +156,7 @@ export default {
                 this.loading = false
             },function(error){
                 this.loading = false
-                console.log(error)
+                // console.log(error)
             })
         },
         //获取折线图数据

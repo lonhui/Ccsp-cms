@@ -127,10 +127,10 @@ export default {
      methods: {
         // 分页
       handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        // console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        // console.log(`当前页: ${val}`);
       },
       bianji(index,row){
         this.idx = index;
@@ -142,7 +142,6 @@ export default {
             timestamp:item.timestamp,
             state:item.state,
         }
-        console.log(this.form)
         this.show = true
        
       },
@@ -156,14 +155,13 @@ export default {
             method:'GET',
             url:'http://ccsp.caping.co.id/cms/set/config/list'+'?pageSize='+8+'&pageNum='+this.currentPage1,
         }).then(function(response){
-            console.log(response);
             const datas = response.data
             this.DataList = datas.data.data
             this.totalCount = datas.data.total
             this.loading = false
         },function(error){
             this.loading = false
-            console.log(error);
+            // console.log(error)
         })
       },
       add(){
@@ -177,7 +175,6 @@ export default {
         var that = this;
         that.$http.post('http://ccsp.caping.co.id/cms/set/config/update', this.form
         ).then(function(response){
-            console.log(response);
             const datas = response.data;
             if(datas.message==="OK"){
                  this.$message({
@@ -193,7 +190,7 @@ export default {
                 })
             }
         },function(error){
-            console.log(error);
+            // console.log(error)
         })
       }
     },

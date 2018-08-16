@@ -129,14 +129,13 @@ export default {
                 method:'GET',
                 url:'http://ccsp.caping.co.id/cms/product/code/list'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&startTime='+this.startTime+'&endTime='+this.endTime+'&productName='+this.input10+'&state='+this.value1,
             }).then(function(response){
-                console.log(response);
                 const datas = response.data;
                 this.DataList = datas.data.list
                 this.totalCount = datas.data.total
                 this.loading = false
             },function(error){
                 this.loading = false
-                console.log(error);
+                // console.log(error)
             })
         },
         getProductId(){
@@ -144,7 +143,6 @@ export default {
             var that = this;
             that.$http.get('http://ccsp.caping.co.id/cms/product/list'
             ).then(function(response){
-                console.log(response)
                 const datas = response.data
                 const list = datas.data.data
                 for(let i = 0;i < list.length;i++){
@@ -155,7 +153,7 @@ export default {
                     this.options.push(a)
                 } 
             },function(error){
-                console.log(error)
+                // console.log(error)
             })
         },
         getEndTime() {
@@ -181,17 +179,17 @@ export default {
         },
           // 分页
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            // console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            // console.log(`当前页: ${val}`);
         },
         //上传
         handleRemove(file, fileList) {
-            console.log(file, fileList);
+            // console.log(file, fileList);
         },
         handlePreview(file) {
-            console.log(file);
+            // console.log(file);
         },
         getSTime(val){
             const ts = (val+'').split(' ')

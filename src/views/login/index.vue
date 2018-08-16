@@ -97,7 +97,6 @@ export default {
           'Content-Type':'application/json'
        }}
         ).then(function(response){
-          console.log(response)
           const datas = response.data
           if(datas.data!=null){
               this.GLOBAL.token = datas.data.token
@@ -120,7 +119,7 @@ export default {
             }
           }
         },function(error){
-            console.log(error)
+            // console.log(error)
         })
 
     },
@@ -135,11 +134,10 @@ export default {
         method:'GET',
         url:'http://ccsp.caping.co.id/cms/getVerityCode?t=' + parseInt(Date.now())
       }).then(function(response){
-        console.log(response);
         const datas = response.data
         this.codeImg = response
       },function(error){
-        console.log(error);
+        // console.log(error)
       })
     }
   },
@@ -149,10 +147,9 @@ export default {
       method:'GET',
       url:'http://ccsp.caping.co.id/cms/getVerityCode'
     }).then(function(response){
-      console.log(response);
         this.codeImg = response
     },function(error){
-      console.log(error);
+      // console.log(error)
     })
   }
 }

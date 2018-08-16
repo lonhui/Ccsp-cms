@@ -80,8 +80,8 @@ export default {
     aweekago:'一周前',
     Akunataukatasandisalah:'账号或密码错误!',
     Apakahdihapus:'这是一段内容这是一段内容确定删除吗？',
-    codeError:'验证码输入错误!!!'
-
+    codeError:'验证码输入错误!!!',
+    ProductSelect:'请选择至少一个商品'
 
   },
   button: {
@@ -334,5 +334,19 @@ export default {
     uploadimage:'图片上传',
     Exchangenumber:'兑换人数',
     Activetimes:'活跃次数',
+    productDetails:'商品详情',
+    ProductDescription:'商品简介',
+    SourceWebsite:'来源网站',
+    productPicture:'商品图片',
+    ProductStatus:'商品状态',
+    ProductBalance:'商品余量',
+    ProductTotal:'商品总量',
+    ProducOriginalPrice:'商品原价',
+    ProductCategory:'商品类别',
+    ProductSelectType:'请选择商品类别',
+    selectproducttype:'请选择商品类型',
+    TermsAgreement:'协议条款',
+
+
   } 
 }

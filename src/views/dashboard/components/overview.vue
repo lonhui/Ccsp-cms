@@ -102,14 +102,14 @@ export default {
         method: 'GET',
         url: 'http://ccsp.caping.co.id/cms/statistic/all'+'?startTime='+this.startTime+'&endTime='+this.endTime+'&pageSize='+8+'&pageNum='+this.currentPage
       }).then(function(response) {
-        console.log(response)
+        
         const datas = response.data
         this.tableData = datas.data.data 
         this.totalCount = datas.data.total
         this.loading = false
       }, function(error) {
         this.loading = false
-        console.log(error)
+        // console.log(error)
       })
     },
     // 查询
@@ -122,10 +122,10 @@ export default {
     },
     // 分页
     handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        // console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        // console.log(`当前页: ${val}`);
     },
     // 活动时间
     getEndTime() {

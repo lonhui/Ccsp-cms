@@ -93,7 +93,6 @@ export default {
             }}
             ).then(function(response){
                  this.options2=[]
-                console.log(response)
                 const datas = response.data
                 const menuList = datas.data.menuList
                 for(let i = 0;i < menuList.length;i++){
@@ -121,7 +120,7 @@ export default {
                 }
                 this.loading = false                          
             },function(error){
-                console.log(error)
+                // console.log(error)
             })
         },
         add(){
@@ -137,7 +136,6 @@ export default {
                  'X-abn-session-token':this.GLOBAL.token
             }}
             ).then(function(response){
-                console.log(response);
                 const datas = response.data;
                 if(datas.message==="OK"){
                    this.$message({
@@ -152,7 +150,7 @@ export default {
                 })
                 }
             },function(error){
-                console.log(error);
+                // console.log(error);
             })
         }
     },

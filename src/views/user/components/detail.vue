@@ -131,10 +131,10 @@ export default {
         },
         // 分页
         handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        // console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        // console.log(`当前页: ${val}`);
         },
         getMoney(){
             this.loading = true
@@ -148,14 +148,13 @@ export default {
                 method:'GET',
                 url:'http://ccsp.caping.co.id/cms/user/page/money'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid+'&type='+this.type
             }).then(function(response){
-                console.log(response);
                 const datas = response.data
                 this.userDatas_money = datas.data.data;
                 this.totalCount = datas.data.totalCount;
                 this.loading = false   
             },function(error){
                 this.loading = false
-                console.log(error);
+                // console.log(error)
             })
         },
         getInvite(){
@@ -165,14 +164,13 @@ export default {
                 method:'GET',
                 url:'http://ccsp.caping.co.id/cms/user/page/invite'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid
             }).then(function(response){
-                console.log(response);
                 const datas = response.data
                 this.userDatas_invite = datas.data.data;
                 this.totalCount = datas.data.totalCount;
                 this.loading = false
             },function(error){
                 this.loading = false
-                console.log(error);
+                // console.log(error)
             })
         },
         getCoin() {
@@ -182,14 +180,13 @@ export default {
                 method:'GET',
                 url:'http://ccsp.caping.co.id/cms/user/data/coin'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid// +'&type='+this.type
             }).then(function(response){
-                console.log(response);
                 const datas = response.data
                 this.userDatas_coin = datas.data.list;
                 this.totalCount = datas.data.totalCount;
                 this.loading = false
             },function(error){
                 this.loading = false
-                console.log(error);
+                // console.log(error)
             })
         },
         getConvert () {
@@ -199,14 +196,13 @@ export default {
                 method:'GET',
                 url:'http://ccsp.caping.co.id/cms/user/data/order'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid
             }).then(function(response){
-                console.log(response);
                 const datas = response.data
                 this.userDatas_convert = datas.data.list;
                 this.totalCount = datas.data.total;
                 this.loading = false
             },function(error){
                 this.loading = false
-                console.log(error);
+                // console.log(error)
             })
         },
         getFrendactive(index,row){
@@ -220,7 +216,6 @@ export default {
                     date:date
                 }
             }).then(function(response){
-                console.log(response);
                 const datas = response.data
                 const d = []
                 for(let i = 0;i < datas.data.list.length;i++){
@@ -232,7 +227,7 @@ export default {
                 this.friendShow = true
             },function(error){
                 this.loading = false
-                console.log(error);
+                // console.log(error)
             })
         }
 

@@ -79,7 +79,8 @@ export default {
     aweekago:'seminggu yang lalu',
     Akunataukatasandisalah:'Akun atau kata sandi salah!!',
     Apakahdihapus:'Apakah ini bagian konten yang merupakan bagian dari konten yang ingin dihapus?',
-    codeError:'Kesalahan masukan kode verifikasi! ! !'
+    codeError:'Kesalahan masukan kode verifikasi! ! !',
+    ProductSelect:'Harap pilih setidaknya satu item'
   },
   button: {
     add: 'menambahkan',
@@ -331,6 +332,18 @@ export default {
     Successinvitedpoints:'Berhasil diundang untuk mengirim poin',
     Exchangenumber:'Nomor pertukaran',
     Activetimes:'Waktu aktif',
+    productDetails:'Detail produk',
+    ProductDescription:'Pengenalan produk',
+    SourceWebsite:'Situs sumber',
+    productPicture:'Citra produk',
+    ProductStatus:'Status produk',
+    ProductBalance:'Keseimbangan produk',
+    ProductTotal:'Jumlah total barang',
+    ProducOriginalPrice:'Harga barang asli',
+    ProductCategory:'Kategori produk',
+    ProductSelectType:'Silakan pilih kategori produk',
+    selectproducttype:'Silakan pilih jenis produk',
+    TermsAgreement:'Ketentuan perjanjian',
   }
 }
 

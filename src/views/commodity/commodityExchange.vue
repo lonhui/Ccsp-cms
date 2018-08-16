@@ -82,10 +82,10 @@ export default {
         },
         // 分页
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            // console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            // console.log(`当前页: ${val}`);
         },
         typeIndex(index) {
             return index + (this.currentPage - 1) * 10 + 1
@@ -103,13 +103,12 @@ export default {
                     'Content-Type':'application/json'
                 }
             }).then(function(response){
-                console.log(response);
                 const datas = response.data
                 this.DataList = datas.data.list
                 this.totalCount = datas.data.total
                 this.loading = false
             },function(error){
-                console.log(error);
+                // console.log(error)
             })
         }
     },

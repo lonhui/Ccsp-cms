@@ -165,7 +165,6 @@ export default {
             }}
             ).then(function(response){
                 this.options2=[]
-                console.log(response)
                 const datas = response.data
                 const menuList = datas.data.menuList
                 for(let i = 0;i < menuList.length;i++){
@@ -194,7 +193,7 @@ export default {
         
             this.getUSerMenu()
             },function(error){
-                console.log(error)
+                // console.log(error)
             })
         },
         //获取角色列表
@@ -208,13 +207,12 @@ export default {
                     'X-abn-session-token':this.GLOBAL.token
                 }
             }).then(function(response){
-                console.log(response);
                 const datas = response.data
                 this.DataList = datas.data.roles
                 this.loading = false
             },function(error){
                 this.loading = false
-                console.log(error);
+                // console.log(error)
             })
         },
         //获取该角色全部信息
@@ -230,7 +228,6 @@ export default {
                     'X-abn-session-token':token
             }
         }).then(function(response){
-            console.log(response);
             const datas = response.data
             if(datas.data.menus!=null){
                 for(let i = 0;i <  datas.data.menus.length;i++){
@@ -253,7 +250,7 @@ export default {
             ) 
            this.setCheckedKeys()
         },function(error){
-            console.log(error);
+            // console.log(error)
         })
         },
         //打开添加角色框
@@ -280,7 +277,6 @@ export default {
                 'X-abn-session-token':this.GLOBAL.token
             }}
             ).then(function(response){
-                console.log(response);
                 const datas = response.data;
                 if(datas.message==="OK"){
                     this.$message({
@@ -296,7 +292,7 @@ export default {
                     })
                 }
             },function(error){
-                console.log(error);
+                // console.log(error)
             })
         }    
     },

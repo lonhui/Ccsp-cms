@@ -78,7 +78,8 @@ export default {
     aweekago:'a week ago',
     Akunataukatasandisalah:'Incorrect username or password!',
     Apakahdihapus:'Is this a piece of content which is a piece of content ok to delete?',
-    codeError:'incorrect verification code! ! !'
+    codeError:'incorrect verification code! ! !',
+    ProductSelect:'Please select at least one item'
   },
   button: {
     add: 'add',
@@ -329,6 +330,18 @@ export default {
     uploadimage:'upload image',
     Exchangenumber:'Exchange number',
     Activetimes:'Active times',
+    productDetails:'product details',
+    ProductDescription:'Product Description',
+    SourceWebsite:'Source website',
+    productPicture:'Product picture',
+    ProductStatus:'Product status',
+    ProductBalance:'Product balance',
+    ProductTotal:'Total quantity of goods',
+    ProducOriginalPrice:'Original price of goods',
+    ProductCategory:'Product category',
+    ProductSelectType:'Please select a product category',
+    selectproducttype:'Please select a product type',
+    TermsAgreement:'Terms of agreement',
   }
 }
 

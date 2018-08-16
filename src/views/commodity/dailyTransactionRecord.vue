@@ -68,10 +68,10 @@ export default {
     methods: {
         // 分页
       handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        // console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        // console.log(`当前页: ${val}`);
       },
       getEndTime() {
         const myday = new Date()
@@ -95,12 +95,11 @@ export default {
           method:'GET',
           url:'http://ccsp.caping.co.id/cms/statistic/rank'+'?startTime='+this.startTime+'&endTime='+this.endTime+'&pageSize='+10+'&pageNum='+this.currentPage1,
       }).then(function(response){
-          console.log(response);
           const datas = response.data;
           this.totalCount = datas.data.totalCount
          
       },function(error){
-          console.log(error);
+          // console.log(error)
       })
     },
     inquire() {
