@@ -28,8 +28,10 @@ import VueQuillEditor from 'vue-quill-editor'
 import VueResource from 'vue-resource'
 
 import global from '../src/components/global'
+import Axios from '../node_modules/axios';
 
 Vue.prototype.GLOBAL = global
+
 Vue.use(VueResource)
 
 Vue.use(ElementUI, {

@@ -78,7 +78,7 @@ export default {
         },
         add(){
             var that = this;
-            that.$http.post('http://ccsp.caping.co.id/cms/set/config/save', this.addData
+            that.$http.post(process.env.API_ROOT+'/cms/set/config/save', this.addData
             ).then(function(response){
                 const datas = response.data;
                 if(datas.message==="OK"){

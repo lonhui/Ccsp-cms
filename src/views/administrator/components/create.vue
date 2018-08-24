@@ -67,7 +67,6 @@ export default {
             },
             roleData:[],
             menuList:[]
-
         }
     },
     mounted(){
@@ -84,7 +83,7 @@ export default {
                     break
                 }
             }
-            this.$http.post('http://ccsp.caping.co.id/cms/sys/user/add', this.addData,{'headers':{
+            this.$http.post(process.env.API_ROOT+'/cms/sys/user/add', this.addData,{'headers':{
                 'Content-Type':'application/json',
                 'X-abn-session-token':this.GLOBAL.token
             }}
@@ -102,12 +101,10 @@ export default {
                     type: 'error'
                 })
                 }
-            },function(error){
-                // console.log(error)
             })
         },
         getMenu(){
-             this.$http.get('http://ccsp.caping.co.id/cms/sys/menu/list',{'headers':{
+             this.$http.get(process.env.API_ROOT+'/cms/sys/menu/list',{'headers':{
                 'X-abn-session-token':this.GLOBAL.token
             }}
             ).then(function(response){
@@ -123,8 +120,6 @@ export default {
                     menuList.state = datas.data.menuList[i].id
                     this.options2.push(menuList)
                 }
-            },function(error){
-                // console.log(error)
             })
         },
     }

@@ -2,18 +2,24 @@
     <div class="userEList">
         <div class="input-button">
             <span class="activeTime">{{$t('table.startDate')}}</span>
-            <el-date-picker v-model="activeTime" align="right" type="date" value-format="yyyy-MM-dd" placeholder="选择日期" :picker-options="pickerOptions1"></el-date-picker>
+            <el-date-picker v-model="activeTime" align="right" type="date" value-format="yyyy-MM-dd" :placeholder="$t('message.selectdate')" :picker-options="pickerOptions1"></el-date-picker>
             <span class="endTime">{{$t('table.endDate')}}</span>
-            <el-date-picker v-model="endTime" align="right" type="date" value-format="yyyy-MM-dd" placeholder="选择日期" :picker-options="pickerOptions1"></el-date-picker>
-            <el-input :placeholder="$t('table.pleaseenterthedevicename')" v-model="input10" style="width:200px" clearable></el-input>
+            <el-date-picker v-model="endTime" align="right" type="date" value-format="yyyy-MM-dd" :placeholder="$t('message.selectdate')" :picker-options="pickerOptions1"></el-date-picker>
+        </div>
+        <br>
+        <div>
+            <el-input :placeholder="$t('button.enteruid')" v-model="input_uid" style="width:200px" clearable></el-input>
+            <el-input :placeholder="$t('table.pleaseenterthedevicename')" v-model="input_deviceName" style="width:200px" clearable></el-input>
+            <el-input :placeholder="$t('button.PleasedeviceID')" v-model="input_deviceId" style="width:200px" clearable></el-input>
             <el-button icon="el-icon-search" @click="inquire" circle></el-button>
         </div>
         <div class="tabl">
             <el-table :data="DataList" border style="width: 100%" v-loading="loading">
-                <el-table-column type="index" :index="typeIndex" width="100px" :label="$t('table.rank')"></el-table-column>
-                <el-table-column prop="uid" :label="$t('table.userID')"></el-table-column>
-                <el-table-column prop="create_time" :label="$t('table.useractivationtime')" ></el-table-column>
-                <el-table-column prop="os" :label="$t('table.useractivationdevice')" ></el-table-column>
+                <el-table-column type="index" :index="typeIndex" width="70px" :label="$t('table.rank')"></el-table-column>
+                <el-table-column prop="uid" :label="$t('table.userID')" width="130px"></el-table-column>
+                <el-table-column prop="create_time" :label="$t('table.useractivationtime')" width="180px"></el-table-column>
+                <el-table-column prop="os" :label="$t('table.useractivationdevice')" width="200px"></el-table-column>
+                <el-table-column prop="device_id" :label="$t('table.useractivationdevice')+'ID'" ></el-table-column>
             </el-table>
         </div>
         <div class="block">
@@ -57,16 +63,18 @@ export default {
             currentPage1: 1,
             totalCount: 0,
             
-            input10: '',
+            input_deviceName: '',
             activeTime: null,
             endTime:null,
             // 加载参数
-            loading:false
+            loading:false,
+            input_uid:'',
+            input_deviceId:'',
         }
     },
     mounted(){
-        // this.activeTime = this.getStartTime()
-        // this.endTime = this.getEndTime()
+        this.activeTime = this.getStartTime()
+        this.endTime = this.getEndTime()
         this.getDataList()
     },
     methods: {
@@ -106,37 +114,23 @@ export default {
       return year + "-" + month + "-" + day
     },
       getDataList() {
-    //     this.loading = true
-    //   var that = this;
-    //   that.$http.post('http://ccsp.caping.co.id/cms/statistic/device'+'?&pageSize='+10+'&pageNum='+this.currentPage1, {'os':this.input10,'activeTime':this.activeTime,'endTime':this.endTime}
-    //   ).then(function(response){
-    //       const datas = response.data;
-    //       this.totalCount = datas.data.totalCount
-    //       this.DataList = datas.data.data
-    //       this.loading = false
-    //   },function(error){
-    //       this.loading = false
-    //       console.log(error);
-    //   })
-     this.loading = true
-            var that = this;
-            that.$http.post('http://ccsp.caping.co.id/cms/user/page', {
-                pageSize:8,
-                pageNum:this.currentPage1,
-                startTime:this.activeTime,
-                endTime:this.endTime,
-                deviceName:this.input10
-                }
-            ).then(function(response){
-                const datas = response.data;
-                this.DataList = datas.data.list
-                this.totalCount = datas.data.totalCount
-                this.loading = false
-            },function(error){
-                this.loading = false
-                // console.log(error)
-            })
-          
+        this.loading = true
+        var that = this;
+        that.$http.post(process.env.API_ROOT+'/cms/user/page', {
+            pageSize:8,
+            pageNum:this.currentPage1,
+            startTime:this.activeTime,
+            endTime:this.endTime,
+            deviceName:this.input_deviceName,
+            deviceId:this.input_deviceId,
+            uid:this.input_uid
+        }
+        ).then(function(response){
+            const datas = response.data;
+            this.DataList = datas.data.list
+            this.totalCount = datas.data.totalCount
+            this.loading = false
+        })
     },
     
   },

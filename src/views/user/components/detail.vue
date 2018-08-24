@@ -146,7 +146,7 @@ export default {
             var that = this;
             that.$http({
                 method:'GET',
-                url:'http://ccsp.caping.co.id/cms/user/page/money'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid+'&type='+this.type
+                url:process.env.API_ROOT+'/cms/user/page/money'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid+'&type='+this.type
             }).then(function(response){
                 const datas = response.data
                 this.userDatas_money = datas.data.data;
@@ -162,7 +162,7 @@ export default {
             var that = this;
             that.$http({
                 method:'GET',
-                url:'http://ccsp.caping.co.id/cms/user/page/invite'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid
+                url:process.env.API_ROOT+'/cms/user/page/invite'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid
             }).then(function(response){
                 const datas = response.data
                 this.userDatas_invite = datas.data.data;
@@ -178,7 +178,7 @@ export default {
             var that = this;
             that.$http({
                 method:'GET',
-                url:'http://ccsp.caping.co.id/cms/user/data/coin'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid// +'&type='+this.type
+                url:process.env.API_ROOT+'/cms/user/data/coin'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid// +'&type='+this.type
             }).then(function(response){
                 const datas = response.data
                 this.userDatas_coin = datas.data.list;
@@ -194,7 +194,7 @@ export default {
             var that = this;
             that.$http({
                 method:'GET',
-                url:'http://ccsp.caping.co.id/cms/user/data/order'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid
+                url:process.env.API_ROOT+'/cms/user/data/order'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid
             }).then(function(response){
                 const datas = response.data
                 this.userDatas_convert = datas.data.list;
@@ -210,7 +210,7 @@ export default {
             const date = item.timestamp.substring(0,10)
               this.$http({
                 method:'post',
-                url:'http://ccsp.caping.co.id/cms/statistic/invite/track/info',
+                url:process.env.API_ROOT+'/cms/statistic/invite/track/info',
                 params:{
                     uid:this.datas.uid,
                     date:date

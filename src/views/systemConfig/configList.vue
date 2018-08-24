@@ -153,7 +153,7 @@ export default {
         var that = this;
         that.$http({
             method:'GET',
-            url:'http://ccsp.caping.co.id/cms/set/config/list'+'?pageSize='+8+'&pageNum='+this.currentPage1,
+            url:process.env.API_ROOT+'/cms/set/config/list'+'?pageSize='+8+'&pageNum='+this.currentPage1,
         }).then(function(response){
             const datas = response.data
             this.DataList = datas.data.data
@@ -173,7 +173,7 @@ export default {
       },
       tijiao(){
         var that = this;
-        that.$http.post('http://ccsp.caping.co.id/cms/set/config/update', this.form
+        that.$http.post(process.env.API_ROOT+'/cms/set/config/update', this.form
         ).then(function(response){
             const datas = response.data;
             if(datas.message==="OK"){

@@ -1,10 +1,11 @@
 <template>
+<!-- 被邀请人详情 -->
     <div class="box">
         <div class="centont">
             <br>
              <el-button type="danger" icon="el-icon-close" circle class="end1" @click="closeFriendShow"></el-button>
             <div class="table1">
-                 <el-table :data="activeData" border style="width: 100%" >
+                 <el-table :data="invited" border style="width: 100%" >
                     <el-table-column prop="content" :label="$t('table.Eventcontent')"></el-table-column>
                     <el-table-column prop="uid" :label="$t('table.InviteeID')" width="150"></el-table-column>
                     <el-table-column prop="giveCoin" :label="$t('table.Earnpoints')" width="120"></el-table-column>
@@ -18,15 +19,35 @@
 
 <script>
 export default {
-    props:['activeData'],
+    props:['data'],
     data() {
         return{
-
+            invited:[]
         }
+    },
+    mounted(){
+        this.getInvited()
     },
     methods:{
         closeFriendShow(){
             this.$emit('on-close')
+        },
+        getInvited(){
+            this.$http({
+                method:'post',
+                url:process.env.API_ROOT+'/cms/statistic/invite/track/info',
+                params:{
+                    uid:this.data.uid,
+                    beginDate:this.data.beginDate,
+                    endDate:this.data.endDate
+                }
+            }).then(function(response){
+                const datas = response.data
+                this.invited = datas.data.list
+            },function(error){
+                this.loading = false
+                // console.log(error)
+            })
         }
     }
     

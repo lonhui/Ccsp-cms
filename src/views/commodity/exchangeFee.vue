@@ -1,4 +1,5 @@
 <template>
+<!-- 话费兑换管理 -->
     <div class="exchangeFee">
         <div class="search">
             <span class="demonstration">{{$t('table.startDate')}}</span>
@@ -134,7 +135,7 @@ export default {
       var that = this;
       that.$http({
           method:'GET',
-          url:'http://ccsp.caping.co.id/cms/product/mobile/list'+'?startTime='+this.startTime+'&endTime='+this.endTime+'&pageSize='+10+'&pageNum='+this.currentPage1+'&productCategory='+this.value,
+          url:process.env.API_ROOT+'/cms/product/mobile/list'+'?startTime='+this.startTime+'&endTime='+this.endTime+'&pageSize='+10+'&pageNum='+this.currentPage1+'&productCategory='+this.value,
       }).then(function(response){
           const datas = response.data
           if(datas.data!=null){

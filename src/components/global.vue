@@ -1,8 +1,8 @@
 <script>
 const lang='' 
-const token='1';
+const token='1'
 export default {
     token,
-    lang
+    lang,
 }
 </script>

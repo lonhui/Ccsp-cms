@@ -1,45 +1,40 @@
 <template>
+<!-- 邀请事件跟踪 -->
     <div class="invite">
-        <div class="search">
-            <span class="demonstration">{{$t('table.startDate')}}:</span>
-                <el-date-picker v-model="startDate" align="right" type="date" value-format="yyyy-MM-dd"></el-date-picker>
-                <span class="demonstration">{{$t('table.endDate')}}:</span>
-                <el-date-picker v-model="endDate" align="right" type="date" value-format="yyyy-MM-dd"></el-date-picker>
-                <el-button icon="el-icon-search" @click="inquire" circle></el-button>
-             <!-- 需要修改 -->
-            <!-- <div class="type">
-                <span class="demonstration">邀请类型</span>
-                <el-select v-model="value" placeholder="请选择">
-                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                 </el-select>
-            </div> -->
-            <!-- 、、、、 -->
+        <div v-if="!friendShow">
+            <div class="search">
+                <span class="demonstration">{{$t('table.startDate')}}:</span>
+                    <el-date-picker v-model="startDate" align="right" type="date" value-format="yyyy-MM-dd"></el-date-picker>
+                    <span class="demonstration">{{$t('table.endDate')}}:</span>
+                    <el-date-picker v-model="endDate" align="right" type="date" value-format="yyyy-MM-dd"></el-date-picker>
+                    <el-button icon="el-icon-search" @click="inquire" circle></el-button>
+            </div>
+            <div class="biaoge">
+                <el-table :data="tableData" border style="width: 65%" v-loading="loading">
+                    <el-table-column type="index" :index="typeIndex" width="100px" :label="$t('table.id')"></el-table-column>
+                    <el-table-column prop="uid" :label="$t('table.userID')"></el-table-column>
+                    <el-table-column prop="inviteCount" :label="$t('table.Numberopeopleinvited')"></el-table-column>
+                    <!-- <el-table-column prop="day" :label="$t('table.Creationdate')" ></el-table-column> -->
+                    <el-table-column :label="$t('table.detail')" width="120">
+                        <template slot-scope="scope">
+                            <el-button type="text" size="small" @click="openFriendShow(scope.$index,scope.row)">{{$t('table.seedetails')}}</el-button>
+                            <!-- @click="openDetailShow(scope.$index,scope.row)" -->
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+            <div class="block">
+                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+            </div>
         </div>
-        <div class="biaoge">
-             <el-table :data="tableData" border style="width: 100%" v-loading="loading">
-                <el-table-column type="index" :index="typeIndex" width="100px" :label="$t('table.id')"></el-table-column>
-                <el-table-column prop="uid" :label="$t('table.userID')"></el-table-column>
-                <el-table-column prop="inviteCount" :label="$t('table.Numberopeopleinvited')"></el-table-column>
-                <el-table-column prop="day" :label="$t('table.Creationdate')" ></el-table-column>
-                <el-table-column :label="$t('table.detail')" width="120">
-                    <template slot-scope="scope">
-                        <el-button type="text" size="small" @click="openFriendShow(scope.$index,scope.row)">{{$t('table.seedetails')}}</el-button>
-                        <!-- @click="openDetailShow(scope.$index,scope.row)" -->
-                    </template>
-                </el-table-column>
-            </el-table>
-        </div>
-         <div class="block">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
-        </div>
-        <div>
-            <v-friend v-if="friendShow" @on-close="closeFriendShow" :activeData="activeData"></v-friend>
+        <div v-if="friendShow">
+            <v-invitedList  @on-close="closeFriendShow" :data="invitedListParams"></v-invitedList>
         </div>
     </div>
 </template>
 
 <script>
-import friend from './components/detai'
+import invitedList from './components/invitedList'
 
 export default {
     data(){
@@ -52,22 +47,11 @@ export default {
             loading:false,
             friendShow:false,
             activeData:[],
-             // 邀请类型选项
-            options: [{
-                value: '选项1',
-                label: '黄金糕'
-            }, {
-                value: '选项2',
-                label: '双皮奶'
-            },{
-                value: '选项5',
-                label: '北京烤鸭'
-            }],
-            value: ''
+            invitedListParams:{}
         }
     },
     components: {
-        'v-friend': friend
+        'v-invitedList': invitedList
     },
     mounted(){
         this.endDate = this.getEndTime()
@@ -82,25 +66,16 @@ export default {
         handleCurrentChange(val) {
             // console.log(`当前页: ${val}`);
         },
+        // 打开被邀请人列表
         openFriendShow(index,row){
             const item = this.tableData[index]
-            const date = item.day
             const uid = item.uid
-            this.$http({
-                method:'post',
-                url:'http://ccsp.caping.co.id/cms/statistic/invite/track/info',
-                params:{
-                    uid:uid,
-                    date:date
-                }
-            }).then(function(response){
-                const datas = response.data
-                this.activeData = datas.data.list
-                this.friendShow = true
-            },function(error){
-                this.loading = false
-                // console.log(error)
-            })
+            this.invitedListParams={
+                uid : item.uid,
+                beginDate : this.startDate,
+                endDate : this.endDate
+            }
+            this.friendShow = true
         },
         closeFriendShow(){
             this.friendShow = false
@@ -120,20 +95,21 @@ export default {
             const day = weekdate.getDate()<10 ? '0'+weekdate.getDate() : weekdate.getDate()
             return year + "-" + month + "-" + day
         },
+        // 获取列表数据
         getTableData(){
             this.loading = true
-               const data = {
-                    pageNo:this.currentPage,
-                    pageSize:8,
-                    beginDate:this.startDate,
-                    endDate:this.endDate,
+            const data = {
+                pageNo:this.currentPage,
+                pageSize:8,
+                beginDate:this.startDate,
+                endDate:this.endDate,
             }
             var that = this;
-            that.$http.post('http://ccsp.caping.co.id/cms/statistic/invite/track',data
+            that.$http.post(process.env.API_ROOT+'/cms/statistic/invite/track',data
             ).then(function(response){
                 const datas = response.data;
                 if(datas.data!=null){
-                     this.tableData = datas.data.list
+                    this.tableData = datas.data.list
                     this.totalCount = datas.data.totalCount
                 }
                 this.loading = false

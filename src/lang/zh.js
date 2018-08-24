@@ -126,7 +126,9 @@ export default {
     virtualmerchandise:'虚拟商品',
     Physicalgoods:'实物商品',
     Expiration:'过期时间',
-    Selectdatetime:'选择日期时间'
+    Selectdatetime:'选择日期时间',
+    selectAll:'全选',
+    PleasedeviceID:'请输入激活设备ID'
     
   },
   table: {
@@ -270,6 +272,7 @@ export default {
     Exchangecode:'话费兑换码',
     Exchangephonenumber:'兑换手机号',
     Exchangetime:'兑换时间',
+    Redemptioncode:'兑换码',
     ProductNumber:'商品编号',
     image:'图片',
     productname:'商品名称',
@@ -346,6 +349,8 @@ export default {
     ProductSelectType:'请选择商品类别',
     selectproducttype:'请选择商品类型',
     TermsAgreement:'协议条款',
+    RedeemerID:'兑换人ID',
+
 
 
   } 

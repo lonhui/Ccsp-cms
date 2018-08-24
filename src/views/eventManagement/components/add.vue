@@ -39,7 +39,7 @@ export default {
         getData(){
              this.$http({
                 method:'GET',
-                url:'http://ccsp.caping.co.id/cms/set/event/list'+'?pageSize='+100+'&pageNum='+1
+                url:process.env.API_ROOT+'/cms/set/event/list'+'?pageSize='+100+'&pageNum='+1
             }).then(function(response){
                 const datas = response.data
                 this.tableData = datas.data.data

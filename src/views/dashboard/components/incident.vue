@@ -81,7 +81,7 @@ export default {
       var that = this;
       that.$http({
         method:'GET',
-        url:'http://ccsp.caping.co.id/cms/statistic/event'+'?startTime='+this.startTime+'&endTime='+this.endTime,
+        url:process.env.API_ROOT+'/cms/statistic/event'+'?startTime='+this.startTime+'&endTime='+this.endTime,
       }).then(function(response){
         const datas = response.data;
         this.eventDatas = datas.data.data

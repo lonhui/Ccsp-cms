@@ -169,7 +169,7 @@ export default {
                 this.form.state = 0
             }
             this.$http.post(
-                'http://ccsp.caping.co.id/cms/product/saveOrUpdate',
+                process.env.API_ROOT+'/cms/product/saveOrUpdate',
                 this.form,
                 {'headers':{'Content-Type':'application/json'}}
             ).then(function(response){

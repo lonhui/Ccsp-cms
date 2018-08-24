@@ -93,7 +93,7 @@ export default {
                     key_id:10
             }
             var that = this;
-            that.$http.post('http://ccsp.caping.co.id/cms/statistic/browse',data
+            that.$http.post(process.env.API_ROOT+'/cms/statistic/browse',data
             ).then(function(response){
                 const datas = response.data;
                 if(datas.data!=null){

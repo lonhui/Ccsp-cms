@@ -20,21 +20,13 @@
                     </td>
                 </tr>
                 <tr>
-                        <td><span class="demonstration">{{$t('table.RolePermissions')}}:</span></td>
-                        <td>
-                            <div class="tree" v-loading="loading">
-                                <el-tree
-                                    :data="data2"
-                                    show-checkbox
-                                    node-key="id"
-                                    ref="tree"
-                                    @check-change="getCheckedKeys"
-                                    highlight-current
-                                    :props="defaultProps">
-                                </el-tree>
-                            </div>
-                        </td>
-                    </tr>
+                    <td><span class="demonstration">{{$t('table.RolePermissions')}}:</span></td>
+                    <td>
+                        <div class="tree" v-loading="loading">
+                            <el-tree :data="data2" show-checkbox node-key="id" ref="tree" @check-change="getCheckedKeys" highlight-current :props="defaultProps"></el-tree>
+                        </div>
+                    </td>
+                </tr>
                 <tr>
                     <td></td>
                     <td><el-button type="primary" @click="closeShow">{{$t('button.cancel')}}</el-button><el-button type="primary" @click="add()">{{$t('button.submit')}}</el-button></td>
@@ -88,7 +80,7 @@ export default {
         getMenu(){
             this.loading = true
             this.data2 = []
-            this.$http.get('http://ccsp.caping.co.id/cms/sys/menu/list',{'headers':{
+            this.$http.get(process.env.API_ROOT+'/cms/sys/menu/list',{'headers':{
                 'X-abn-session-token':this.GLOBAL.token
             }}
             ).then(function(response){
@@ -119,8 +111,6 @@ export default {
                     }  
                 }
                 this.loading = false                          
-            },function(error){
-                // console.log(error)
             })
         },
         add(){
@@ -131,7 +121,7 @@ export default {
             }
             this.addData.menuIds = aa
             var that = this;
-            that.$http.post('http://ccsp.caping.co.id/cms/sys/role/add', this.addData,{'headers':{
+            that.$http.post(process.env.API_ROOT+'/cms/sys/role/add', this.addData,{'headers':{
                 'Content-Type':'application/json',
                  'X-abn-session-token':this.GLOBAL.token
             }}
@@ -149,8 +139,6 @@ export default {
                     type: 'error'
                 })
                 }
-            },function(error){
-                // console.log(error);
             })
         }
     },

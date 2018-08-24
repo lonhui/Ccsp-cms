@@ -100,7 +100,7 @@ export default {
       var that = this
       that.$http({
         method: 'GET',
-        url: 'http://ccsp.caping.co.id/cms/statistic/all'+'?startTime='+this.startTime+'&endTime='+this.endTime+'&pageSize='+8+'&pageNum='+this.currentPage
+        url: process.env.API_ROOT+'/cms/statistic/all'+'?startTime='+this.startTime+'&endTime='+this.endTime+'&pageSize='+8+'&pageNum='+this.currentPage
       }).then(function(response) {
         
         const datas = response.data

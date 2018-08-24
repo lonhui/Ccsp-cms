@@ -145,7 +145,7 @@ export default {
                 endDate:this.endTime
             }
             var that = this;
-            that.$http.post('http://ccsp.caping.co.id/cms/statistic/sign',data
+            that.$http.post(process.env.API_ROOT+'/cms/statistic/sign',data
             ).then(function(response){
                 const datas = response.data;
                 if(datas.data!=null){

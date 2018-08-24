@@ -76,7 +76,7 @@ export default {
             }else{
 
             
-            this.$http.get('http://ccsp.caping.co.id/cms/sys/user/menu',{'headers':{
+            this.$http.get(process.env.API_ROOT+'/cms/sys/user/menu',{'headers':{
                     'X-abn-session-token':getToken()
                 }}
                 ).then(function(response){

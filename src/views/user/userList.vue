@@ -85,7 +85,7 @@ export default {
         getUserDatas() {
             this.loading = true
             var that = this
-            that.$http.post('http://ccsp.caping.co.id/cms/user/page', {pageSize:8,pageNum:this.currentPage1,uid:Number(this.inputData)}
+            that.$http.post(process.env.API_ROOT+'/cms/user/page', {pageSize:8,pageNum:this.currentPage1,uid:Number(this.inputData)}
             ).then(function(response){
                 const datas = response.data;
                 this.userDatas = datas.data.list

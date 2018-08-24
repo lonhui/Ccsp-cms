@@ -4,10 +4,6 @@
            <div class="button-button">
                <el-button type="primary" @click="openAddShow">+{{$t('button.addto')}}</el-button>
            </div>
-           <!-- <div class="input">
-               <el-input placeholder="搜索用户名、真实姓名" v-model="input10" clearable style="width:200px"></el-input>
-               <el-button icon="el-icon-search" circle></el-button>
-           </div> -->
        </div>
        <div class="table1">
             <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" v-loading="loading" @selection-change="handleSelectionChange">
@@ -43,7 +39,6 @@ export default {
     data() {
         return{
             tableData:[],
-            input10:'',
             multipleSelection: [],
             currentPage1: 1,
             totalCount: 0,
@@ -61,50 +56,50 @@ export default {
         this.getadminList()
     },
     methods: {
-      openUpdataShow(index,row){
-        const item = this.tableData[index]
-        this.datas = {
-            id:item.id,
-            role_id: item.role_id,
-            name: item.name,
-            status: item.status,
-            account: item.account,
-            password: item.password,
-        }
-        this.updataShow = true
-    },
-      closeUpdataShow(){
-          this.updataShow = false
-          this.getadminList()
-      },
-      openAddShow(){
-          this.addShow = true
-      },
-      closeAddShow(){
-          this.addShow = false
-          this.getadminList()
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
-       typeIndex(index) {
-        return index + (this.currentPage1 - 1) * 8 + 1
-       },
-         // 分页
-      handleSizeChange(val) {
+        openUpdataShow(index,row){
+            const item = this.tableData[index]
+            this.datas = {
+                id:item.id,
+                role_id: item.role_id,
+                name: item.name,
+                status: item.status,
+                account: item.account,
+                password: item.password,
+            }
+            this.updataShow = true
+        },
+        closeUpdataShow(){
+            this.updataShow = false
+            this.getadminList()
+        },
+        openAddShow(){
+            this.addShow = true
+        },
+        closeAddShow(){
+            this.addShow = false
+            this.getadminList()
+        },
+        handleSelectionChange(val) {
+            this.multipleSelection = val;
+        },
+        typeIndex(index) {
+            return index + (this.currentPage1 - 1) * 8 + 1
+        },
+        // 分页
+        handleSizeChange(val) {
         // console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
+        },
+        handleCurrentChange(val) {
         // console.log(`当前页: ${val}`);
-      },
-      getadminList(){
-           const token = getToken()
-          this.loading = true
-            const data = {
-                pageNo:this.currentPage1,
-                pageSize:8,
-        }
-            this.$http.post('http://ccsp.caping.co.id/cms/sys/user/list',data,{'headers':{
+        },
+        getadminList(){
+            const token = getToken()
+            this.loading = true
+                const data = {
+                    pageNo:this.currentPage1,
+                    pageSize:8,
+            }
+            this.$http.post(process.env.API_ROOT+'/cms/sys/user/list',data,{'headers':{
                 'X-abn-session-token':token
             }}
             ).then(function(response){
@@ -114,31 +109,28 @@ export default {
                     this.totalCount = datas.data.totalCount
                 }
                 this.loading = false
-            },function(error){
-                this.loading = false
-                // console.log(error)
             })
-      }
-    },
-     watch: {
-    'currentPage1': function () {
-      this.getadminList()
-    },
-    'updataShow':function(){
-        if(this.updataShow == true){
-            document.body.style.overflow = "hidden"
-        }else{
-            document.body.style.overflow = "auto"
         }
     },
-    'addShow':function(){
-        if(this.addShow == true){
-            document.body.style.overflow = "hidden"
-        }else{
-            document.body.style.overflow = "auto"
+    watch: {
+        'currentPage1': function () {
+            this.getadminList()
+        },
+        'updataShow':function(){
+            if(this.updataShow == true){
+                document.body.style.overflow = "hidden"
+            }else{
+                document.body.style.overflow = "auto"
+            }
+        },
+        'addShow':function(){
+            if(this.addShow == true){
+                document.body.style.overflow = "hidden"
+            }else{
+                document.body.style.overflow = "auto"
+            }
         }
     }
-  }
 }
 </script>
 

@@ -1,4 +1,5 @@
 <template>
+<!-- 优惠码管理 -->
     <div class="promoCode">
         <div class="search">
             <div>
@@ -9,14 +10,16 @@
             </div>
              <div class="shuru">
                  <span class="demonstration">{{$t('table.productname')}}</span>
-                <el-input :placeholder="$t('button.pleaseentercontent')" v-model="input10" style="width:200px" clearable></el-input>
+                 <el-select v-model="value3" :placeholder="$t('button.pleasechoose')">
+                    <el-option v-for="item in productname" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+                <!-- <el-input :placeholder="$t('button.pleaseentercontent')" v-model="input10" style="width:200px" clearable></el-input> -->
                 <span class="demonstration" >{{$t('table.Exchangestatus')}}</span>
                 <el-select v-model="value1" :placeholder="$t('button.pleasechoose')">
                     <el-option v-for="item in options1" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled"></el-option>
                 </el-select>
                 <el-button icon="el-icon-search" @click="inquire" circle></el-button>
              </div>
-            
         </div>
         <div class="biaoge">
             <el-table :data="DataList" border style="width: 100%" v-loading="loading">
@@ -62,30 +65,34 @@ export default {
     data(){
         return{
             pickerOptions1: {
-          disabledDate(time) {
-            return time.getTime() > Date.now();
-          },
-          shortcuts: [{
-            text: this.$t('message.today'),
-            onClick(picker) {
-              picker.$emit('pick', new Date());
-            }
-          }, {
-            text: this.$t('message.yesterday'),
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', date);
-            }
-          }, {
-            text: this.$t('message.aweekago'),
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
-            }
-          }]
-        },
+            disabledDate(time) {
+                return time.getTime() > Date.now();
+            },
+            shortcuts: [{
+                text: this.$t('message.today'),
+                onClick(picker) {
+                picker.$emit('pick', new Date());
+                }
+            }, {
+                text: this.$t('message.yesterday'),
+                onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24);
+                picker.$emit('pick', date);
+                }
+            }, {
+                text: this.$t('message.aweekago'),
+                onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                picker.$emit('pick', date);
+                }
+            }]
+            },
+            // 商品名称下拉框，查询条件
+            productname: [],
+            value3: 1,
+            // 商品状态下拉款，查询条件
             options1: [{
                 value: 1,
                 label: this.$t('table.Redeemed')
@@ -94,9 +101,10 @@ export default {
                 label: this.$t('table.Notredeemed')
             }],
             value1: 0,
+            // 商品名称下拉框，上传条件
             options: [],
             productId: 1,
-            doUpload:'http://ccsp.caping.co.id/cms/product/code/upload?productId=',
+            doUpload:process.env.API_ROOT+'/cms/product/code/upload?productId=',
             DataList:[],
             input10:'',
             startTime:'',
@@ -113,7 +121,7 @@ export default {
         this.startTime = this.getStartTime()
         this.getDataList()
         this.getProductId()
-        this.doUpload = "http://ccsp.caping.co.id/cms/product/code/upload?productId="+this.productId
+        this.doUpload = process.env.API_ROOT+"/cms/product/code/upload?productId="+this.productId
     },
     methods:{
         getDataList() {
@@ -127,30 +135,32 @@ export default {
             var that = this;
             that.$http({
                 method:'GET',
-                url:'http://ccsp.caping.co.id/cms/product/code/list'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&startTime='+this.startTime+'&endTime='+this.endTime+'&productName='+this.input10+'&state='+this.value1,
+                url:process.env.API_ROOT+'/cms/product/code/list'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&startTime='+this.startTime+'&endTime='+this.endTime+'&productId='+this.value3+'&state='+this.value1,
             }).then(function(response){
                 const datas = response.data;
                 this.DataList = datas.data.list
                 this.totalCount = datas.data.total
                 this.loading = false
-            },function(error){
+            },(error)=>{
                 this.loading = false
-                // console.log(error)
             })
         },
+        // 获取下拉商品名称列表
         getProductId(){
+            this.productname=[]
             this.options = []
             var that = this;
-            that.$http.get('http://ccsp.caping.co.id/cms/product/list'
+            that.$http.get(process.env.API_ROOT+'/cms/product/simple/list'
             ).then(function(response){
                 const datas = response.data
-                const list = datas.data.data
+                const list = datas
                 for(let i = 0;i < list.length;i++){
                     const a = {
                         value : list[i].id,
                         label : list[i].name
                     }
                     this.options.push(a)
+                    this.productname.push(a)
                 } 
             },function(error){
                 // console.log(error)
@@ -230,10 +240,10 @@ export default {
             this.getDataList()
         },
         'productId':function(){
-             this.doUpload = "http://ccsp.caping.co.id/cms/product/code/upload?productId="+this.productId
+             this.doUpload = process.env.API_ROOT+"/cms/product/code/upload?productId="+this.productId
         },
         'failureTime':function(){
-            this.doUpload = 'http://ccsp.caping.co.id/cms/product/code/upload?productId='+this.productId+'&expireTime='+this.failureTime
+            this.doUpload = process.env.API_ROOT+'/cms/product/code/upload?productId='+this.productId+'&expireTime='+this.failureTime
         }
     }
 }

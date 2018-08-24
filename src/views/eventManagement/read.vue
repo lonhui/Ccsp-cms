@@ -154,7 +154,7 @@ export default {
                 key_id:this.value
             }
             var that = this;
-            that.$http.post('http://ccsp.caping.co.id/cms/statistic/browse',data
+            that.$http.post(process.env.API_ROOT+'/cms/statistic/browse',data
             ).then(function(response){
                 const datas = response.data;
                 if(datas.data!=null){
@@ -175,7 +175,7 @@ export default {
             this.options = []
             this.$http({
                 method: 'GET',
-                url: 'http://ccsp.caping.co.id/cms/statistic/type'+'?type='+this.type
+                url: process.env.API_ROOT+'/cms/statistic/type'+'?type='+this.type
             }).then(function(response) {
                 const datas = response.data
                

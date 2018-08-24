@@ -55,7 +55,7 @@ export default {
         updata(){
             this.$http({
                 method:'GET',
-                url:'http://ccsp.caping.co.id/cms/set/event/update',
+                url:process.env.API_ROOT+'/cms/set/event/update',
                 params:{
                     id:this.data.id,
                     status:this.data.status

@@ -51,7 +51,6 @@
                             </el-select>
                         </td>
                     </tr>
-                    
                     <!-- tree -->
                     <tr>
                         <td><span class="demonstration">{{$t('table.RolePermissions')}}:</span></td>
@@ -117,12 +116,11 @@ export default {
             loadingTree:false
         }
     },
-     components: {
+    components: {
         'v-add': add
-        },
-     mounted() {
+    },
+    mounted() {
         this.getRoleList();
-        
     },
      methods: {
         // 获取被勾选目录的id
@@ -159,8 +157,8 @@ export default {
         getMenu(){
             this.loadingTree=true
             this.data2 = []
-            const token = getToken()
-            this.$http.get('http://ccsp.caping.co.id/cms/sys/menu/list',{'headers':{
+            let token = getToken()
+            this.$http.get(process.env.API_ROOT+'/cms/sys/menu/list',{'headers':{
                 'X-abn-session-token':token
             }}
             ).then(function(response){
@@ -198,13 +196,14 @@ export default {
         },
         //获取角色列表
         getRoleList() {
+            let token = getToken()
             this.loading = true
             var that = this;
             that.$http({
                 method:'GET',
-                url:'http://ccsp.caping.co.id/cms/sys/role/list',
+                url:process.env.API_ROOT+'/cms/sys/role/list',
                 headers:{
-                    'X-abn-session-token':this.GLOBAL.token
+                    'X-abn-session-token':token
                 }
             }).then(function(response){
                 const datas = response.data
@@ -222,7 +221,7 @@ export default {
             this.checkedCities=[]
             this.$http({
                 method:'post',
-                url:'http://ccsp.caping.co.id/cms/sys/role/info/'+this.form.id,
+                url:process.env.API_ROOT+'/cms/sys/role/info/'+this.form.id,
                 headers:{
                     'Content-Type':'application/json',
                     'X-abn-session-token':token
@@ -272,7 +271,7 @@ export default {
             this.form.menuIds = aa
             //提交请求
             var that = this;
-            that.$http.post('http://ccsp.caping.co.id/cms/sys/role/update', this.form,{'headers':{
+            that.$http.post(process.env.API_ROOT+'/cms/sys/role/update', this.form,{'headers':{
                 'Content-Type':'application/json',
                 'X-abn-session-token':this.GLOBAL.token
             }}

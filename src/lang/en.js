@@ -123,7 +123,9 @@ export default {
     virtualmerchandise:'virtual merchandise',
     Physicalgoods:'Physical goods',
     Expiration:'Expiration',
-    Selectdatetime:'Select date and time'
+    Selectdatetime:'Select date and time',
+    selectAll:'select all',
+    PleasedeviceID:'Please enter the activation device ID'
   },
   table: {
     id: 'No.',
@@ -329,6 +331,7 @@ export default {
     Successinvitedpoints:'uccessfully invited to send points',
     uploadimage:'upload image',
     Exchangenumber:'Exchange number',
+    Redemptioncode:'Redemption code',
     Activetimes:'Active times',
     productDetails:'product details',
     ProductDescription:'Product Description',
@@ -342,6 +345,7 @@ export default {
     ProductSelectType:'Please select a product category',
     selectproducttype:'Please select a product type',
     TermsAgreement:'Terms of agreement',
+    RedeemerID:'Redeemer ID',
   }
 }
 

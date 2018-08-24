@@ -1,4 +1,5 @@
 <template>
+<!-- 商品列表 -->
 	<div class="commodity">
         <div v-if="!addCommodityShow">
 			<div class="button">
@@ -181,11 +182,10 @@ export default {
       handleSelectionChange(val) {
         this.multipleSelection = val;
 	  },
-    
       getTableData3(){
         this.loading = true
         var that = this;
-        that.$http.get('http://ccsp.caping.co.id/cms/product/list'
+        that.$http.get(process.env.API_ROOT+'/cms/product/list'
         ).then(function(response){
             const datas = response.data;
             this.tableData3 = datas.data.data
@@ -209,7 +209,7 @@ export default {
             id.push(this.multipleSelection[i].id)
             }
             this.$http.post(
-                    'http://ccsp.caping.co.id/cms/product/saveOrUpdate',
+                    process.env.API_ROOT+'/cms/product/saveOrUpdate',
                     {
                         ids:id,
                         state:0
@@ -239,7 +239,7 @@ export default {
             id.push(this.multipleSelection[i].id)
             }
             this.$http.post(
-                    'http://ccsp.caping.co.id/cms/product/saveOrUpdate',
+                    process.env.API_ROOT+'/cms/product/saveOrUpdate',
                     {
                         ids:id,
                         state:1

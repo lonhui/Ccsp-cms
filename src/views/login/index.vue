@@ -93,7 +93,7 @@ export default {
     },
     //登录
     handleLogin() {
-      this.$http.post('http://ccsp.caping.co.id/cms/sys/login',this.loginForm,{'headers':{
+      this.$http.post(process.env.API_ROOT+'/cms/sys/login',this.loginForm,{'headers':{
           'Content-Type':'application/json'
        }}
         ).then(function(response){
@@ -132,7 +132,7 @@ export default {
     changeCode() {
       this.$http({
         method:'GET',
-        url:'http://ccsp.caping.co.id/cms/getVerityCode?t=' + parseInt(Date.now())
+        url:process.env.API_ROOT+'/cms/getVerityCode?t=' + parseInt(Date.now())
       }).then(function(response){
         const datas = response.data
         this.codeImg = response
@@ -145,7 +145,7 @@ export default {
   created() {
     this.$http({
       method:'GET',
-      url:'http://ccsp.caping.co.id/cms/getVerityCode'
+      url:process.env.API_ROOT+'/cms/getVerityCode'
     }).then(function(response){
         this.codeImg = response
     },function(error){

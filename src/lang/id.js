@@ -126,6 +126,9 @@ export default {
     Expiration:'Waktu kedaluwarsa',
     Selectdatetime:'Pilih tanggal dan waktu',
     uploadimage:'Unggah gambar',
+    selectAll:'Pilih semua',
+    PleasedeviceID:'Silakan masukkan ID perangkat aktivasi'
+    
 
   },
   table: {
@@ -202,6 +205,7 @@ export default {
     username:'Nama pengguna',
     totalnumberofgoldcoins:'Jumlah total koin emas',
     currency:'Mata uang',
+    Redemptioncode:'Kode penukaran',
     dateevent:'Tanggal\Acara',
     signin:'Masuk',
     readarticles:'Baca artikel',
@@ -344,6 +348,7 @@ export default {
     ProductSelectType:'Silakan pilih kategori produk',
     selectproducttype:'Silakan pilih jenis produk',
     TermsAgreement:'Ketentuan perjanjian',
+    RedeemerID:'ID Penebus',
   }
 }
 

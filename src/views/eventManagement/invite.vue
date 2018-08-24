@@ -93,7 +93,7 @@ export default {
                     endDate:this.endDate,
             }
             var that = this;
-            that.$http.post('http://ccsp.caping.co.id/cms/statistic/invite',data
+            that.$http.post(process.env.API_ROOT+'/cms/statistic/invite',data
             ).then(function(response){
                 const datas = response.data;
                 if(datas.data!=null){

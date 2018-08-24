@@ -78,7 +78,7 @@ export default {
       var that = this;
       that.$http({
         method:'GET',
-        url:'http://ccsp.caping.co.id/cms/statistic/rank/week'+'?startTime='+this.startTime+'&endTime='+this.endTime+'&pageSize='+10+'&pageNum='+this.currentPage1,
+        url:process.env.API_ROOT+'/cms/statistic/rank/week'+'?startTime='+this.startTime+'&endTime='+this.endTime+'&pageSize='+10+'&pageNum='+this.currentPage1,
       }).then(function(response){
         
         const datas = response.data
