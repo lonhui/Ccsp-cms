@@ -185,7 +185,7 @@ export default {
       getTableData3(){
         this.loading = true
         var that = this;
-        that.$http.get(process.env.API_ROOT+'/cms/product/list'
+        that.$http.get(process.env.API_ROOT+'/cms/product/list?pageNum='+this.currentPage1+'&pageSize=10'
         ).then(function(response){
             const datas = response.data;
             this.tableData3 = datas.data.data
@@ -193,7 +193,6 @@ export default {
             this.loading = false
         },function(error){
             this.loading = false
-            // console.log(error)
         })
       },
       //下架

@@ -1,4 +1,5 @@
 <template>
+<!-- 事件  -->
   <div id="incident">
     <div class="search">
       <span class="demonstration">{{$t('table.startDate')}}:</span>
@@ -9,12 +10,10 @@
     </div>
     <div class="tab1">
       <el-table :data="eventDatas" border style="width: 100%"  v-loading="loading">
-        
-        <el-table-column prop="intro" :label="$t('table.Eventname')" ></el-table-column>
-        <el-table-column prop="title" :label="$t('table.title')" width="200"></el-table-column>
+        <el-table-column prop="name" :label="$t('table.Eventname')" ></el-table-column>
+        <el-table-column prop="ename" :label="$t('table.title')" width="200"></el-table-column>
         <el-table-column prop="totalCoin" :label="$t('button.integral')"></el-table-column>
         <el-table-column prop="totalCount" :label="$t('table.Totalnumberofparticipation')" width="220"></el-table-column>
-        <el-table-column prop="totalPer" :label="$t('table.Totalnumberofparticipants')"  width="220"></el-table-column>
       </el-table>
     </div> 
   </div>
@@ -81,17 +80,19 @@ export default {
       var that = this;
       that.$http({
         method:'GET',
-        url:process.env.API_ROOT+'/cms/statistic/event'+'?startTime='+this.startTime+'&endTime='+this.endTime,
+        url:'http://13.250.63.147:8005/statistic/event'+'?startTime='+this.startTime+'&endTime='+this.endTime,
       }).then(function(response){
-        const datas = response.data;
-        this.eventDatas = datas.data.data
+        const datas = response.data
+        for(let i = 0;i<datas.data.length;i++){
+          if(datas.data[i].ename!=''){
+            this.eventDatas.push(datas.data[i])
+          }
+        }
         this.closeFullScreen()  
-      },function(error){
+      },(error)=>{
         this.loading = false
-        // console.log(error)
       })
     },
-    
     gettimes(datas){
       const aaa = new Array()
       const times = new Array()
@@ -124,13 +125,8 @@ export default {
     // 查询
     inquire() {
         this.getEventDatas()
-    },
-  },
-  watch: {
-   
-
+    }
   }
-  
 }
 </script>
 

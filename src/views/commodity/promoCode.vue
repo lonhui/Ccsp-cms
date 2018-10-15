@@ -2,18 +2,11 @@
 <!-- 优惠码管理 -->
     <div class="promoCode">
         <div class="search">
-            <div>
-                <span class="demonstration">{{$t('table.startDate')}}</span>
-                <el-date-picker v-model="startTime" align="right" type="date" value-format="yyyy-MM-dd" :picker-options="pickerOptions1" style="width:200px"></el-date-picker>
-            <span class="demonstration">{{$t('table.endDate')}}</span>
-                <el-date-picker v-model="endTime" align="right" type="date" value-format="yyyy-MM-dd" :picker-options="pickerOptions1" style="width:200px"></el-date-picker>
-            </div>
              <div class="shuru">
                  <span class="demonstration">{{$t('table.productname')}}</span>
                  <el-select v-model="value3" :placeholder="$t('button.pleasechoose')">
                     <el-option v-for="item in productname" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
-                <!-- <el-input :placeholder="$t('button.pleaseentercontent')" v-model="input10" style="width:200px" clearable></el-input> -->
                 <span class="demonstration" >{{$t('table.Exchangestatus')}}</span>
                 <el-select v-model="value1" :placeholder="$t('button.pleasechoose')">
                     <el-option v-for="item in options1" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled"></el-option>
@@ -64,34 +57,9 @@
 export default {
     data(){
         return{
-            pickerOptions1: {
-            disabledDate(time) {
-                return time.getTime() > Date.now();
-            },
-            shortcuts: [{
-                text: this.$t('message.today'),
-                onClick(picker) {
-                picker.$emit('pick', new Date());
-                }
-            }, {
-                text: this.$t('message.yesterday'),
-                onClick(picker) {
-                const date = new Date();
-                date.setTime(date.getTime() - 3600 * 1000 * 24);
-                picker.$emit('pick', date);
-                }
-            }, {
-                text: this.$t('message.aweekago'),
-                onClick(picker) {
-                const date = new Date();
-                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-                picker.$emit('pick', date);
-                }
-            }]
-            },
             // 商品名称下拉框，查询条件
             productname: [],
-            value3: 1,
+            value3: 2,
             // 商品状态下拉款，查询条件
             options1: [{
                 value: 1,
@@ -107,9 +75,7 @@ export default {
             doUpload:process.env.API_ROOT+'/cms/product/code/upload?productId=',
             DataList:[],
             input10:'',
-            startTime:'',
             failureTime:'',
-            endTime:'',
             currentPage1: 1,
             totalCount: 0,
             fileList:[],
@@ -117,8 +83,6 @@ export default {
         }
     },
     mounted(){
-        this.endTime = this.getEndTime()
-        this.startTime = this.getStartTime()
         this.getDataList()
         this.getProductId()
         this.doUpload = process.env.API_ROOT+"/cms/product/code/upload?productId="+this.productId
@@ -135,7 +99,7 @@ export default {
             var that = this;
             that.$http({
                 method:'GET',
-                url:process.env.API_ROOT+'/cms/product/code/list'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&startTime='+this.startTime+'&endTime='+this.endTime+'&productId='+this.value3+'&state='+this.value1,
+                url:process.env.API_ROOT+'/cms/product/code/list'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&productId='+this.value3+'&state='+this.value1,
             }).then(function(response){
                 const datas = response.data;
                 this.DataList = datas.data.list
@@ -160,26 +124,12 @@ export default {
                         label : list[i].name
                     }
                     this.options.push(a)
-                    this.productname.push(a)
+
+                    if(a.value != 1){
+                        this.productname.push(a)
+                    }
                 } 
-            },function(error){
-                // console.log(error)
             })
-        },
-        getEndTime() {
-            const myday = new Date()
-            const year = myday.getFullYear()
-            const month = (myday.getMonth()+1)<10 ? '0'+(myday.getMonth()+1) : (myday.getMonth()+1)
-            const day = myday.getDate()<10 ? '0'+myday.getDate() : myday.getDate()
-            return year + "-" + month + "-" + day
-        },
-         getStartTime() {
-            const d = new Date()
-            const weekdate = new Date(d-7*24*3600*1000) 
-            const year = weekdate.getFullYear()
-            const month = (weekdate.getMonth()+1)<10 ? '0'+(weekdate.getMonth()+1) : (weekdate.getMonth()+1)
-            const day = weekdate.getDate()<10 ? '0'+weekdate.getDate() : weekdate.getDate()
-            return year + "-" + month + "-" + day
         },
         inquire() {
              this.getDataList()

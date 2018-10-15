@@ -3,13 +3,13 @@
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <el-radio-group v-model="active" style="margin-bottom: 30px;">
         <el-radio-button label="overview" :class="{active: active === 'overview'}" @click="show('overview')">{{$t('route.overview')}}</el-radio-button>
-        <el-radio-button label="dailyData" :class="{ active: active === 'dailyData' }" @click="show('dailyData')">{{$t('route.dailydata')}}</el-radio-button>
+        <!-- <el-radio-button label="dailyData" :class="{ active: active === 'dailyData' }" @click="show('dailyData')">{{$t('route.dailydata')}}</el-radio-button> -->
         <el-radio-button label="leaderboard" :class="{ active: active === 'leaderboard' }" @click="show('leaderboard')">{{$t('route.leaderboard')}}</el-radio-button>
         <el-radio-button label="incident" :class="{ active: active === 'incident' }" @click="show('incident')">{{$t('route.event')}}</el-radio-button>
       </el-radio-group>
       <div class="view">
         <v-overview v-if="active==='overview'"></v-overview>
-        <v-dailyData v-if="active==='dailyData'"></v-dailyData>
+        <!-- <v-dailyData v-if="active==='dailyData'"></v-dailyData> -->
         <v-leaderboard v-if="active==='leaderboard'"></v-leaderboard>
         <v-incident v-if="active==='incident'"></v-incident>
       </div>

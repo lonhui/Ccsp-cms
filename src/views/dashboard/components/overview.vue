@@ -143,6 +143,11 @@ export default {
       const day = weekdate.getDate()<10 ? '0'+weekdate.getDate() : weekdate.getDate()
       return year + "-" + month + "-" + day
     },
+  },
+  watch: {
+    'currentPage': function () {
+      this.getlist()
+    }
   }
 }
 </script>

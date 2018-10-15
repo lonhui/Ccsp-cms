@@ -111,6 +111,7 @@ export default {
                 message: this.$t('message.codeError'),
                 type: 'error'
               })
+              this.changeCode()
             }else if(datas.code===301){
               this.$message({
                 message: this.$t('message.Akunataukatasandisalah'),

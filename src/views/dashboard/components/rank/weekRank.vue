@@ -8,11 +8,11 @@
       <el-button icon="el-icon-search" @click="inquire" circle></el-button>
     </div>
     <div class="tab1">
-      <el-table :data="rankingDatas" border style="width: 100%" v-loading="loading">
+      <el-table :data="rankingDatas" border style="width: 500px" v-loading="loading">
         <el-table-column type="index"  width="100px" :label="$t('table.rank')"></el-table-column>
-        <el-table-column prop="uid" :label="$t('table.userID')"></el-table-column>
-        <el-table-column prop="coin" :label="$t('button.totalgoldcoins')" ></el-table-column>
-        <el-table-column prop="money" :label="$t('table.Totalnumberofpoints')" ></el-table-column>
+        <el-table-column prop="uid" :label="$t('table.userID')" width="200px"></el-table-column>
+        <el-table-column prop="money" :label="$t('button.totalgoldcoins')" v-if="value2==1" width="200px"></el-table-column>
+        <el-table-column prop="coin" :label="$t('table.Totalnumberofpoints')" v-if="value2==2" width="200px"></el-table-column>
       </el-table>
     </div>
   </div>
@@ -84,7 +84,7 @@ export default {
         const datas = response.data
         this.totalCount = 100
         for(let i = 0; i < datas.data.length; i++){
-          if(datas.data[i].rankType === 1){
+          if(datas.data[i].rankType === 2){
             this.rankingDatasCoin.push(datas.data[i])
           }else{
             this.rankingDatasMonry.push(datas.data[i])
