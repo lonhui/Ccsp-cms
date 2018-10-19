@@ -5,10 +5,10 @@
              <el-button type="danger" icon="el-icon-close" circle class="end1" @click="closeFriendShow"></el-button>
             <div class="table1">
                  <el-table :data="activeData" border style="width: 100%" >
-                    <el-table-column prop="content" :label="$t('table.Eventname')"></el-table-column>
-                    <el-table-column prop="uid" :label="$t('table.userID')"></el-table-column>
-                    <el-table-column prop="giveCoin" :label="$t('table.Earnpoints')" ></el-table-column>
-                    <el-table-column prop="date" :label="$t('table.date')" ></el-table-column>
+                    <el-table-column align="center" prop="content" :label="$t('table.Eventname')"></el-table-column>
+                    <el-table-column align="center" prop="uid" :label="$t('table.userID')"></el-table-column>
+                    <el-table-column align="center" prop="giveCoin" :label="$t('table.Earnpoints')" ></el-table-column>
+                    <el-table-column align="center" prop="date" :label="$t('table.date')" ></el-table-column>
                 </el-table>
             </div>
             <br>
@@ -19,17 +19,11 @@
 <script>
 export default {
     props:['activeData'],
-    data() {
-        return{
-
-        }
-    },
     methods:{
         closeFriendShow(){
             this.$emit('on-close')
         }
     }
-    
 }
 </script>
 

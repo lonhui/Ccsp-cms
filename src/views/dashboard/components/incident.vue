@@ -10,16 +10,18 @@
     </div>
     <div class="tab1">
       <el-table :data="eventDatas" border style="width: 100%"  v-loading="loading">
-        <el-table-column prop="name" :label="$t('table.Eventname')" ></el-table-column>
-        <el-table-column prop="ename" :label="$t('table.title')" width="200"></el-table-column>
-        <el-table-column prop="totalCoin" :label="$t('button.integral')"></el-table-column>
-        <el-table-column prop="totalCount" :label="$t('table.Totalnumberofparticipation')" width="220"></el-table-column>
+        <el-table-column align="center" prop="name" :label="$t('table.Eventname')" ></el-table-column>
+        <el-table-column align="center" prop="ename" :label="$t('table.title')" width="200"></el-table-column>
+        <el-table-column align="center" prop="totalCoin" :label="$t('button.integral')"></el-table-column>
+        <el-table-column align="center" prop="totalCount" :label="$t('table.Totalnumberofparticipation')" width="220"></el-table-column>
       </el-table>
     </div> 
   </div>
 </template>
 
 <script>
+import {getEventList} from '@/api/dashboard'
+
 export default {
   data() {
     return {
@@ -48,9 +50,6 @@ export default {
           }
         }]
       },
-      // 分页参数
-      totalCount: 0,
-      currentPage1: 1,
       // 时间参数
       endTime: '',
       startTime: '',
@@ -76,19 +75,19 @@ export default {
     // 获取表格数据
     getEventDatas() {
       this.openFullScreen()
-      this.eventDatas = [] 
-      var that = this;
-      that.$http({
-        method:'GET',
-        url:'http://13.250.63.147:8005/statistic/event'+'?startTime='+this.startTime+'&endTime='+this.endTime,
-      }).then(function(response){
-        const datas = response.data
+      this.eventDatas = []
+      let params = {
+        startTime:this.startTime,
+        endTime:this.endTime
+      }
+      getEventList(params).then(response=>{
+         const datas = response
         for(let i = 0;i<datas.data.length;i++){
           if(datas.data[i].ename!=''){
             this.eventDatas.push(datas.data[i])
           }
         }
-        this.closeFullScreen()  
+        this.closeFullScreen()
       },(error)=>{
         this.loading = false
       })

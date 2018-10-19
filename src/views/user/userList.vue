@@ -7,13 +7,13 @@
             </div>
             <div>
                 <el-table :data="userDatas" border style="width: 70%" v-loading="loading">
-                    <el-table-column type="index" :index="typeIndex" cc :label="$t('table.no')" width="70"></el-table-column>
-                    <el-table-column prop="uid" :label="$t('table.userID')" width="110"></el-table-column>
-                    <el-table-column prop="total_coin" :label="$t('table.Totalnumberofpoints')" width="140"></el-table-column>
-                    <el-table-column prop="total_money" :label="$t('table.totalnumberofgoldcoins')"></el-table-column>
-                    <el-table-column prop="create_time" :label="$t('table.useractivationtime')" width="160"></el-table-column>
-                    <el-table-column prop="total_invite_user" :label="$t('table.invitedusers')" width="140"></el-table-column>
-                    <el-table-column :label="$t('table.detail')" width="110">
+                    <el-table-column align="center" type="index" :index="typeIndex" cc :label="$t('table.no')" width="70"></el-table-column>
+                    <el-table-column align="center" prop="uid" :label="$t('table.userID')" width="110"></el-table-column>
+                    <el-table-column align="center" prop="total_coin" :label="$t('table.Totalnumberofpoints')" width="140"></el-table-column>
+                    <el-table-column align="center" prop="total_money" :label="$t('table.totalnumberofgoldcoins')"></el-table-column>
+                    <el-table-column align="center" prop="create_time" :label="$t('table.useractivationtime')" width="170"></el-table-column>
+                    <el-table-column align="center" prop="total_invite_user" :label="$t('table.invitedusers')" width="140"></el-table-column>
+                    <el-table-column align="center" :label="$t('table.detail')" width="110">
                         <template slot-scope="scope">
                             <el-button type="text" size="small" @click="openDetailShow(scope.$index,scope.row)">{{$t('table.seedetails')}}</el-button>
                         </template>
@@ -22,7 +22,7 @@
             </div>
             <div>
                 <div class="block" >
-                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage1" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+                    <el-pagination :current-page.sync="currentPage1" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
                 </div>
             </div>
         </div>
@@ -32,6 +32,7 @@
 
 <script>
 import detail from './components/detail'
+import {getUserList} from '@/api/user'
 
 export default {
     components: {
@@ -57,13 +58,6 @@ export default {
         this.getUserDatas()
     },
     methods: {
-        // 分页
-        handleSizeChange(val) {
-        // console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-        // console.log(`当前页: ${val}`);
-        },
         // 子组件操作
         openDetailShow(index,row) {
             const item = this.userDatas[index]
@@ -84,16 +78,18 @@ export default {
         // 获取表格数据
         getUserDatas() {
             this.loading = true
-            var that = this
-            that.$http.post(process.env.API_ROOT+'/cms/user/page', {pageSize:8,pageNum:this.currentPage1,uid:Number(this.inputData)}
-            ).then(function(response){
-                const datas = response.data;
+            let data={
+                pageSize:8,
+                pageNum:this.currentPage1,
+                uid:Number(this.inputData)
+            }
+            getUserList(data).then(response=>{
+                const datas = response;
                 this.userDatas = datas.data.list
                 this.totalCount = datas.data.totalCount
                 this.loading = false
-            },function(error){
+            },(error)=>{
                 this.loading = false
-                // console.log(error);
             })
         },
         // 序号

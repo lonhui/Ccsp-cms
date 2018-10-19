@@ -14,21 +14,23 @@
             <el-button icon="el-icon-search" @click="inquire" circle></el-button>
         </div>
         <div class="tabl">
-            <el-table :data="DataList" border style="width: 100%" v-loading="loading">
-                <el-table-column type="index" :index="typeIndex" width="70px" :label="$t('table.rank')"></el-table-column>
-                <el-table-column prop="uid" :label="$t('table.userID')" width="130px"></el-table-column>
-                <el-table-column prop="create_time" :label="$t('table.useractivationtime')" width="180px"></el-table-column>
-                <el-table-column prop="os" :label="$t('table.useractivationdevice')" width="200px"></el-table-column>
-                <el-table-column prop="device_id" :label="$t('table.useractivationdevice')+'ID'" ></el-table-column>
+            <el-table :data="DataList" border style="width: 80%" v-loading="loading">
+                <el-table-column align="center" type="index" :index="typeIndex" width="70px" :label="$t('table.rank')"></el-table-column>
+                <el-table-column align="center" prop="uid" :label="$t('table.userID')" width="130px"></el-table-column>
+                <el-table-column align="center" prop="create_time" :label="$t('table.useractivationtime')" width="180px"></el-table-column>
+                <el-table-column align="center" prop="os" :label="$t('table.useractivationdevice')" width="200px"></el-table-column>
+                <el-table-column align="center" prop="device_id" :label="$t('table.useractivationdevice')+'ID'" ></el-table-column>
             </el-table>
         </div>
         <div class="block">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage1" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+            <el-pagination :current-page.sync="currentPage1" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
     </div>
 </template>
 
 <script>
+import {getDeviceList} from '@/api/user'
+
 export default {
     data() {
         return {
@@ -78,13 +80,6 @@ export default {
         this.getDataList()
     },
     methods: {
-        // 分页
-      handleSizeChange(val) {
-        // console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        // console.log(`当前页: ${val}`);
-      },
       inquire() {
           if(this.currentPage1===1){
               this.getDataList()
@@ -115,8 +110,7 @@ export default {
     },
       getDataList() {
         this.loading = true
-        var that = this;
-        that.$http.post(process.env.API_ROOT+'/cms/user/page', {
+        let data={
             pageSize:8,
             pageNum:this.currentPage1,
             startTime:this.activeTime,
@@ -125,14 +119,15 @@ export default {
             deviceId:this.input_deviceId,
             uid:this.input_uid
         }
-        ).then(function(response){
-            const datas = response.data;
+        getDeviceList(data).then(response=>{
+            const datas = response
             this.DataList = datas.data.list
             this.totalCount = datas.data.totalCount
             this.loading = false
+        },(error)=>{
+            this.loading = false
         })
-    },
-    
+    }
   },
   watch: {
     'currentPage1': function () {

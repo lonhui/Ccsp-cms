@@ -54,20 +54,20 @@
             </div>
             <div class="tab">
                 <el-table :data="userDatas_money" border style="width: 100%" v-if="tabPosition === 'top'" v-loading="loading">
-                    <el-table-column prop="timestamp" :label="$t('table.createTime')"></el-table-column>
-                    <el-table-column prop="title" :label="$t('table.actions')"></el-table-column>
-                    <el-table-column prop="money" :label="$t('button.gold')" ></el-table-column>
+                    <el-table-column align="center" prop="timestamp" :label="$t('table.createTime')"></el-table-column>
+                    <el-table-column align="center" prop="title" :label="$t('table.actions')"></el-table-column>
+                    <el-table-column align="center" prop="money" :label="$t('button.gold')" ></el-table-column>
                 </el-table>	
                 <el-table :data="userDatas_coin" border style="width: 100%" v-if="tabPosition === 'right'" v-loading="loading">
-                    <el-table-column prop="timestamp" :label="$t('table.createTime')"></el-table-column>
-                    <el-table-column prop="title" :label="$t('table.actions')"></el-table-column>
-                    <el-table-column prop="addCoin" :label="$t('button.integral')" ></el-table-column>
+                    <el-table-column align="center" prop="timestamp" :label="$t('table.createTime')"></el-table-column>
+                    <el-table-column align="center" prop="title" :label="$t('table.actions')"></el-table-column>
+                    <el-table-column align="center" prop="addCoin" :label="$t('button.integral')" ></el-table-column>
                 </el-table>
                 <el-table :data="userDatas_convert" border style="width: 100%" v-if="tabPosition === 'bottom'" v-loading="loading">
-                    <el-table-column prop="createTime" :label="$t('table.Exchangetime')"></el-table-column>
-                    <el-table-column prop="productName" :label="$t('table.Lotteryname')"></el-table-column>
-                    <el-table-column prop="price" :label="$t('table.price')" ></el-table-column>
-                    <el-table-column :label="$t('table.Lotterytype')" >
+                    <el-table-column align="center" prop="createTime" :label="$t('table.Exchangetime')"></el-table-column>
+                    <el-table-column align="center" prop="productName" :label="$t('table.Lotteryname')"></el-table-column>
+                    <el-table-column align="center" prop="price" :label="$t('table.price')" ></el-table-column>
+                    <el-table-column align="center" :label="$t('table.Lotterytype')" >
                         <template slot-scope="scope">
                             <a href="javascript:;">{{scope.row.productType===1?$t('table.Recharge'):$t('table.coupon')}}</a>
                         </template>
@@ -75,10 +75,10 @@
                     <!-- 1.话费充值 2.优惠券-->
                 </el-table>
                 <el-table :data="userDatas_invite" border style="width: 100%" v-if="tabPosition === 'left'" v-loading="loading">
-                    <el-table-column prop="timestamp" :label="$t('table.Invitationtime')"></el-table-column>
-                    <el-table-column prop="inviteUser" :label="$t('table.Friendsname')"></el-table-column>
-                    <el-table-column prop="timestamp" :label="$t('table.Friendsactivationtime')" ></el-table-column>
-                    <el-table-column :label="$t('table.Friendactive')">
+                    <el-table-column align="center" prop="timestamp" :label="$t('table.Invitationtime')"></el-table-column>
+                    <el-table-column align="center" prop="inviteUser" :label="$t('table.Friendsname')"></el-table-column>
+                    <el-table-column align="center" prop="timestamp" :label="$t('table.Friendsactivationtime')" ></el-table-column>
+                    <el-table-column align="center" :label="$t('table.Friendactive')">
                         <template slot-scope="scope">
                             <el-button type="text" size="small" @click="getFrendactive(scope.$index,scope.row)">{{$t('table.Seefriendsactive')}}</el-button>
                         </template> 
@@ -86,7 +86,7 @@
                 </el-table>
             </div>
              <div class="block">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage1" :page-size="5" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+                <el-pagination :current-page.sync="currentPage1" :page-size="5" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
             </div>
             <div>
                 <v-friend v-if="friendShow" :activeData="activeData" @on-close="closeFriendShow"></v-friend>
@@ -97,6 +97,7 @@
 
 <script>
 import friend from './friend'
+import {getDetailInfo,getDetailMoney,getDetailInvite,getDetailCoin,getDetailConvert} from '@/api/user'
 
 export default {
     components: {
@@ -129,13 +130,6 @@ export default {
         closeDetailShow() {
             this.$emit('on-close')
         },
-        // 分页
-        handleSizeChange(val) {
-        // console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-        // console.log(`当前页: ${val}`);
-        },
         getMoney(){
             this.loading = true
             if(this.value){
@@ -143,79 +137,78 @@ export default {
             }else{
                 this.type = 2
             }
-            var that = this;
-            that.$http({
-                method:'GET',
-                url:process.env.API_ROOT+'/cms/user/page/money'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid+'&type='+this.type
-            }).then(function(response){
-                const datas = response.data
+            let params={
+                pageSize:5,
+                pageNum:this.currentPage1,
+                uid:this.datas.uid,
+                type:this.type
+            }
+            getDetailMoney(params).then(response=>{
+                const datas = response
                 this.userDatas_money = datas.data.data;
                 this.totalCount = datas.data.totalCount;
                 this.loading = false   
-            },function(error){
+            },(error)=>{
                 this.loading = false
-                // console.log(error)
             })
         },
         getInvite(){
             this.loading = true
-            var that = this;
-            that.$http({
-                method:'GET',
-                url:process.env.API_ROOT+'/cms/user/page/invite'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid
-            }).then(function(response){
-                const datas = response.data
-                this.userDatas_invite = datas.data.data;
-                this.totalCount = datas.data.totalCount;
+            let params={
+                pageSize:5,
+                pageNum:this.currentPage1,
+                uid:this.datas.uid
+            }
+            getDetailInvite(params).then(response=>{
+                const datas = response
+                this.userDatas_invite = datas.data.data
+                this.totalCount = datas.data.totalCount
                 this.loading = false
-            },function(error){
+            },(error)=>{
                 this.loading = false
-                // console.log(error)
             })
         },
         getCoin() {
             this.loading = true
-            var that = this;
-            that.$http({
-                method:'GET',
-                url:process.env.API_ROOT+'/cms/user/data/coin'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid// +'&type='+this.type
-            }).then(function(response){
-                const datas = response.data
+            let params={
+                pageSize:5,
+                pageNum:this.currentPage1,
+                uid:this.datas.uid
+            }
+            getDetailCoin(params).then(response=>{
+                const datas = response
                 this.userDatas_coin = datas.data.list;
                 this.totalCount = datas.data.totalCount;
                 this.loading = false
-            },function(error){
+            },(error)=>{
                 this.loading = false
-                // console.log(error)
             })
         },
+        // 兑换
         getConvert () {
             this.loading = true
-            var that = this;
-            that.$http({
-                method:'GET',
-                url:process.env.API_ROOT+'/cms/user/data/order'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&uid='+this.datas.uid
-            }).then(function(response){
-                const datas = response.data
+             let params={
+                pageSize:5,
+                pageNum:this.currentPage1,
+                uid:this.datas.uid
+            }
+            getDetailConvert(params).then(response=>{
+                const datas = response
                 this.userDatas_convert = datas.data.list;
                 this.totalCount = datas.data.total;
                 this.loading = false
-            },function(error){
+            },(error)=>{
                 this.loading = false
-                // console.log(error)
             })
         },
         getFrendactive(index,row){
             const item = this.userDatas_invite[index]
             const date = item.timestamp.substring(0,10)
-              this.$http({
-                method:'post',
-                url:process.env.API_ROOT+'/cms/statistic/invite/track/info',
-                params:{
-                    uid:this.datas.uid,
-                    date:date
-                }
-            }).then(function(response){
+            let data={
+                uid:this.datas.uid,
+                date:date
+            }
+            getDetailInfo().then(response=>{
                 const datas = response.data
                 const d = []
                 for(let i = 0;i < datas.data.list.length;i++){
@@ -225,13 +218,10 @@ export default {
                 }
                 this.activeData = d
                 this.friendShow = true
-            },function(error){
+            },(error)=>{
                 this.loading = false
-                // console.log(error)
             })
         }
-
-
     },
     watch: {
     'currentPage1': function() {
@@ -310,7 +300,7 @@ export default {
 }
 .tab{
     width: 60%;
-    margin-top:10px;
+    padding-top:10px;
 }
 .btn-group{
    margin-top: 20px;
@@ -322,6 +312,12 @@ export default {
 }
 .message,.btn-group,.tab,.block{
     margin-left: 40px;
+}
+.block{
+    margin-top: 10px;
+}
+.btn-group{
+    margin-bottom: 20px;
 }
 
 </style>

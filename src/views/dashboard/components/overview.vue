@@ -9,31 +9,28 @@
         </div>
         <div class="tab1">
           <el-table :data="tableData" border v-loading="loading">
-             <el-table-column prop="allUser" :label="$t('route.totalusers')"></el-table-column>
-            <el-table-column prop="coin" :label="$t('table.Generatepoints')"></el-table-column>
-            <el-table-column prop="coinPersonCount" :label="$t('table.Totapointearned')"></el-table-column>
-            <el-table-column prop="money" :label="$t('table.Genergoldcoins')"></el-table-column>
-            <el-table-column prop="moneyPersonCount" :label="$t('table.Getcoins')" width="120"></el-table-column>
-            <el-table-column prop="invitePersonCount" :label="$t('table.Totalnumber')" width="110"></el-table-column>
-            <el-table-column prop="newRegCount" :label="$t('table.Newregisteredusers')" width="110"></el-table-column>
-            <el-table-column prop="costMoney" :label="$t('table.Totaloldcoinsconsumed')"  width="100"></el-table-column>
-            <el-table-column prop="allMoney" :label="$t('table.Totamainingoins')" width="110"></el-table-column>
-            <el-table-column prop="day" :label="$t('table.date')" width="100"></el-table-column>
+             <el-table-column align="center" prop="allUser" :label="$t('route.totalusers')"></el-table-column>
+            <el-table-column align="center" prop="coin" :label="$t('table.Generatepoints')"></el-table-column>
+            <el-table-column align="center" prop="coinPersonCount" :label="$t('table.Totapointearned')"></el-table-column>
+            <el-table-column align="center" prop="money" :label="$t('table.Genergoldcoins')"></el-table-column>
+            <el-table-column align="center" prop="moneyPersonCount" :label="$t('table.Getcoins')" width="120"></el-table-column>
+            <el-table-column align="center" prop="invitePersonCount" :label="$t('table.Totalnumber')" width="110"></el-table-column>
+            <el-table-column align="center" prop="newRegCount" :label="$t('table.Newregisteredusers')" width="110"></el-table-column>
+            <el-table-column align="center" prop="costMoney" :label="$t('table.Totaloldcoinsconsumed')"  width="100"></el-table-column>
+            <el-table-column align="center" prop="allMoney" :label="$t('table.Totamainingoins')" width="120"></el-table-column>
+            <el-table-column align="center" prop="day" :label="$t('table.date')" width="100"></el-table-column>
           </el-table>
         </div> 
         <div class="block">
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+          <el-pagination :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
-        <!-- <div class="line">
-          <v-line :className='className' :autoResize='autoResize' :chartData='chartData'></v-line>
-        </div> -->
     </div>
        
 </template>
 
 <script>
 import { generateTitle } from '@/utils/i18n'
-import Line from './LineChart'
+import {getOverView} from '@/api/dashboard'
 
 export default {
   data() {
@@ -85,9 +82,6 @@ export default {
       },
     }
   },
-  components: {
-    'v-line':Line
-  },
   mounted() {
     this.startTime = this.getStartTime()
     this.endTime = this.getEndTime()
@@ -97,19 +91,19 @@ export default {
     // 获取表格数据
     getlist() {
       this.loading = true
-      var that = this
-      that.$http({
-        method: 'GET',
-        url: process.env.API_ROOT+'/cms/statistic/all'+'?startTime='+this.startTime+'&endTime='+this.endTime+'&pageSize='+8+'&pageNum='+this.currentPage
-      }).then(function(response) {
-        
+      let params = {
+        startTime:this.startTime,
+        endTime:this.endTime,
+        pageSize:8,
+        pageNum:this.currentPage,
+      }
+      getOverView(params).then(response=>{
         const datas = response.data
-        this.tableData = datas.data.data 
-        this.totalCount = datas.data.total
+        this.tableData = datas.data
+        this.totalCount = datas.total
         this.loading = false
-      }, function(error) {
+      },(error)=>{
         this.loading = false
-        // console.log(error)
       })
     },
     // 查询
@@ -119,13 +113,6 @@ export default {
         }else{
             this.currentPage=1
         }
-    },
-    // 分页
-    handleSizeChange(val) {
-        // console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange(val) {
-        // console.log(`当前页: ${val}`);
     },
     // 活动时间
     getEndTime() {

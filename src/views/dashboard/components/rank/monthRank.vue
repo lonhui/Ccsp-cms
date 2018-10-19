@@ -9,16 +9,18 @@
     </div>
     <div class="table1">
       <el-table :data="rankingDatas" border style="width: 500px" v-loading="loading">
-        <el-table-column  type="index"  :label="$t('table.rank')" width="100px"></el-table-column>
-        <el-table-column prop="uid" :label="$t('table.username')" width="200px"></el-table-column>
-        <el-table-column prop="money" :label="$t('table.totalnumberofgoldcoins')" v-if="value2==1" width="200px"></el-table-column>
-        <el-table-column prop="coin" :label="$t('table.Totalnumberofpoints')" v-if="value2==2" width="200px"></el-table-column>
+        <el-table-column align="center" type="index"  :label="$t('table.rank')" width="100px"></el-table-column>
+        <el-table-column align="center" prop="uid" :label="$t('table.username')" width="200px"></el-table-column>
+        <el-table-column align="center" prop="money" :label="$t('table.totalnumberofgoldcoins')" v-if="value2==1"></el-table-column>
+        <el-table-column align="center" prop="coin" :label="$t('table.Totalnumberofpoints')" v-if="value2==2"></el-table-column>
       </el-table>
     </div>
   </div>
 </template>
 
 <script>
+import {getMonthRank} from '@/api/dashboard'
+
 export default {
   props:['value2'],
   data() {
@@ -65,13 +67,6 @@ export default {
     this.getRankingDatas()
   },
   methods: {
-    // 分页
-    handleSizeChange(val) {
-      // console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`);
-    },
     getEndTime() {
       const myday = new Date()
       const year = myday.getFullYear()
@@ -89,12 +84,12 @@ export default {
     },
     getRankingDatas() {
       this.loading = true
-      var that = this;
-      that.$http({
-        method:'GET',
-        url:process.env.API_ROOT+'/cms/statistic/rank/month'+'?startTime='+this.startTime+'&endTime='+this.endTime+'&pageSize='+10+'&pageNum='+this.currentPage1,
-      }).then(function(response){
-        const datas = response.data;
+      let params={
+        startTime:this.startTime,
+        endTime:this.endTime
+      }
+      getMonthRank(params).then(response=>{
+        const datas = response;
         this.totalCount = datas.data.totalCount
         this.rankingDatasCoin = []
         this.rankingDatasMonry = []
@@ -111,17 +106,9 @@ export default {
             this.rankingDatas = this.rankingDatasMonry
         }
         this.loading = false
-      },function(error){
-          this.loading = false
-          // console.log(error)
+      },(error)=>{
+        this.loading = false
       })
-    },
-    // 分页
-    handleSizeChange(val) {
-      // console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`);
     },
     // 查询
     inquire() {
@@ -129,9 +116,6 @@ export default {
     }
   },
   watch:{
-    'currentPage1':function(){
-      this.getRankingDatas()
-    },
     'value2':function(){
       if(this.value2 === '1'){
         this.rankingDatas = this.rankingDatasCoin

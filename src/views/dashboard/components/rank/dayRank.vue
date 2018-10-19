@@ -7,16 +7,18 @@
     </div>
     <div class="tab1">
       <el-table :data="rankingDatas" border style="width: 500px" v-loading="loading">
-        <el-table-column type="index"  width="100px" :label="$t('table.rank')"></el-table-column>
-        <el-table-column prop="uid" :label="$t('table.username')" width="200px"></el-table-column>
-        <el-table-column prop="money" :label="$t('table.totalnumberofgoldcoins')" v-if="value2==1" width="200px"></el-table-column>
-        <el-table-column prop="coin" :label="$t('table.Totalnumberofpoints')" v-if="value2==2" width="200px"></el-table-column>
+        <el-table-column align="center" type="index"  width="100px" :label="$t('table.rank')"></el-table-column>
+        <el-table-column align="center" prop="uid" :label="$t('table.username')" width="200px"></el-table-column>
+        <el-table-column align="center" prop="money" :label="$t('table.totalnumberofgoldcoins')" v-if="value2==1"></el-table-column>
+        <el-table-column align="center" prop="coin" :label="$t('table.Totalnumberofpoints')" v-if="value2==2"></el-table-column>
       </el-table>
     </div>
   </div>
 </template>
 
 <script>
+import {getDayRank} from '@/api/dashboard'
+
 export default {
   props:['value2'],
   data() {
@@ -64,13 +66,6 @@ export default {
     this.getRankingDatas()
   },
   methods: {
-    // 分页
-    handleSizeChange(val) {
-      // console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`);
-    },
     // 获取时间
     getTime() {
       const d = new Date()
@@ -83,12 +78,14 @@ export default {
     // 获取表格数据
     getRankingDatas() {
       this.loading = true
-      var that = this;
-      that.$http({
-        method:'GET',
-        url:process.env.API_ROOT+'/cms/statistic/rank'+'?startTime='+this.time+'&endTime='+this.time+'&pageSize='+100+'&pageNum='+this.currentPage1,
-      }).then(function(response){
-        const datas = response.data;
+      let params={
+        startTime:this.time,
+        endTime:this.time,
+        pageSize:100,
+        pageNum:this.currentPage1
+      }
+      getDayRank(params).then(response=>{
+      const datas = response;
         this.totalCount = datas.data.totalCount
         this.rankingDatasCoin = []
         this.rankingDatasMonry = []
@@ -107,7 +104,6 @@ export default {
          this.loading = false
       },(error)=>{
         this.loading = false
-        // console.log(error)
       })
     },
     // 查询
