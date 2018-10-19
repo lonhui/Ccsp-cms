@@ -32,7 +32,7 @@
           </el-table>
         </div>
         <div class="block">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage1" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+            <el-pagination :current-page.sync="currentPage1" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
         <v-updata v-if="updataShow" @on-close="closeUpdata"></v-updata>
     </div>
@@ -95,13 +95,6 @@ export default {
         this.getDataList();
     },
     methods: {
-        // 分页
-      handleSizeChange(val) {
-        // console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        // console.log(`当前页: ${val}`);
-      },
        openUpdata(){
         this.updataShow = true
       },

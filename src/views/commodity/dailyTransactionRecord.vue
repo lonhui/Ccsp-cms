@@ -1,5 +1,6 @@
 <template>
     <div class="dailyRecord">
+      <!-- 废弃页面，暂未使用 -->
         <div class="search">
             <span class="demonstration">开始时间</span>
                 <el-date-picker v-model="startTime" align="right" type="date" value-format="yyyy-MM-dd" placeholder="选择日期" :picker-options="pickerOptions1"></el-date-picker>
@@ -18,7 +19,7 @@
             </el-table>
         </div>
         <div class="block">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage1" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+            <el-pagination :current-page.sync="currentPage1" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
     </div>
 </template>
@@ -63,16 +64,8 @@ export default {
     mounted() {
         this.endTime = this.getEndTime()
         this.startTime = this.getStartTime()
-        //this.getTableDatas();
     },
     methods: {
-        // 分页
-      handleSizeChange(val) {
-        // console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        // console.log(`当前页: ${val}`);
-      },
       getEndTime() {
         const myday = new Date()
         const year = myday.getFullYear()
@@ -97,9 +90,6 @@ export default {
       }).then(function(response){
           const datas = response.data;
           this.totalCount = datas.data.totalCount
-         
-      },function(error){
-          // console.log(error)
       })
     },
     inquire() {
@@ -114,11 +104,6 @@ export default {
     },
     table(val) {
       this.currentPage1 = val
-    }
-  },
-  watch: {
-    'currentPage1': function () {
-      //this.getRankingDatas()
     }
   }
 }

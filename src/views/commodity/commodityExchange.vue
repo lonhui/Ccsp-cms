@@ -29,7 +29,7 @@
                 </el-table>
             </div>
             <div class="block">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+                <el-pagination :current-page.sync="currentPage" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
             </div>
         </div>
         <div class="component">
@@ -112,13 +112,6 @@ export default {
             const month = (weekdate.getMonth()+1)<10 ? '0'+(weekdate.getMonth()+1) : (weekdate.getMonth()+1)
             const day = weekdate.getDate()<10 ? '0'+weekdate.getDate() : weekdate.getDate()
             return year + "-" + month + "-" + day
-        },
-        // 分页
-        handleSizeChange(val) {
-            // console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            // console.log(`当前页: ${val}`);
         },
         typeIndex(index) {
             return index + (this.currentPage - 1) * 10 + 1

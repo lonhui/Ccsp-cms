@@ -35,7 +35,7 @@
                 </el-table>
 			</div>
         <div class="block">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage1" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+            <el-pagination :current-page.sync="currentPage1" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
     </div>
     <div class="components">
@@ -162,13 +162,6 @@ export default {
             termsConditions:'',//协议条款
         }
         this.addCommodityShow = true
-      },
-        // 分页
-      handleSizeChange(val) {
-        // console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        // console.log(`当前页: ${val}`);
       },
       toggleSelection(rows) {
         if (rows) {

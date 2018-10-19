@@ -28,7 +28,7 @@
             </el-table>
         </div>
         <div class="block">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage1" :page-size="5" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+            <el-pagination :current-page.sync="currentPage1" :page-size="5" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
         <div class="upload">
              <div class="upload_id">
@@ -136,20 +136,6 @@ export default {
         },
         typeIndex(index) {
             return index + (this.currentPage1 - 1) * 5 + 1
-        },
-          // 分页
-        handleSizeChange(val) {
-            // console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            // console.log(`当前页: ${val}`);
-        },
-        //上传
-        handleRemove(file, fileList) {
-            // console.log(file, fileList);
-        },
-        handlePreview(file) {
-            // console.log(file);
         },
         getSTime(val){
             const ts = (val+'').split(' ')
