@@ -23,7 +23,7 @@
             </el-table>
        </div>
        <div class="block">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage1" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+            <el-pagination :current-page.sync="currentPage1" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
         <v-add v-if="addShow" @on-close="closeAddShow"></v-add>
         <v-updata v-if="updataShow" @on-close="closeUpdataShow" v-bind:datas="datas"></v-updata>
@@ -34,6 +34,7 @@
 import  add from './components/add'
 import  updata from './components/updata'
 import { getToken } from '@/utils/auth'
+import {getAdminList} from '@/api/admin'
 
 export default {
     data() {
@@ -85,29 +86,20 @@ export default {
         typeIndex(index) {
             return index + (this.currentPage1 - 1) * 8 + 1
         },
-        // 分页
-        handleSizeChange(val) {
-        // console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-        // console.log(`当前页: ${val}`);
-        },
         getadminList(){
-            const token = getToken()
             this.loading = true
-                const data = {
-                    pageNo:this.currentPage1,
-                    pageSize:8,
+            const data = {
+                pageNo:this.currentPage1,
+                pageSize:8,
             }
-            this.$http.post(process.env.API_ROOT+'/cms/sys/user/list',data,{'headers':{
-                'X-abn-session-token':token
-            }}
-            ).then(function(response){
-                const datas = response.data;
+            getAdminList(data).then(response=>{
+                const datas = response
                 if(datas.data!=null){
                     this.tableData = datas.data.list
                     this.totalCount = datas.data.totalCount
                 }
+                this.loading = false
+            },(error)=>{
                 this.loading = false
             })
         }

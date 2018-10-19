@@ -23,7 +23,7 @@
             </el-table>
         </div>
         <div class="block">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage1" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+            <el-pagination :current-page.sync="currentPage1" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
         <v-add v-if="addShow" @on-close="closeAddShow"></v-add>
         <div class="box" v-show="show">
@@ -68,6 +68,8 @@
 
 <script>
 import add from './components/add'
+import {getConfigList} from '@/api/config'
+
 export default {
     data() {
         return {
@@ -125,13 +127,6 @@ export default {
         this.getDataList();
     },
      methods: {
-        // 分页
-      handleSizeChange(val) {
-        // console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        // console.log(`当前页: ${val}`);
-      },
       bianji(index,row){
         this.idx = index;
         const item = this.DataList[index]
@@ -150,19 +145,18 @@ export default {
       },
       getDataList() {
           this.loading = true
-        var that = this;
-        that.$http({
-            method:'GET',
-            url:process.env.API_ROOT+'/cms/set/config/list'+'?pageSize='+8+'&pageNum='+this.currentPage1,
-        }).then(function(response){
-            const datas = response.data
+          let params={
+              pageSize:8,
+              pageNum:this.currentPage1
+          }
+          getConfigList(params).then(response=>{
+            const datas = response
             this.DataList = datas.data.data
             this.totalCount = datas.data.total
             this.loading = false
-        },function(error){
-            this.loading = false
-            // console.log(error)
-        })
+          },(error)=>{
+              this.loading = false
+          })
       },
       add(){
          this.addShow = true 

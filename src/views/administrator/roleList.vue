@@ -83,6 +83,7 @@
 <script>
 import add from './components/addRole'
 import { getToken } from '@/utils/auth'
+import {getRoleList,getMenuList} from '@/api/admin'
 
 export default {
     data() {
@@ -157,13 +158,9 @@ export default {
         getMenu(){
             this.loadingTree=true
             this.data2 = []
-            let token = getToken()
-            this.$http.get(process.env.API_ROOT+'/cms/sys/menu/list',{'headers':{
-                'X-abn-session-token':token
-            }}
-            ).then(function(response){
+            getMenuList().then(response=>{
                 this.options2=[]
-                const datas = response.data
+                const datas = response
                 const menuList = datas.data.menuList
                 for(let i = 0;i < menuList.length;i++){
                     if(menuList[i].parent_id == 0){
@@ -188,30 +185,20 @@ export default {
                         this.data2.push(menu)
                     }  
                 }                          
-        
-            this.getUSerMenu()
-            },function(error){
-                // console.log(error)
+                this.getUSerMenu()
+            },(error)=>{
+                this.loadingTree=false
             })
         },
         //获取角色列表
         getRoleList() {
-            let token = getToken()
             this.loading = true
-            var that = this;
-            that.$http({
-                method:'GET',
-                url:process.env.API_ROOT+'/cms/sys/role/list',
-                headers:{
-                    'X-abn-session-token':token
-                }
-            }).then(function(response){
-                const datas = response.data
+            getRoleList().then(response=>{
+                const datas = response
                 this.DataList = datas.data.roles
                 this.loading = false
-            },function(error){
+            },(error)=>{
                 this.loading = false
-                // console.log(error)
             })
         },
         //获取该角色全部信息
@@ -220,37 +207,35 @@ export default {
             const token = getToken()
             this.checkedCities=[]
             this.$http({
-                method:'post',
-                url:process.env.API_ROOT+'/cms/sys/role/info/'+this.form.id,
-                headers:{
-                    'Content-Type':'application/json',
-                    'X-abn-session-token':token
-            }
-        }).then(function(response){
-            const datas = response.data
-            if(datas.data.menus!=null){
-                for(let i = 0;i <  datas.data.menus.length;i++){
-                    if(datas.data.menus[i].parent_id != 0){
-                        this.menus.push(datas.data.menus[i].id)
-                    }else{
-                        var cc = 0
-                        for(let j = 0;j <  datas.data.menus.length;j++){
-                            if(datas.data.menus[i].id == datas.data.menus[j].parent_id){
-                                cc = cc + 1
+                    method:'post',
+                    url:process.env.API_ROOT+'/cms/sys/role/info/'+this.form.id,
+                    headers:{
+                        'Content-Type':'application/json',
+                        'X-abn-session-token':token
+                }
+            }).then(function(response){
+                const datas = response.data
+                if(datas.data.menus!=null){
+                    for(let i = 0;i <  datas.data.menus.length;i++){
+                        if(datas.data.menus[i].parent_id != 0){
+                            this.menus.push(datas.data.menus[i].id)
+                        }else{
+                            var cc = 0
+                            for(let j = 0;j <  datas.data.menus.length;j++){
+                                if(datas.data.menus[i].id == datas.data.menus[j].parent_id){
+                                    cc = cc + 1
+                                }
+                            }
+                            if(cc==0){
+                                this.menus.push(datas.data.menus[i].id)
                             }
                         }
-                        if(cc==0){
-                            this.menus.push(datas.data.menus[i].id)
-                        }
                     }
-                }
-            }else(
-                this.menus = []
-            ) 
-           this.setCheckedKeys()
-        },function(error){
-            // console.log(error)
-        })
+                }else(
+                    this.menus = []
+                ) 
+            this.setCheckedKeys()
+            })
         },
         //打开添加角色框
         add(){
