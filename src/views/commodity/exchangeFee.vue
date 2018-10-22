@@ -16,7 +16,7 @@
             <el-table :data="DataList" border style="width: 100%" v-loading="loading">
               <el-table-column type="index" :index="typeIndex" width="100px" :label="$t('table.id')"></el-table-column>
               <el-table-column prop="mobile" :label="$t('table.Exchangecode')"></el-table-column>
-              <el-table-column prop="state" :label="$t('table.Exchangestatus')" width="80px">
+              <el-table-column prop="state" :label="$t('table.Exchangestatus')" width="90px">
                   <template slot-scope="scope">
                       <a href="javascript:;">{{scope.row.state == 1 ? $t('table.Redeemed'): $t('table.Notredeemed')}}</a>
                   </template>

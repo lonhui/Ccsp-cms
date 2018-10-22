@@ -11,12 +11,12 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/cms': {
-      //   target: 'http://192.168.1.186:9060',//ccsp.caping.co.id
-      //   //http://192.168.1.186:9060   内网
-      //   // 10.30.94.31:9060/cms/
-      //   changeOrigin: true
-      // }
+      '/cms': {
+        target: 'http://192.168.1.181:9060',//ccsp.caping.co.id
+        //http://192.168.1.186:9060   内网
+        // 10.30.94.31:9060/cms/
+        changeOrigin: true
+      }
     },
 
     // Various Dev Server settings
