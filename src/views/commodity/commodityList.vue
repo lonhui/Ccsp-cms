@@ -112,7 +112,9 @@ export default {
     },
     methods: {
         addH5(){
-            this.form={}
+            this.form={
+                state:true,//商品状态 1为有效，0为无效
+            }
             this.addCommodityShow=2
         },
         closeAdd(){
