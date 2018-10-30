@@ -5,8 +5,8 @@
 			<div class="button">
 				<el-button type="warning" plain @click="Dropoff">{{$t('button.Dropoff')}}</el-button>
                 <el-button type="success" plain @click="Shelf">{{$t('button.Shelf')}}</el-button>
-                <el-button icon="el-icon-circle-plus-outline" type="primary" plain @click="add">App</el-button>
-                <el-button icon="el-icon-circle-plus-outline" type="primary" plain @click="addH5">H5</el-button>
+                <el-button icon="el-icon-circle-plus-outline" type="primary" plain @click="add">{{$t('button.Capingcommodity')}}</el-button>
+                <el-button icon="el-icon-circle-plus-outline" type="primary" plain @click="addH5">{{$t('button.JDCommodity')}}</el-button>
                 <div class="select">
                     <el-select v-model="value" placeholder="请选择">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
@@ -46,7 +46,7 @@
     </div>
     <div class="components">
         <v-addCommodity v-if="addCommodityShow==1" @on-close='closeAdd' :data='this.form'></v-addCommodity>
-        <v-addH5 v-if="addCommodityShow==2" @on-close="addCommodityShow=0" :data='this.form'></v-addH5> 
+        <v-addH5 v-if="addCommodityShow==2" @on-close="closeH5()" :data='this.form'></v-addH5> 
     </div>
 	</div>
     
@@ -92,13 +92,13 @@ export default {
         },
         options: [{
           value:'',
-          label: '全部商品'
+          label: this.$t('button.Allgoods')
         },{
           value: 0,
-          label: 'App商品'
+          label: this.$t('button.Capingcommodity')
         }, {
           value:1,
-          label: 'H5商品'
+          label: this.$t('button.JDCommodity')
         }],
         value: ''
       }
@@ -116,6 +116,10 @@ export default {
                 state:true,//商品状态 1为有效，0为无效
             }
             this.addCommodityShow=2
+        },
+        closeH5(){
+            this.addCommodityShow=0
+            this.getTableData3()
         },
         closeAdd(){
             this.addCommodityShow = 0

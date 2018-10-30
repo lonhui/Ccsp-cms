@@ -125,7 +125,10 @@ export default {
     Expiration:'Expiration',
     Selectdatetime:'Select date and time',
     selectAll:'select all',
-    PleasedeviceID:'Please enter the activation device ID'
+    PleasedeviceID:'Please enter the activation device ID',
+    JDCommodity:'JD commodity',
+    Capingcommodity:'Caping commodity',
+    Allgoods:'All goods'
   },
   table: {
     id: 'No.',

@@ -74,10 +74,10 @@ export default {
             { required: true, message: '请输入商品名称', trigger: 'blur' }
           ],
           productCategory:[
-              { required: true, message: '请输入商品名称', trigger: 'blur' }
+              { required: true, message: '请选择商品类型', trigger: 'blur' }
           ],
           image:[
-              { required: true, message: '请输入商品名称', trigger: 'blur' }
+              { required: true, message: '请上传商品图片', trigger: 'blur' }
           ],
           sourceWeb:[
               { required: true, message: '请输入商品来源网站', trigger: 'blur' }
@@ -127,6 +127,7 @@ export default {
                 }else{
                     this.form.state = 0
                 }
+                this.form.isShow=1
                 this.$http.post(
                     process.env.API_ROOT+'/cms/product/saveOrUpdate',
                     this.form,

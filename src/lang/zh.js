@@ -128,7 +128,10 @@ export default {
     Expiration:'过期时间',
     Selectdatetime:'选择日期时间',
     selectAll:'全选',
-    PleasedeviceID:'请输入激活设备ID'
+    PleasedeviceID:'请输入激活设备ID',
+    JDCommodity:'京东商品',
+    Capingcommodity:'Caping商品',
+    Allgoods:'全部商品'
     
   },
   table: {

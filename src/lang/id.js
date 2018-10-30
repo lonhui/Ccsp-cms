@@ -127,7 +127,10 @@ export default {
     Selectdatetime:'Pilih tanggal dan waktu',
     uploadimage:'Unggah gambar',
     selectAll:'Pilih semua',
-    PleasedeviceID:'Silakan masukkan ID perangkat aktivasi'
+    PleasedeviceID:'Silakan masukkan ID perangkat aktivasi',
+    JDCommodity:'JD Barang',
+    Capingcommodity:'Caping Barang',
+    Allgoods:'Semua barang'
     
 
   },
