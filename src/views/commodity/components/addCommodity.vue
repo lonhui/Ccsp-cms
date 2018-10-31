@@ -1,24 +1,48 @@
 <template>
     <el-form ref="form" :model="form" label-width="180px">
-        <el-form-item :label="$t('table.productname')" class="property">
+        <el-form-item :label="$t('table.productname')" class="property" prop="name"
+        :rules="[
+            { required: true, message: $t('message.enterProductName'), trigger: 'blur' },
+        ]">
             <el-input v-model="form.name" style="width:500px"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('table.ProductTypes')" class="property">
+        <!-- 下拉框选项写死 -->
+        <el-form-item :label="$t('table.ProductTypes')" class="property" 
+        :rules="[
+            { required: true, message: '', trigger: 'blur' },
+        ]">
             <el-select v-model="form.productType" :placeholder="$t('table.selectproducttype')" style="width:300px">
                 <el-option :label="$t('table.Recharge')" :value=1 ></el-option>
                 <el-option :label="$t('table.coupon')" :value=2 ></el-option>
             </el-select>
         </el-form-item>
-        <el-form-item :label="$t('table.ProductCategory')" class="property">
+        <!-- 下拉框选项写死 -->
+        <el-form-item :label="$t('table.ProductCategory')" class="property" 
+        :rules="[
+            { required: true, message: '', trigger: 'blur' },
+        ]">
             <el-select v-model="form.productCategory" :placeholder="$t('table.ProductSelectType')" style="width:300px">
-            <el-option :label="$t('button.virtualmerchandise')" :value=1></el-option>
-            <el-option :label="$t('button.Physicalgoods')" :value=2></el-option>
+                <el-option :label="$t('button.virtualmerchandise')" :value=1></el-option>
+                <el-option :label="$t('button.Physicalgoods')" :value=2></el-option>
             </el-select>
         </el-form-item>
+        <!-- 下拉框选项写死   话费金额 -->
+        <el-form-item :label="$t('table.Callamount')" class="property" v-if="form.productType==1" prop="pulsa_code"
+        :rules="[
+            { required: true, message: '', trigger: 'blur' },
+        ]">
+            <el-select v-model="form.pulsa_code" :placeholder="$t('message.selectAmountCall')" style="width:300px">
+                <el-option label="10000" value="pulsa10000"></el-option>
+                <el-option label="20000" value="pulsa20000"></el-option>
+                <el-option label="30000" value="pulsa30000"></el-option>
+                <el-option label="50000" value="pulsa50000"></el-option>
+            </el-select>
+        </el-form-item>
+
         <el-form-item :label="$t('table.Commodityprice')" class="property">
             <el-input-number v-model="form.currentPrice" controls-position="right" @change="handleChange" :min="0"></el-input-number>
         </el-form-item>
-        <el-form-item :label="$t('ProducOriginalPrice')" class="property">
+        <el-form-item :label="$t('table.ProducOriginalPrice')" class="property">
             <el-input-number v-model="form.originalPrice" controls-position="right" @change="handleChange" :min="0"></el-input-number>
         </el-form-item>
         <el-form-item :label="$t('table.ProductTotal')" class="property">
@@ -33,7 +57,10 @@
         <el-form-item :label="$t('table.ProductStatus')" class="property">
             <el-switch v-model="form.state"></el-switch>
         </el-form-item>
-        <el-form-item :label="$t('table.productPicture')">
+        <el-form-item :label="$t('table.productPicture')" 
+        :rules="[
+            { required: true, message: '', trigger: 'blur' },
+        ]">
             <el-upload class="avatar-uploader" 
                 action="https://ai.caping.co.id/Start/uploadpic" 
                 name="imageData"
@@ -99,7 +126,7 @@ export default {
             total:0,//商品数量
             current:0,//商品剩余数量
             endTime:'',//失效时间
-            state:true,//商品状态 1为有效，0为无效
+            state:0,//商品状态 1为有效，0为无效
             image:'',//商品图片
             sourceWeb:'',//来源网站
             shortIntro:'',//商品短介绍
@@ -145,7 +172,7 @@ export default {
               modules: ['Resize', 'DisplaySize', 'Toolbar']
             }
           }
-        },
+        }
       }
     },
     mounted(){
@@ -163,6 +190,26 @@ export default {
             this.$emit('on-close')
         },
         onSubmit() {
+            if(this.form.name==null||this.form.name==''){
+                this.$message.warning(this.$t('message.productNameCannotNull'));
+            }else if(this.form.productType==null||this.form.productType==''){
+                this.$message.warning(this.$t('message.productTypeCannotNull'));
+            }else if(this.form.productCategory==null||this.form.productCategory==''){
+                this.$message.warning(this.$t('message.productCategoryCannotNull'));
+            }else{
+                if(this.form.productType==1){
+                    if(this.form.pulsa_code==null||this.form.pulsa_code==''){
+                        this.$message.warning(this.$t('message.pulsa_codeCannotNull'));
+                    }else{
+                        this.send()
+                    }
+                }else{
+                    this.send()
+                }
+            }
+        },
+        // 提交发送请求
+        send(){
             if(this.form.state){
                 this.form.state = 1
             }else{
@@ -178,8 +225,6 @@ export default {
                     type: 'success'
                 })
                 this.close()
-            },function(error){
-                // console.log(error)
             })
         },
         handleChange(value) {

@@ -184,6 +184,9 @@ export default {
                 fullIntro:item.fullIntro,//商品详细介绍
                 termsConditions:item.termsConditions,//协议条款
             }
+            if(this.form.productType==1){
+                this.form.pulsa_code=item.pulsa_code
+            }
             this.addCommodityShow = 1
         }
       },
@@ -198,7 +201,7 @@ export default {
             total:0,//商品数量
             current:0,//商品剩余数量
             endTime:'',//失效时间
-            state:true,//商品状态 1为有效，0为无效
+            state:0,//商品状态 1为有效，0为无效
             image:'',//商品图片
             sourceWeb:'',//来源网站
             shortIntro:'',//商品短介绍

@@ -80,7 +80,13 @@ export default {
     Akunataukatasandisalah:'Akun atau kata sandi salah!!',
     Apakahdihapus:'Apakah ini bagian konten yang merupakan bagian dari konten yang ingin dihapus?',
     codeError:'Kesalahan masukan kode verifikasi! ! !',
-    ProductSelect:'Harap pilih setidaknya satu item'
+    ProductSelect:'Harap pilih setidaknya satu item',
+    enterProductName:'Silakan masukkan nama produk!',
+    selectAmountCall:'Silakan pilih jumlah panggilan!',
+    productNameCannotNull:'Nama produk tidak boleh kosong!',
+    productTypeCannotNull:'Jenis produk tidak boleh kosong!',
+    productCategoryCannotNull:'Kategori produk tidak boleh kosong!',
+    pulsa_codeCannotNull:'Jumlah panggilan tidak boleh kosong!',
   },
   button: {
     add: 'menambahkan',
@@ -352,6 +358,7 @@ export default {
     selectproducttype:'Silakan pilih jenis produk',
     TermsAgreement:'Ketentuan perjanjian',
     RedeemerID:'ID Penebus',
+    Callamount:'Jumlah panggilan',
   }
 }
 

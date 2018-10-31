@@ -81,7 +81,13 @@ export default {
     Akunataukatasandisalah:'账号或密码错误!',
     Apakahdihapus:'这是一段内容这是一段内容确定删除吗？',
     codeError:'验证码输入错误!!!',
-    ProductSelect:'请选择至少一个商品'
+    ProductSelect:'请选择至少一个商品',
+    enterProductName:'请输入商品名!',
+    selectAmountCall:'请选择话费金额!',
+    productNameCannotNull:'商品名称不能为空！',
+    productTypeCannotNull:'商品类型不能为空！',
+    productCategoryCannotNull:'商品类别不能为空！',
+    pulsa_codeCannotNull:'话费金额不能为空！',
 
   },
   button: {
@@ -353,6 +359,7 @@ export default {
     selectproducttype:'请选择商品类型',
     TermsAgreement:'协议条款',
     RedeemerID:'兑换人ID',
+    Callamount:'话费金额',
 
 
 

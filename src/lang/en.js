@@ -79,7 +79,13 @@ export default {
     Akunataukatasandisalah:'Incorrect username or password!',
     Apakahdihapus:'Is this a piece of content which is a piece of content ok to delete?',
     codeError:'incorrect verification code! ! !',
-    ProductSelect:'Please select at least one item'
+    ProductSelect:'Please select at least one item',
+    enterProductName:'Please enter the product name!',
+    selectAmountCall:'Please select the amount of the call!',
+    productNameCannotNull:'The product name cannot be empty!',
+    productTypeCannotNull:'Product type cannot be empty!',
+    productCategoryCannotNull:'Product category cannot be empty!',
+    pulsa_codeCannotNull:'The amount of the call cannot be empty!',
   },
   button: {
     add: 'add',
@@ -349,6 +355,7 @@ export default {
     selectproducttype:'Please select a product type',
     TermsAgreement:'Terms of agreement',
     RedeemerID:'Redeemer ID',
+    Callamount:'Call amount',
   }
 }
 
