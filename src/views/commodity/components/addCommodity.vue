@@ -6,7 +6,7 @@
         ]">
             <el-input v-model="form.name" style="width:500px"></el-input>
         </el-form-item>
-        <!-- 下拉框选项写死 -->
+        <!-- 下拉框选项写死 商品类型-->
         <el-form-item :label="$t('table.ProductTypes')" class="property" 
         :rules="[
             { required: true, message: '', trigger: 'blur' },
@@ -16,7 +16,7 @@
                 <el-option :label="$t('table.coupon')" :value=2 ></el-option>
             </el-select>
         </el-form-item>
-        <!-- 下拉框选项写死 -->
+        <!-- 下拉框选项写死 商品类别-->
         <el-form-item :label="$t('table.ProductCategory')" class="property" 
         :rules="[
             { required: true, message: '', trigger: 'blur' },
@@ -26,7 +26,7 @@
                 <el-option :label="$t('button.Physicalgoods')" :value=2></el-option>
             </el-select>
         </el-form-item>
-        <!-- 下拉框选项写死   话费金额 -->
+        <!-- 下拉框选项写死   话费金额(仅当商品类型为话费充值的时候显示) -->
         <el-form-item :label="$t('table.Callamount')" class="property" v-if="form.productType==1" prop="pulsa_code"
         :rules="[
             { required: true, message: '', trigger: 'blur' },
@@ -38,25 +38,35 @@
                 <el-option label="50000" value="pulsa50000"></el-option>
             </el-select>
         </el-form-item>
-
+        <!-- 开关按钮  是否为特殊优惠卷(仅当优惠卷数量为一时)-->
+         <el-form-item :label="$t('button.isSpecial')" class="property" v-if="form.productType==2">
+            <el-switch v-model="form.is_special"></el-switch><span class="special-prompt">（{{$t('message.isSpecial')}}）</span>
+        </el-form-item>
+        <!-- 商品价格 -->
         <el-form-item :label="$t('table.Commodityprice')" class="property">
             <el-input-number v-model="form.currentPrice" controls-position="right" @change="handleChange" :min="0"></el-input-number>
         </el-form-item>
+        <!-- 商品原价 -->
         <el-form-item :label="$t('table.ProducOriginalPrice')" class="property">
             <el-input-number v-model="form.originalPrice" controls-position="right" @change="handleChange" :min="0"></el-input-number>
         </el-form-item>
+        <!-- 商品总量 -->
         <el-form-item :label="$t('table.ProductTotal')" class="property">
             <el-input-number v-model="form.total" controls-position="right" @change="handleChange" :min="0"></el-input-number>
         </el-form-item>
+        <!-- 商品余量 -->
         <el-form-item :label="$t('table.ProductBalance')" class="property">
             <el-input-number v-model="form.current" controls-position="right" @change="handleChange" :min="0"></el-input-number>
         </el-form-item>
+        <!-- 失效时间 -->
         <el-form-item :label="$t('table.Failuretime')">
             <el-date-picker v-model="form.endTime" type="datetime" :placeholder="$t('button.Selectdatetime')" value-format="yyyy-MM-dd HH:mm:ss" style="width:300px"></el-date-picker>
         </el-form-item>
+        <!-- 商品状态 -->
         <el-form-item :label="$t('table.ProductStatus')" class="property">
             <el-switch v-model="form.state"></el-switch>
         </el-form-item>
+        <!-- 商品图片 -->
         <el-form-item :label="$t('table.productPicture')" 
         :rules="[
             { required: true, message: '', trigger: 'blur' },
@@ -74,12 +84,15 @@
                 <i v-else class="el-icon-plus avatar-uploader-icon"  v-loading="iconUploading" element-loading-text="Loading"></i>
             </el-upload>
         </el-form-item>
+        <!-- 来源网站 -->
         <el-form-item :label="$t('table.SourceWebsite')">
             <el-input type="textarea" v-model="form.sourceWeb"></el-input>
         </el-form-item>
+        <!-- 商品简介-->
         <el-form-item :label="$t('table.ProductDescription')">
             <el-input type="textarea" v-model="form.shortIntro"></el-input>
         </el-form-item>
+        <!-- 商品详情 -->
          <el-form-item :label="$t('table.productDetails')" prop="fullIntro">
             <quill-editor v-model="form.fullIntro"
                         ref="myQuillEditor"
@@ -89,6 +102,7 @@
                         @ready="onEditorReady($event)">
             </quill-editor>
         </el-form-item>
+        <!-- 协议条款 -->
          <el-form-item :label="$t('table.TermsAgreement')" prop="termsConditions">
             <quill-editor v-model="form.termsConditions"
                         ref="myQuillEditor"
@@ -117,13 +131,13 @@ export default {
     data() {
       return {
         form: {
-            id:'',//商品ID
             name: '',//商品名称
             productType:null,//商品类型
             productCategory:null,//商品类别
             currentPrice:0,//商品价格
             originalPrice:0,//商品原始价格
             total:0,//商品数量
+            is_special:0,
             current:0,//商品剩余数量
             endTime:'',//失效时间
             state:0,//商品状态 1为有效，0为无效
@@ -176,14 +190,23 @@ export default {
       }
     },
     mounted(){
-        if(this.data.state==1){
-            this.data.state = true
-        }else{
-            this.data.state = false
+        if(this.data!=null){
+            if(this.data.state==1){
+                this.data.state = true
+            }else{
+                this.data.state = false
+            }
+            this.imageUrl = this.data.image
+            this.form = this.data
+            if(this.data.is_special){
+                if(this.data.is_special==1){
+                    this.form.is_special=true
+                }else{
+                    this.form.is_special=false
+                }
+            }
+            
         }
-        this.imageUrl = this.data.image
-        this.form = this.data
-        
     },
     methods: {
         close(){
@@ -215,16 +238,28 @@ export default {
             }else{
                 this.form.state = 0
             }
+            if(this.form.is_special){
+                this.form.is_special = 1
+            }else{
+                this.form.is_special = 0
+            }
             this.$http.post(
                 process.env.API_ROOT+'/cms/product/saveOrUpdate',
                 this.form,
                 {'headers':{'Content-Type':'application/json'}}
             ).then(function(response){
-                this.$message({
-                    message: this.$t('message.updateSucc'),
-                    type: 'success'
-                })
-                this.close()
+                if(response.data.code==0){
+                    this.$message({
+                        message: this.$t('message.updateSucc'),
+                        type: 'success'
+                    })
+                    this.close()
+                }else{
+                    this.$message({
+                        message: '更新失败！',
+                        type: 'danger'
+                    })
+                }
             })
         },
         handleChange(value) {
@@ -297,5 +332,9 @@ export default {
   }
   .el-form{
       margin-bottom: 100px;
+  }
+  .special-prompt{
+      color: #E6A23C;
+      padding-left: 10px;
   }
 </style>

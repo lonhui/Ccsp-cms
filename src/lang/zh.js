@@ -88,7 +88,7 @@ export default {
     productTypeCannotNull:'商品类型不能为空！',
     productCategoryCannotNull:'商品类别不能为空！',
     pulsa_codeCannotNull:'话费金额不能为空！',
-
+    isSpecial:'当且仅有一个兑换码时打开此按钮!',
   },
   button: {
     add: '新增',
@@ -137,7 +137,8 @@ export default {
     PleasedeviceID:'请输入激活设备ID',
     JDCommodity:'京东商品',
     Capingcommodity:'Caping商品',
-    Allgoods:'全部商品'
+    Allgoods:'全部商品',
+    isSpecial:'是否为特殊优惠券',
     
   },
   table: {

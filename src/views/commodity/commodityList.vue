@@ -175,6 +175,7 @@ export default {
                 currentPrice:item.currentPrice,//商品价格
                 originalPrice:item.originalPrice,//商品原始价格
                 total:item.total,//商品数量
+                is_special:item.is_special,
                 current:item.current,//商品剩余数量
                 endTime:item.endTime,//失效时间
                 state:item.state,//商品状态 1为有效，0为无效
@@ -191,23 +192,7 @@ export default {
         }
       },
       add(){
-         this.form={
-            id:'',//商品ID
-            name: '',//商品名称
-            productType:null,//商品类型
-            productCategory:null,//商品类别
-            currentPrice:0,//商品价格
-            originalPrice:0,//商品原始价格
-            total:0,//商品数量
-            current:0,//商品剩余数量
-            endTime:'',//失效时间
-            state:0,//商品状态 1为有效，0为无效
-            image:'',//商品图片
-            sourceWeb:'',//来源网站
-            shortIntro:'',//商品短介绍
-            fullIntro:'',//商品详细介绍
-            termsConditions:'',//协议条款
-        }
+          this.form=null
         this.addCommodityShow = 1
       },
       toggleSelection(rows) {

@@ -86,6 +86,7 @@ export default {
     productTypeCannotNull:'Product type cannot be empty!',
     productCategoryCannotNull:'Product category cannot be empty!',
     pulsa_codeCannotNull:'The amount of the call cannot be empty!',
+    isSpecial:'Open this button when there is only one redemption code!',
   },
   button: {
     add: 'add',
@@ -134,7 +135,8 @@ export default {
     PleasedeviceID:'Please enter the activation device ID',
     JDCommodity:'JD commodity',
     Capingcommodity:'Caping commodity',
-    Allgoods:'All goods'
+    Allgoods:'All goods',
+    isSpecial:'Is it a special coupon',
   },
   table: {
     id: 'No.',

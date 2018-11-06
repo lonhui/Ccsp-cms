@@ -87,6 +87,7 @@ export default {
     productTypeCannotNull:'Jenis produk tidak boleh kosong!',
     productCategoryCannotNull:'Kategori produk tidak boleh kosong!',
     pulsa_codeCannotNull:'Jumlah panggilan tidak boleh kosong!',
+    isSpecial:'Buka tombol ini ketika hanya ada satu kode penukaran!',
   },
   button: {
     add: 'menambahkan',
@@ -136,7 +137,8 @@ export default {
     PleasedeviceID:'Silakan masukkan ID perangkat aktivasi',
     JDCommodity:'JD Barang',
     Capingcommodity:'Caping Barang',
-    Allgoods:'Semua barang'
+    Allgoods:'Semua barang',
+    isSpecial:'Apakah ini kupon spesial',
     
 
   },
