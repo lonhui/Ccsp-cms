@@ -98,14 +98,6 @@ export default {
 </script>
 
 <style scoped>
-/* .box1{
-    position: fixed;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-} */
 .centont{
     width: 100%;
     height: 100%;
