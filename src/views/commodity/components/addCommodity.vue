@@ -1,4 +1,5 @@
 <template>
+    <!-- 添加caping商品 -->
     <el-form ref="form" :model="form" label-width="180px">
         <el-form-item :label="$t('table.productname')" class="property" prop="name"
         :rules="[

@@ -40,6 +40,7 @@
 
 <script>
 import redemptionDetails from './components/redemptionDetails'
+import {productExchange} from '@/api/commodity'
 
 export default {
     data(){
@@ -121,20 +122,20 @@ export default {
         },
         getDataList(){
             this.loading = true
-            const   data='?startTime='+this.startDate+'&endTime='+this.endDate+'&productId='+this.value+'&pageNum='+this.currentPage+'&pageSize='+10
-            this.$http({
-                method:'post',
-                url:process.env.API_ROOT+'/cms/product/order/count'+data,
-                headers:{
-                    'Content-Type':'application/json'
-                }
-            }).then(function(response){
+            let dataq = {
+                startTime:this.startDate,
+                endTime:this.endDate,
+                productId:this.value,
+                pageNum:this.currentPage,
+                pageSize:10
+            }
+            productExchange(dataq).then(response => {
                 const datas = response.data
-                this.DataList = datas.data.list
-                this.totalCount = datas.data.total
+                this.DataList = datas.list
+                this.totalCount = datas.total
                 this.loading = false
-            },function(error){
-                // console.log(error)
+            },error =>{
+
             })
         },
         // 获取下拉商品名称列表

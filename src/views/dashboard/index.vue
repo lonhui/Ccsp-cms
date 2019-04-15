@@ -8,9 +8,13 @@
         <el-radio-button label="incident" :class="{ active: active === 'incident' }" @click="show('incident')">{{$t('route.event')}}</el-radio-button>
       </el-radio-group>
       <div class="view">
+        <!-- 总览 -->
         <v-overview v-if="active==='overview'"></v-overview>
+        <!-- 日数据 -->
         <!-- <v-dailyData v-if="active==='dailyData'"></v-dailyData> -->
+        <!-- 排行榜 -->
         <v-leaderboard v-if="active==='leaderboard'"></v-leaderboard>
+        <!-- 事件 -->
         <v-incident v-if="active==='incident'"></v-incident>
       </div>
     </el-row>
@@ -19,7 +23,7 @@
 
 <script>
 import overview from './components/overview'
-import dailyData from './components/dailyData'
+// import dailyData from './components/dailyData'
 import leaderboard from './components/leaderboard'
 import incident from './components/incident'
 
@@ -27,7 +31,7 @@ export default {
   name: 'dashboard',
   components: {
     'v-overview': overview,
-    'v-dailyData': dailyData,
+    // 'v-dailyData': dailyData,
     'v-leaderboard': leaderboard,
     'v-incident': incident
   },
@@ -38,9 +42,6 @@ export default {
       // TODO: 默认只查7天内的数据
       days: 7
     }
-  },
-  computed: {
-
   },
   methods: {
     show(i) {
@@ -54,7 +55,6 @@ export default {
 .dashboard {
   &-container {
     margin: 30px;
-
     el-button .overview,el-button .leaderboard,el-button .dailyData,el-button .incident {
        color: #fff;
        background: #2896ff;

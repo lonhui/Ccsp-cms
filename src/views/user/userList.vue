@@ -26,6 +26,7 @@
                 </div>
             </div>
         </div>
+        <!-- 用户详情 -->
         <v-detail v-if="show" @on-close="closeDetailShow" v-bind:datas="datas"></v-detail>
     </div>
 </template>

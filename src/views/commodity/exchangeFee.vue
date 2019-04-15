@@ -40,6 +40,7 @@
 
 <script>
 import updata from './components/updata'
+import {callExchange} from '@/api/commodity'
 
 export default {
 	data() {
@@ -119,26 +120,22 @@ export default {
      
     getDataList() {
       this.loading = true
-      const data = {
-        pageNum:this.currentPage1,
-        pageSize:10,
-        startTime:this.startTime,
-        endTime:this.endTime
-      }
       var that = this;
-      that.$http({
-          method:'GET',
-          url:process.env.API_ROOT+'/cms/product/mobile/list'+'?startTime='+this.startTime+'&endTime='+this.endTime+'&pageSize='+10+'&pageNum='+this.currentPage1+'&productCategory='+this.value,
-      }).then(function(response){
-          const datas = response.data
-          if(datas.data!=null){
-            this.DataList = datas.data.list
-            this.totalCount = datas.data.total
-          }
+      let data = {
+        startTime:this.startTime,
+        endTime:this.endTime,
+        pageSize:10,
+        pageNum:this.currentPage1,
+        productCategory:this.value
+      }
+      callExchange(data).then(response => {
+        if(response){
+          this.DataList = response.data.list
+          this.totalCount = response.data.total
+        }
+         this.loading = false
+      },error => {
         this.loading = false
-      },function(error){
-        this.loading = false
-          // console.log(error)
       })
     },
     inquire() {

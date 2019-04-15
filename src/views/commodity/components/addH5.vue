@@ -1,4 +1,5 @@
 <template>
+    <!-- 添加京东商品 -->
     <el-form ref="form" :rules="rules" :model="form" label-width="180px">
         <el-form-item :label="$t('table.productname')" class="property" prop="name">
             <el-input v-model="form.name" style="width:500px"></el-input>

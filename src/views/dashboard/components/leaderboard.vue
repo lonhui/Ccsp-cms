@@ -11,8 +11,11 @@
             </el-select>
         </div>
         <div class="rank">
+            <!-- 日榜 -->
             <v-dayRank v-if="value1 === '1'" :value2="value2"></v-dayRank>
+            <!-- 周绑 -->
             <v-weekRank v-if="value1 === '2'" :value2="value2"></v-weekRank>
+            <!-- 月榜 -->
             <v-monthRank v-if="value1 === '3'" :value2="value2"></v-monthRank>
         </div>
     </div>

@@ -45,7 +45,9 @@
         </div>
     </div>
     <div class="components">
+        <!-- 添加caping商品 -->
         <v-addCommodity v-if="addCommodityShow==1" @on-close='closeAdd' :data='this.form'></v-addCommodity>
+        <!-- 添加京东商品 -->
         <v-addH5 v-if="addCommodityShow==2" @on-close="closeH5()" :data='this.form'></v-addH5> 
     </div>
 	</div>
@@ -55,6 +57,7 @@
 <script>
 import  addCommodity from './components/addCommodity'
 import  addH5 from './components/addH5'
+import {getcommodityList,dropoffAndShelf} from '@/api/commodity'
 
 export default {
     data() {
@@ -210,14 +213,18 @@ export default {
       getTableData3(){
         this.loading = true
         var that = this;
-        that.$http.get(process.env.API_ROOT+'/cms/product/list?pageNum='+this.currentPage1+'&pageSize=10'+'&isShow='+this.value
-        ).then(function(response){
-            const datas = response.data;
-            this.tableData3 = datas.data.data
-            this.totalCount = datas.data.total
+        let data = {
+          pageNum:this.currentPage1,
+          pageSize:10,
+          isShow:this.value
+        }
+        getcommodityList(data).then(response=>{
+            const datas = response.data
+            this.tableData3 = datas.data
+            this.totalCount = datas.total
             this.loading = false
-        },function(error){
-            this.loading = false
+        },(error)=>{
+          console.log(error)
         })
       },
       //下架
@@ -230,23 +237,22 @@ export default {
             })
          }else{
             for(let i=0;i<this.multipleSelection.length;i++){
-            id.push(this.multipleSelection[i].id)
+              id.push(this.multipleSelection[i].id)
             }
-            this.$http.post(
-                    process.env.API_ROOT+'/cms/product/saveOrUpdate',
-                    {
-                        ids:id,
-                        state:0
-                    },
-                    {'headers':{'Content-Type':'application/json'}}
-                ).then(function(response){
-                    this.$message({
-                        message: this.$t('message.updateSucc'),
-                        type: 'success'
-                    })
-                    this.getTableData3()
-                })
-            }    
+            let data = {
+              ids:id,
+              state:0
+            }
+            dropoffAndShelf(data).then(response=>{
+              this.$message({
+                  message: this.$t('message.updateSucc'),
+                  type: 'success'
+              })
+              this.getTableData3()
+            },(error)=>{
+
+            })
+          }    
       },
       //上架
       Shelf(){
@@ -260,20 +266,17 @@ export default {
             for(let i=0;i<this.multipleSelection.length;i++){
             id.push(this.multipleSelection[i].id)
             }
-            this.$http.post(
-                    process.env.API_ROOT+'/cms/product/saveOrUpdate',
-                    {
-                        ids:id,
-                        state:1
-                    },
-                    {'headers':{'Content-Type':'application/json'}}
-                ).then(function(response){
-                    this.$message({
-                        message: this.$t('message.updateSucc'),
-                        type: 'success'
-                    })
-                    this.getTableData3()
-                })
+            let data = {
+              ids:id,
+              state:1
+            }
+            dropoffAndShelf(data).then(response => {
+              this.$message({
+                  message: this.$t('message.updateSucc'),
+                  type: 'success'
+              })
+              this.getTableData3()
+            })
          }
       }
     },

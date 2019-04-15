@@ -1,4 +1,5 @@
 <template>
+<!-- 用户设备列表 -->
     <div class="userEList">
         <div class="input-button">
             <span class="activeTime">{{$t('table.startDate')}}</span>

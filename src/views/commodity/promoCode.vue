@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import {codeExchange,productNameList} from '@/api/commodity'
+
 export default {
     data(){
         return{
@@ -90,22 +92,17 @@ export default {
     methods:{
         getDataList() {
             this.loading = true
-            const data = {
+            let data = {
+                pageSize:5,
                 pageNum:this.currentPage1,
-                pageSize:10,
-                startTime:this.startTime,
-                endTime:this.endTime
+                productId:this.value3,
+                state:this.value1
             }
-            var that = this;
-            that.$http({
-                method:'GET',
-                url:process.env.API_ROOT+'/cms/product/code/list'+'?pageSize='+5+'&pageNum='+this.currentPage1+'&productId='+this.value3+'&state='+this.value1,
-            }).then(function(response){
-                const datas = response.data;
-                this.DataList = datas.data.list
-                this.totalCount = datas.data.total
+            codeExchange(data).then(response => {
+                this.DataList = response.data.list
+                this.totalCount = response.data.total
                 this.loading = false
-            },(error)=>{
+            },error => {
                 this.loading = false
             })
         },
@@ -114,6 +111,25 @@ export default {
             this.productname=[]
             this.options = []
             var that = this;
+
+            // productNameList().then(response => {
+            //     // console.log(response)
+            //     let list = response
+            //     for(let i = 0;i < list.length;i++){
+            //         const a = {
+            //             value : list[i].id,
+            //             label : list[i].name
+            //         }
+            //         this.options.push(a)
+
+            //         if(a.value != 1){
+            //             this.productname.push(a)
+            //         }
+            //     } 
+            // },error => {
+
+            // })
+
             that.$http.get(process.env.API_ROOT+'/cms/product/simple/list'
             ).then(function(response){
                 const datas = response.data

@@ -25,7 +25,6 @@
           <el-pagination :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
     </div>
-       
 </template>
 
 <script>
@@ -97,21 +96,22 @@ export default {
         pageSize:8,
         pageNum:this.currentPage,
       }
-      getOverView(params).then(response=>{
+      // 请求
+      getOverView(params).then(response => {
         const datas = response.data
         this.tableData = datas.data
         this.totalCount = datas.total
         this.loading = false
-      },(error)=>{
+      },(error) => {
         this.loading = false
       })
     },
     // 查询
     inquire(){
-        if(this.currentPage==1){
+        if(this.currentPage === 1){
             this.getlist()
         }else{
-            this.currentPage=1
+            this.currentPage = 1
         }
     },
     // 活动时间

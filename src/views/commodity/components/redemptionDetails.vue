@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import {productExchangeDetails} from '@/api/commodity'
+
 export default {
     props:['data'],
     data(){
@@ -34,24 +36,15 @@ export default {
             this.$emit('on-close')
         },
         getTableData(){
-            this.$http({
-                method:'post',
-                url:process.env.API_ROOT+'/cms/product/order/count/detail',
-                params:this.data,
-                headers:{
-                   'Content-Type':'application/x-www-form-urlencoded'
-                }
-            }).then(function(response){
-                console.log(response)
-                const datas = response.data
-                this.tableData =datas.data
+            productExchangeDetails(this.data).then(response => {
+                this.tableData = response.data
                 for(let i = 0;i<this.tableData.length;i++){
                     if(this.tableData[i].mobile == null||this.tableData[i].mobile ==''){
                         this.tableData[i].mobile = this.tableData[i].couponCode
                     }
                 }
-            },function(error){
-                
+            },error =>{
+
             })
         }
     }

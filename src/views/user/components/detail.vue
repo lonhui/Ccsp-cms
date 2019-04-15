@@ -1,4 +1,5 @@
 <template>
+<!-- 用户详情 -->
     <div class="detail">
         <div class="content">
             <div class="end">
