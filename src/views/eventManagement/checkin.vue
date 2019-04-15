@@ -25,7 +25,7 @@
             </el-table>
         </div>
          <div class="block">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+            <el-pagination :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
          <div class="line">
              <v-line :className='className' :autoResize='autoResize' :chartData='chartData'></v-line>
@@ -35,6 +35,8 @@
 
 <script>
 import lineChart from './components/LineChart_share'
+import {shareEventList} from '@/api/event'
+
 export default {
     data(){
         return{
@@ -114,13 +116,6 @@ export default {
         this.getTableData()
     },
     methods:{
-        // 分页
-        handleSizeChange(val) {
-            // console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            // console.log(`当前页: ${val}`);
-        },
         getEndTime() {
             const myday = new Date()
             const year = myday.getFullYear()
@@ -138,25 +133,21 @@ export default {
         },
         getTableData(){
             this.loading = true
-            const data = {
+            let data = {
                 pageNo:this.currentPage,
                 pageSize:8,
                 beginDate:this.startTime,
                 endDate:this.endTime
             }
-            var that = this;
-            that.$http.post(process.env.API_ROOT+'/cms/statistic/sign',data
-            ).then(function(response){
-                const datas = response.data;
-                if(datas.data!=null){
-                    this.tableData = datas.data.list
-                    this.totalCount = datas.data.totalCount
+            shareEventList(data).then(response => {
+                if(response.data){
+                    this.tableData = response.data.list
+                    this.totalCount = response.data.totalCount
                     this.getLineData()
                 }
                 this.loading = false
-            },function(error){
+            },error => {
                 this.loading = false
-                // console.log(error)
             })
         },
         //获取折线图数据

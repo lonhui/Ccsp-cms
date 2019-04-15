@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import {inviteesDetailsList} from '@/api/event'
+
 export default {
     props:['data'],
     data() {
@@ -33,21 +35,32 @@ export default {
             this.$emit('on-close')
         },
         getInvited(){
-            this.$http({
-                method:'post',
-                url:process.env.API_ROOT+'/cms/statistic/invite/track/info',
-                params:{
-                    uid:this.data.uid,
-                    beginDate:this.data.beginDate,
-                    endDate:this.data.endDate
-                }
-            }).then(function(response){
-                const datas = response.data
-                this.invited = datas.data.list
-            },function(error){
-                this.loading = false
-                // console.log(error)
+            let data = {
+                uid:this.data.uid,
+                beginDate:this.data.beginDate,
+                endDate:this.data.endDate
+            }
+            inviteesDetailsList(data).then(response => {
+                this.invited = response.data.list
+            },error => {
+                
             })
+
+            // this.$http({
+            //     method:'post',
+            //     url:process.env.API_ROOT+'/cms/statistic/invite/track/info',
+            //     params:{
+            //         uid:this.data.uid,
+            //         beginDate:this.data.beginDate,
+            //         endDate:this.data.endDate
+            //     }
+            // }).then(function(response){
+            //     const datas = response.data
+            //     this.invited = datas.data.list
+            // },function(error){
+            //     this.loading = false
+            //     // console.log(error)
+            // })
         }
     }
     

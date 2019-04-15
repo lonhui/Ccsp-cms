@@ -1,4 +1,5 @@
 <template>
+<!-- 邀请事件 -->
     <div class="invite">
         <div class="search">
             <span class="demonstration">{{$t('table.startDate')}}:</span>
@@ -6,7 +7,7 @@
                 <span class="demonstration">{{$t('table.endDate')}}:</span>
                 <el-date-picker v-model="endDate" align="right" type="date" value-format="yyyy-MM-dd"></el-date-picker>
                 <el-button icon="el-icon-search" @click="inquire" circle></el-button>
-             <!-- 需要修改 -->
+            <!-- 需要修改 -->
             <!-- <div class="type">
                 <span class="demonstration">邀请类型</span>
                 <el-select v-model="value" placeholder="请选择">
@@ -27,12 +28,14 @@
             </el-table>
         </div>
          <div class="block">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+            <el-pagination :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
     </div>
 </template>
 
 <script>
+import {inviteEventList} from '@/api/event'
+
 export default {
     data(){
         return{
@@ -62,48 +65,37 @@ export default {
         this.getTableData()
     },
     methods:{
-        // 分页
-        handleSizeChange(val) {
-            // console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            // console.log(`当前页: ${val}`);
-        },
         getEndTime() {
-            const myday = new Date()
-            const year = myday.getFullYear()
-            const month = (myday.getMonth()+1)<10 ? '0'+(myday.getMonth()+1) : (myday.getMonth()+1)
-            const day = myday.getDate()<10 ? '0'+myday.getDate() : myday.getDate()
+            let myday = new Date()
+            let year = myday.getFullYear()
+            let month = (myday.getMonth()+1)<10 ? '0'+(myday.getMonth()+1) : (myday.getMonth()+1)
+            let day = myday.getDate()<10 ? '0'+myday.getDate() : myday.getDate()
             return year + "-" + month + "-" + day
         },
         getStartTime() {
-            const d = new Date()
-            const weekdate = new Date(d-7*24*3600*1000) 
-            const year = weekdate.getFullYear()
-            const month = (weekdate.getMonth()+1)<10 ? '0'+(weekdate.getMonth()+1) : (weekdate.getMonth()+1)
-            const day = weekdate.getDate()<10 ? '0'+weekdate.getDate() : weekdate.getDate()
+            let d = new Date()
+            let weekdate = new Date(d-7*24*3600*1000) 
+            let year = weekdate.getFullYear()
+            let month = (weekdate.getMonth()+1)<10 ? '0'+(weekdate.getMonth()+1) : (weekdate.getMonth()+1)
+            let day = weekdate.getDate()<10 ? '0'+weekdate.getDate() : weekdate.getDate()
             return year + "-" + month + "-" + day
         },
         getTableData(){
             this.loading = true
-               const data = {
-                    pageNo:this.currentPage,
-                    pageSize:8,
-                    beginDate:this.startDate,
-                    endDate:this.endDate,
+            let data = {
+                pageNo:this.currentPage,
+                pageSize:8,
+                beginDate:this.startDate,
+                endDate:this.endDate,
             }
-            var that = this;
-            that.$http.post(process.env.API_ROOT+'/cms/statistic/invite',data
-            ).then(function(response){
-                const datas = response.data;
-                if(datas.data!=null){
-                    this.tableData = datas.data.list
-                    this.totalCount = datas.data.totalCount
+            inviteEventList(data).then(response => {
+                if(response.data){
+                    this.tableData = response.data.list
+                    this.totalCount = response.data.totalCount
                 }
                 this.loading = false
-            },function(error){
+            },error => {
                 this.loading = false
-                // console.log(error)
             })
         },
         //序号

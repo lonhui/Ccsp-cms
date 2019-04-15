@@ -1,4 +1,5 @@
 <template>
+<!-- 开宝箱事件 -->
     <div class="kaibao">
          <div class="search">
             <span class="demonstration">{{$t('table.startDate')}}:</span>
@@ -24,7 +25,7 @@
             </el-table>
         </div>
          <div class="block">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+            <el-pagination :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
          <div class="line">
             <v-line :className='className' :autoResize='autoResize' :chartData='chartData'></v-line>
@@ -34,6 +35,8 @@
 
 <script>
 import lineChart from './components/LineChart_kaibao'
+import {readeventList,readTypeList} from '@/api/event'
+
 export default {
     data() {
         return{
@@ -101,13 +104,6 @@ export default {
         this.getOptions()
     },
     methods:{
-        // 分页
-        handleSizeChange(val) {
-            // console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            // console.log(`当前页: ${val}`);
-        },
         getEndTime() {
             const myday = new Date()
             const year = myday.getFullYear()
@@ -125,53 +121,46 @@ export default {
         },
         getTableData(){
             this.loading = true
-            const data = {
+            let data = {
                 pageNo:this.currentPage,
                 pageSize:8,
                 beginDate:this.startDate,
                 endDate:this.endDate,
                 key_id:this.value
             }
-            var that = this;
-            that.$http.post(process.env.API_ROOT+'/cms/statistic/browse',data
-            ).then(function(response){
-                const datas = response.data;
-                if(datas.data!=null){
-                    this.tableData = datas.data.list
-                    this.totalCount = datas.data.totalCount
+            readeventList(data).then(response => {
+                if(response){
+                    this.tableData = response.data.list
+                    this.totalCount = response.data.totalCount
                     this.getLineData()
                 }
                 this.loading = false
-            },function(error){
+            },error => {
                 this.loading = false
-                // console.log(error)
             })
         },
          getOptions(){
             this.options = []
-            this.$http({
-                method: 'GET',
-                url: process.env.API_ROOT+'/cms/statistic/type'+'?type='+this.type
-            }).then(function(response) {
-                const datas = response.data
-               
-                for(let i = 0;i < datas.data.length;i++){
+            let data = {
+                type:this.type
+            }
+            readTypeList(data).then(response => {
+                for(let i = 0;i < response.data.length;i++){
                      const d = {
                         value: null,
                         label: null
                     }
                     if(this.$i18n.locale=='id'){
-                        d.value = datas.data[i].id
-                        d.label = datas.data[i].title
+                        d.value = response.data[i].id
+                        d.label = response.data[i].title
                     }else{
-                        d.value = datas.data[i].id
-                        d.label = datas.data[i].intro
+                        d.value = response.data[i].id
+                        d.label = response.data[i].intro
                     }
-                   
                     this.options.push(d)
                 }
-            }, function(error) {
-                // console.log(error)
+            },error => {
+
             })
         },
          getLineData(){

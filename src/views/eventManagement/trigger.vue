@@ -1,3 +1,4 @@
+
 <template>
     <div class="invite">
         <div class="search">
@@ -26,12 +27,14 @@
             </el-table>
         </div>
          <div class="block">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+            <el-pagination :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
     </div>
 </template>
 
 <script>
+import {readeventList} from '@/api/event'
+
 export default {
     data(){
         return{
@@ -61,13 +64,6 @@ export default {
         this.getTableData()
     },
     methods:{
-        // 分页
-        handleSizeChange(val) {
-            // console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            // console.log(`当前页: ${val}`);
-        },
         getEndTime() {
             const myday = new Date()
             const year = myday.getFullYear()
@@ -92,18 +88,14 @@ export default {
                     endDate:this.endDate,
                     key_id:10
             }
-            var that = this;
-            that.$http.post(process.env.API_ROOT+'/cms/statistic/browse',data
-            ).then(function(response){
-                const datas = response.data;
-                if(datas.data!=null){
-                    this.tableData = datas.data.list
-                    this.totalCount = datas.data.totalCount
+            readeventList(data).then(response => {
+                if(response.data){
+                    this.tableData = response.data.list
+                    this.totalCount = response.data.totalCount
                 }
                 this.loading = false
-            },function(error){
+            },error => {
                 this.loading = false
-                // console.log(error)
             })
         },
         //序号
@@ -112,10 +104,10 @@ export default {
         },
         //查询
         inquire(){
-            if(this.currentPage==1){
+            if(this.currentPage === 1){
                 this.getTableData()
             }else{
-                this.currentPage=1
+                this.currentPage = 1
             }
         }
     },
@@ -152,4 +144,3 @@ export default {
     float: right;
 }
 </style>
-

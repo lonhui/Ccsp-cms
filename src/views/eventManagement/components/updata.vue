@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import {updataEventconfig} from '@/api/event'
+
 export default {
     props:['data'],
     data(){
@@ -53,15 +55,12 @@ export default {
             this.$emit('on-close')
         },
         updata(){
-            this.$http({
-                method:'GET',
-                url:process.env.API_ROOT+'/cms/set/event/update',
-                params:{
-                    id:this.data.id,
-                    status:this.data.status
-                }
-            }).then(function(response){
-                const datas = response.data
+            let data = {
+                id:this.data.id,
+                status:this.data.status
+            }
+            updataEventconfig(data).then(response => {
+                 const datas = response.data
                  if(datas.message==="OK"){
                     this.$message({
                         message: this.$t('message.updateSucc'),
@@ -74,8 +73,11 @@ export default {
                         type: 'error'
                     })
                 }
-            },function(error){
-                // console.log(error)
+            },error => {
+                this.$message({
+                    message: this.$t('message.fail'),
+                    type: 'error'
+                })
             })
         }
     }

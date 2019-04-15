@@ -20,6 +20,8 @@
 
 <script>
 import invited from './invited'
+import {inviteesList} from '@/api/event'
+
 export default {
     props:['data'],
     data(){
@@ -67,13 +69,10 @@ export default {
                 beginDate:this.data.beginDate,
                 endDate:this.data.endDate
             }
-            this.$http.post(process.env.API_ROOT+'/cms/statistic/invite/info',data
-            ).then(function(response){
-                const datas = response.data
-                this.invitedList = datas.data
-            },function(error){
-                this.loading = false
-                // console.log(error)
+            inviteesList(data).then(response =>{
+                    this.invitedList = response.data
+            },error => {
+                
             })
         }
     }

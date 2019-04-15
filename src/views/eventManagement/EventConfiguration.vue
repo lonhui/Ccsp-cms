@@ -25,7 +25,7 @@
                 </el-table>
             </div>
              <div class="block">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage1" :page-size="6" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+                <el-pagination :current-page.sync="currentPage1" :page-size="6" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
             </div>
             <div>
                 <v-updata v-if="updataShow" @on-close="closeUpdataShow" :data='data'></v-updata>
@@ -36,6 +36,7 @@
 
 <script>
 import updata from './components/updata'
+import {eventConfigList} from '@/api/event'
 
 export default {
     data() {
@@ -67,23 +68,16 @@ export default {
             this.updataShow = false
             this.getData()
         },
-        // 分页
-        handleSizeChange(val) {
-        // console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-        // console.log(`当前页: ${val}`);
-        },
         getData(){
-            this.$http({
-                method:'GET',
-                url:process.env.API_ROOT+'/cms/set/event/list'+'?pageSize='+6+'&pageNum='+this.currentPage1
-            }).then(function(response){
-                const datas = response.data
-                this.tableData = datas.data.data
-                this.totalCount = datas.data.total
-            },function(error){
-                // console.log(error)
+            let data = {
+                pageSize:6,
+                pageNum:this.currentPage1
+            }
+            eventConfigList(data).then(response => {
+                this.tableData = response.data.data
+                this.totalCount = response.data.total
+            },error => {
+
             })
         }
     },

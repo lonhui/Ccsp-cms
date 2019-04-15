@@ -40,14 +40,11 @@
                 </table>
             </div>
         </div>
-        <div>
-            <v-add v-if="addShow" @on-close="closeAddShow"></v-add>
-        </div>
     </div>
 </template>
 
 <script>
-import add from './components/add'
+import {geteventList} from '@/api/event'
 
 export default {
     data() {
@@ -84,13 +81,9 @@ export default {
         startTime:'',
         endTime:'',
         loading:false,
-        addShow:false,
         multipleSelection:[],
         visible2: false,
       }
-    },
-    components: {
-        'v-add':add
     },
     mounted(){
         this.endTime = this.getEndTime()
@@ -98,29 +91,22 @@ export default {
         this.getEventList()
     },
     methods: {
-        openAddShow(){
-            this.addShow = true
-        },
-        closeAddShow(){
-            this.addShow = false
-        },
         handleSelectionChange(val) {
                 this.multipleSelection = val;
         },
         getEventList(){
             this.openFullScreen()
-            var that = this;
-            that.$http({
-                method:'GET',
-                url:process.env.API_ROOT+'/cms/statistic/event'+'?startTime='+this.startTime+'&endTime='+this.endTime
-            }).then(function(response){
+            let data = {
+                startTime:this.startTime,
+                endTime:this.endTime
+            }
+            geteventList(data).then(response => {
                 const datas = response.data
-                this.tableData3 = datas.data.data
-                this.totalCount = datas.data.totalCount
+                this.tableData3 = datas.data
+                this.totalCount = datas.totalCount
                 this.closeFullScreen()
-            },function(error){
+            },error => {
                 this.closeFullScreen()
-                // console.log(error)
             })
         },
         openFullScreen() {

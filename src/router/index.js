@@ -169,12 +169,6 @@ export const constantRouterMap = [
         meta:{title:'readingeventpreview'}
       },
       {
-        path:'special',
-        component:()=>import('@/views/eventManagement/special'),
-        name:'special',
-        meta:{title:'specialcontentmanagement'}
-      },
-      {
         path:'kaiBao',
         component:()=>import('@/views/eventManagement/kaiBao'),
         name: 'kaiBao',
@@ -200,7 +194,7 @@ export const constantRouterMap = [
       },
       {
         path: 'share',
-        component:()=>import('@/views/eventManagement/share'),
+        component:()=>import('@/views/eventManagement/checkin'),
         name: 'share',
         meta:{title: 'signin'}
       } 
