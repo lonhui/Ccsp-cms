@@ -7,6 +7,7 @@
                 <el-button type="success" plain @click="Shelf">{{$t('button.Shelf')}}</el-button>
                 <el-button icon="el-icon-circle-plus-outline" type="primary" plain @click="add">{{$t('button.Capingcommodity')}}</el-button>
                 <el-button icon="el-icon-circle-plus-outline" type="primary" plain @click="addH5">{{$t('button.JDCommodity')}}</el-button>
+                <el-button type="primary" icon="el-icon-download" @click="$exportExcel('table_v','Product List')">{{$t('button.exportExcel')}}</el-button>
                 <div class="select">
                     <el-select v-model="value" placeholder="请选择">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
@@ -14,7 +15,7 @@
                 </div>
 			</div>
 			<div class="list">
-                <el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" v-loading="loading">
+                <el-table id="table_v" ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" v-loading="loading">
                     <el-table-column align="center" type="selection" width="55"></el-table-column>
                     <el-table-column align="center" prop="id" width="100px" :label="$t('table.ProductNumber')"></el-table-column>
                     <el-table-column align="center" prop="image" :label="$t('table.image')"  width="100">

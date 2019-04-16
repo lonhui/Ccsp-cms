@@ -1,14 +1,27 @@
 <template>
     <div id="overview">
         <div class="search">
-          <span class="demonstration">{{$t('table.startDate')}}</span>
-          <el-date-picker v-model="startTime" align="right" type="date" value-format="yyyy-MM-dd"  :picker-options="pickerOptions1"></el-date-picker>
-          <span class="demonstration">{{$t('table.endDate')}}</span>
-          <el-date-picker v-model="endTime" align="right" type="date" value-format="yyyy-MM-dd"  :picker-options="pickerOptions1"></el-date-picker>
-          <el-button icon="el-icon-search" @click="inquire" circle></el-button>
+          <el-date-picker
+            v-model="value"
+            value-format="yyyy-MM-dd"
+            type="daterange"
+            align="right"
+            @change="test(value)"
+            unlink-panels
+            range-separator="-"
+            :start-placeholder="this.$t('table.startDate')"
+            :end-placeholder="this.$t('table.endDate')"
+            :picker-options="pickerOptions">
+        </el-date-picker>
+
+        <el-button type="primary" 
+            icon="el-icon-download" 
+            @click="$exportExcel('table_v','Overview')">
+              {{$t('button.exportExcel')}}
+          </el-button>
         </div>
         <div class="tab1">
-          <el-table :data="tableData" border v-loading="loading">
+          <el-table id="table_v" :data="tableData" border v-loading="loading">
              <el-table-column align="center" prop="allUser" :label="$t('route.totalusers')"></el-table-column>
             <el-table-column align="center" prop="coin" :label="$t('table.Generatepoints')"></el-table-column>
             <el-table-column align="center" prop="coinPersonCount" :label="$t('table.Totapointearned')"></el-table-column>
@@ -34,31 +47,12 @@ import {getOverView} from '@/api/dashboard'
 export default {
   data() {
     return {
-      pickerOptions1: {
+      pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now();
-        },
-        shortcuts: [{
-          text:this.$t('message.today'),
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: this.$t('message.yesterday'),
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: this.$t('message.aweekago'),
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }]
+        }
       },
+      value:['',''],
       // 加载参数
       loading:false,
       //表格数据
@@ -84,9 +78,19 @@ export default {
   mounted() {
     this.startTime = this.getStartTime()
     this.endTime = this.getEndTime()
+    this.value = [this.startTime,this.endTime]
     this.getlist()
   },
   methods: {
+    test(value){
+      this.endTime = value[1]
+      this.startTime = value[0]
+      if(this.currentPage === 1){
+          this.getlist()
+      }else{
+          this.currentPage = 1
+      }
+    },
     // 获取表格数据
     getlist() {
       this.loading = true
@@ -105,14 +109,6 @@ export default {
       },(error) => {
         this.loading = false
       })
-    },
-    // 查询
-    inquire(){
-        if(this.currentPage === 1){
-            this.getlist()
-        }else{
-            this.currentPage = 1
-        }
     },
     // 活动时间
     getEndTime() {

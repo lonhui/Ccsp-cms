@@ -137,6 +137,7 @@ export default {
     Capingcommodity:'Caping commodity',
     Allgoods:'All goods',
     isSpecial:'Is it a special coupon',
+    exportExcel:'Export Excel'
   },
   table: {
     id: 'No.',

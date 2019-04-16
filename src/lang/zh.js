@@ -139,6 +139,7 @@ export default {
     Capingcommodity:'Caping商品',
     Allgoods:'全部商品',
     isSpecial:'是否为特殊优惠券',
+    exportExcel:'导出Excel'
     
   },
   table: {

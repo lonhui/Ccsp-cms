@@ -2,6 +2,7 @@
 <!-- 事件列表 -->
     <div class="eventList">
         <div>
+            <el-button type="primary" icon="el-icon-download" @click="$exportExcel('table_v','Event List')">{{$t('button.exportExcel')}}</el-button>
              <span class="demonstration">{{$t('table.startDate')}}</span>
                 <el-date-picker v-model="startTime" align="right" type="date" value-format="yyyy-MM-dd" :picker-options="pickerOptions1"></el-date-picker>
              <span class="demonstration">{{$t('table.endDate')}}</span>
@@ -10,35 +11,13 @@
         </div>
       
         <div class="biaoge">
-             <el-table :data="tableData3"  ref="multipleTable" border style="width: 100%" v-loading="loading" >
+             <el-table id="table_v" :data="tableData3"  ref="multipleTable" border style="width: 100%" v-loading="loading" >
                 <el-table-column prop="intro" :label="$t('table.Eventname')" width="200"></el-table-column>
                 <el-table-column prop="title" :label="$t('table.title')" width="200"></el-table-column>
                 <el-table-column prop="totalCoin" :label="$t('button.integral')" width='150px'></el-table-column>
                 <el-table-column prop="totalCount" :label="$t('table.Totalnumberofparticipants')" ></el-table-column>
                 <el-table-column prop="totalPer" :label="$t('table.Totalnumberofparticipation')" ></el-table-column>
             </el-table>
-        </div>
-         
-        <div class="box" v-if="updateShow">
-            <div class="centont">
-                <table class="table1">
-                    <tr>
-                        <td><span class="demonstration">{{$t('table.Eventname')}}:</span></td>
-                        <td><el-input :placeholder="$t('button.pleaseentercontent')" style="width:80%"  v-model="form.intro"></el-input></td>
-                    </tr>
-                    <tr>
-                        <td><span class="demonstration">{{$t('button.integral')}}:</span></td>
-                        <td><el-input v-model="form.coin" :placeholder="$t('button.pleaseentercontent')" type="number" :disabled="true" style="width:80%"></el-input></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <el-button type="primary" @click="closeUpdateShow">{{$t('button.cancel')}}</el-button>
-                            <el-button type="primary">{{$t('button.submit')}}</el-button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
         </div>
     </div>
 </template>
@@ -76,7 +55,6 @@ export default {
         },
         tableData3: [],
         multipleSelection: [],
-        updateShow:false,
         form:{},
         startTime:'',
         endTime:'',
@@ -130,19 +108,6 @@ export default {
             const month = (weekdate.getMonth()+1)<10 ? '0'+(weekdate.getMonth()+1) : (weekdate.getMonth()+1)
             const day = weekdate.getDate()<10 ? '0'+weekdate.getDate() : weekdate.getDate()
             return year + "-" + month + "-" + day
-        },
-        openUpdateShow(index,row){
-            this.idx = index;
-            const item = this.tableData3[index]
-            this.form = {
-                intro:item.intro,
-                coin:item.coin,
-                timestamp:item.timestamp
-            }
-            this.updateShow = true
-        },
-        closeUpdateShow(){
-            this.updateShow = false
         },
         //查询
         inquire(){

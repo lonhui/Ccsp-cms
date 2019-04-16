@@ -21,18 +21,15 @@ import '@/icons' // icon
 import '@/errorLog'// error log
 import '@/permission' // permission control
 // import '@/mock' // simulation data
-import echarts from "echarts"
 
 import VueQuillEditor from 'vue-quill-editor'
+Vue.use(VueQuillEditor)
 
 import VueResource from 'vue-resource'
+Vue.use(VueResource)
 
 import global from '../src/components/global'
-import Axios from '../node_modules/axios';
-
 Vue.prototype.GLOBAL = global
-
-Vue.use(VueResource)
 
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
@@ -40,7 +37,8 @@ Vue.use(ElementUI, {
 
 Vue.config.productionTip = false
 
-Vue.use(VueQuillEditor)
+import {exportExcel} from '@/utils/exportExcel';
+Vue.prototype.$exportExcel=exportExcel; 
 
 new Vue({
   el: '#app',

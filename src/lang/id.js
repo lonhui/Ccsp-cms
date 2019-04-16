@@ -139,7 +139,7 @@ export default {
     Capingcommodity:'Caping Barang',
     Allgoods:'Semua barang',
     isSpecial:'Apakah ini kupon spesial',
-    
+    exportExcel:'Ekspor Excel'
 
   },
   table: {

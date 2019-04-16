@@ -1,10 +1,11 @@
 <template>
     <div class="config">
         <div class="button1">
-            <el-button type="primary" @click="add()">{{$t('button.Added')}}</el-button>
+            <el-button type="primary" icon="el-icon-circle-plus-outline" @click="add()">{{$t('button.Added')}}</el-button>
+            <el-button type="primary" icon="el-icon-download" @click="$exportExcel('table','config list')">{{$t('button.exportExcel')}}</el-button>
         </div>
         <div class="tabl">
-            <el-table :data="DataList" border style="width: 100%" v-loading="loading">
+            <el-table id="table" :data="DataList" border style="width: 100%" v-loading="loading">
                 <el-table-column prop="id" width="100px" label="ID"></el-table-column>
                 <el-table-column prop="key" label="Key" width="180"></el-table-column>
                 <el-table-column prop="value" label="Value" ></el-table-column>
