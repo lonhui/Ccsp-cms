@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import {addAdmin} from '@/api/event'
+
 export default {
     data() {
         return{
@@ -77,6 +79,23 @@ export default {
                     break
                 }
             }
+            // addAdmin(this.addData).then(response => {
+            //     if(response.message==="OK"){
+            //         this.$message({
+            //             message: this.$t('message.updateSucc'),
+            //             type: 'success'
+            //         })
+            //         this.$emit('on-close')
+            //     }else{
+            //        this.$message({
+            //             message: this.$t('message.fail'),
+            //             type: 'error'
+            //         })
+            //     }
+            // },error => {
+
+            // })
+
             this.$http.post(process.env.API_ROOT+'/cms/sys/user/add', this.addData,{'headers':{
                 'Content-Type':'application/json',
                 'X-abn-session-token':this.GLOBAL.token
@@ -91,9 +110,9 @@ export default {
                     this.$emit('on-close')
                 }else{
                    this.$message({
-                    message: this.$t('message.fail'),
-                    type: 'error'
-                })
+                        message: this.$t('message.fail'),
+                        type: 'error'
+                    })
                 }
             })
         },

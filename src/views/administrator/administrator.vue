@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import  add from './components/add'
-import  updata from './components/updata'
+import add from './components/add'
+import updata from './components/updata'
 import { getToken } from '@/utils/auth'
 import {getAdminList} from '@/api/admin'
 
@@ -93,10 +93,9 @@ export default {
                 pageSize:8,
             }
             getAdminList(data).then(response=>{
-                const datas = response
-                if(datas.data!=null){
-                    this.tableData = datas.data.list
-                    this.totalCount = datas.data.totalCount
+                if(response.data){
+                    this.tableData = response.data.list
+                    this.totalCount = response.data.totalCount
                 }
                 this.loading = false
             },(error)=>{

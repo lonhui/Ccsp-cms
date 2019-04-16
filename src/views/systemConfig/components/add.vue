@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import {addConfig} from '@/api/config'
+
 export default {
     data() {
         return{
@@ -77,24 +79,24 @@ export default {
             this.$emit('on-close')
         },
         add(){
-            var that = this;
-            that.$http.post(process.env.API_ROOT+'/cms/set/config/save', this.addData
-            ).then(function(response){
-                const datas = response.data;
-                if(datas.message==="OK"){
-                   this.$message({
-                    message: this.$t('message.updateSucc'),
-                    type: 'success'
-                })
-                    this.$emit('on-close')
-                }else{
+            addConfig(this.addData).then(response => {
+                if(response.message==="OK"){
                     this.$message({
+                        message: this.$t('message.updateSucc'),
+                        type: 'success'
+                    })
+                        this.$emit('on-close')
+                    }else{
+                        this.$message({
+                        message: this.$t('message.fail'),
+                        type: 'error'
+                    })
+                }
+            },error => {
+                this.$message({
                     message: this.$t('message.fail'),
                     type: 'error'
                 })
-                }
-            },function(error){
-                // console.log(error)
             })
         }
     }

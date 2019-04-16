@@ -7,7 +7,7 @@ export function getAdminList(data) {
       data
     })
 }
-
+// 暂未抽离
 export function getRoleList(params) {
     return request({
       url: process.env.API_ROOT+'/cms/sys/role/list',
@@ -22,4 +22,16 @@ export function getMenuList(params) {
       method: 'get',
       params
     })
+}
+//暂未抽离
+export function addAdmin(data) {
+  return request({
+    url: process.env.API_ROOT+'/cms/sys/user/add',
+    method: 'post',
+    headers:{
+      'Content-Type':'application/json',
+      'X-abn-session-token':this.GLOBAL.token
+    },
+    data
+  })
 }

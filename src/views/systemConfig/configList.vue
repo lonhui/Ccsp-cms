@@ -68,7 +68,7 @@
 
 <script>
 import add from './components/add'
-import {getConfigList} from '@/api/config'
+import {getConfigList,updateConfig} from '@/api/config'
 
 export default {
     data() {
@@ -166,11 +166,8 @@ export default {
            this.getDataList()
       },
       tijiao(){
-        var that = this;
-        that.$http.post(process.env.API_ROOT+'/cms/set/config/update', this.form
-        ).then(function(response){
-            const datas = response.data;
-            if(datas.message==="OK"){
+          updateConfig(this.form).then(response => {
+            if(response.message==="OK"){
                  this.$message({
                     message: this.$t('message.updateSucc'),
                     type: 'success'
@@ -183,9 +180,12 @@ export default {
                     type: 'error'
                 })
             }
-        },function(error){
-            // console.log(error)
-        })
+          },error => {
+                this.$message({
+                    message: this.$t('message.fail'),
+                    type: 'error'
+                })
+          })
       }
     },
     watch: {
