@@ -2,12 +2,23 @@
 <!-- 事件列表 -->
     <div class="eventList">
         <div>
-            <el-button type="primary" icon="el-icon-download" @click="$exportExcel('table_v','Event List')">{{$t('button.exportExcel')}}</el-button>
-             <span class="demonstration">{{$t('table.startDate')}}</span>
-                <el-date-picker v-model="startTime" align="right" type="date" value-format="yyyy-MM-dd" :picker-options="pickerOptions1"></el-date-picker>
-             <span class="demonstration">{{$t('table.endDate')}}</span>
-                <el-date-picker v-model="endTime" align="right" type="date" value-format="yyyy-MM-dd" :picker-options="pickerOptions1"></el-date-picker>
-                <el-button icon="el-icon-search" @click="inquire" circle></el-button>
+            <el-date-picker
+                v-model="timeInterval"
+                value-format="yyyy-MM-dd"
+                type="daterange"
+                align="right"
+                @change="search(timeInterval)"
+                unlink-panels
+                range-separator="-"
+                :start-placeholder="this.$t('table.startDate')"
+                :end-placeholder="this.$t('table.endDate')"
+                :picker-options="pickerOptions">
+            </el-date-picker>
+            <el-button type="primary" 
+                icon="el-icon-download" 
+                @click="$exportExcel('table_v','Event List')">
+                    {{$t('button.exportExcel')}}
+            </el-button>
         </div>
       
         <div class="biaoge">
@@ -28,31 +39,12 @@ import {geteventList} from '@/api/event'
 export default {
     data() {
       return {
-          pickerOptions1: {
+        pickerOptions: {
           disabledDate(time) {
             return time.getTime() > Date.now();
-          },
-          shortcuts: [{
-            text: this.$t('message.today'),
-            onClick(picker) {
-              picker.$emit('pick', new Date());
-            }
-          }, {
-            text: this.$t('message.yesterday'),
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', date);
-            }
-          }, {
-            text: this.$t('message.aweekago'),
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
-            }
-          }]
+          }
         },
+        timeInterval:['',''],
         tableData3: [],
         multipleSelection: [],
         form:{},
@@ -66,14 +58,20 @@ export default {
     mounted(){
         this.endTime = this.getEndTime()
         this.startTime = this.getStartTime()
+        this.timeInterval=[this.startTime,this.endTime]
         this.getEventList()
     },
     methods: {
+        search(timeInterval){
+            this.endTime = timeInterval[1]
+            this.startTime = timeInterval[0]
+            this.getEventList()
+        },
         handleSelectionChange(val) {
                 this.multipleSelection = val;
         },
         getEventList(){
-            this.openFullScreen()
+            this.loading = true
             let data = {
                 startTime:this.startTime,
                 endTime:this.endTime
@@ -81,18 +79,10 @@ export default {
             geteventList(data).then(response => {
                 const datas = response.data
                 this.tableData3 = datas.data
-                this.totalCount = datas.totalCount
-                this.closeFullScreen()
+                this.loading = false
             },error => {
-                this.closeFullScreen()
+                this.loading = false
             })
-        },
-        openFullScreen() {
-            this.loading = true;
-        },
-        closeFullScreen(){
-            this.loading = false
-            this.loading = false;
         },
         getEndTime() {
             const myday = new Date()
@@ -108,14 +98,6 @@ export default {
             const month = (weekdate.getMonth()+1)<10 ? '0'+(weekdate.getMonth()+1) : (weekdate.getMonth()+1)
             const day = weekdate.getDate()<10 ? '0'+weekdate.getDate() : weekdate.getDate()
             return year + "-" + month + "-" + day
-        },
-        //查询
-        inquire(){
-            if(this.currentPage==1){
-                this.getEventList()
-            }else{
-                this.currentPage=1
-            }
         }
     }
 }

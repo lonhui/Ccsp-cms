@@ -3,17 +3,22 @@
     <div id="commodityExchange">
         <div v-if="!redemptionDetailsShow">
             <div class="search">
-                <div class="startDate">
-                    <span class="demonstration">{{$t('table.startDate')}}：</span>
-                    <el-date-picker v-model="startDate" align="right" type="date" value-format="yyyy-MM-dd" :picker-options="pickerOptions1"></el-date-picker>
-                <span class="demonstration">{{$t('table.endDate')}}：</span>
-                    <el-date-picker v-model="endDate" align="right" type="date" value-format="yyyy-MM-dd" :picker-options="pickerOptions1"></el-date-picker>
+                <el-date-picker
+                    v-model="timeInterval"
+                    value-format="yyyy-MM-dd"
+                    type="daterange"
+                    align="right"
+                    @change="search(timeInterval)"
+                    unlink-panels
+                    range-separator="-"
+                    :start-placeholder="this.$t('table.startDate')"
+                    :end-placeholder="this.$t('table.endDate')"
+                    :picker-options="pickerOptions">
+                </el-date-picker>
                 <span class="demonstration">{{$t('table.productname')}}：</span>
                 <el-select v-model="value" :placeholder="$t('button.pleasechoose')">
                     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
-                </div>
-                <el-button icon="el-icon-search" circle @click="getDataList"></el-button>
             </div>
             <div class="table">
                 <el-table :data="DataList" border style="width: 100%" v-loading="loading">
@@ -45,26 +50,12 @@ import {productExchange} from '@/api/commodity'
 export default {
     data(){
         return{
-            pickerOptions1: {
+            pickerOptions: {
                 disabledDate(time) {
                     return time.getTime() > Date.now();
-                },
-                shortcuts: [{
-                    text: this.$t('message.yesterday'),
-                    onClick(picker) {
-                    const date = new Date();
-                    date.setTime(date.getTime() - 3600 * 1000 * 24);
-                    picker.$emit('pick', date);
-                    }
-                }, {
-                    text: this.$t('message.aweekago'),
-                    onClick(picker) {
-                    const date = new Date();
-                    date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-                    picker.$emit('pick', date);
-                    }
-                }]
+                }
             },
+            timeInterval:['',''],
             startDate:'',
             endDate:'',
             DataList:[],
@@ -83,10 +74,20 @@ export default {
      mounted() {
         this.endDate = this.getEndTime()
         this.startDate = this.getStartTime()
+        this.timeInterval = [this.startDate,this.endDate]
         this.getProductId()
         this.getDataList()
     },
     methods:{
+        search(timeInterval){
+            this.endDate = timeInterval[1]
+            this.startDate = timeInterval[0]
+            if(this.currentPage === 1){
+                this.getDataList()
+            }else{
+                this.currentPage = 1
+            }
+        },
         openDetailsShow($index,row){
             this.redemptionDetailsParams = {
                 productId:row.productId,
@@ -161,6 +162,9 @@ export default {
     },
     watch:{
         'currentPage':function(){
+            this.getDataList()
+        },
+        'value': function(){
             this.getDataList()
         }
     }

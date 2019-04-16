@@ -2,12 +2,23 @@
 <!-- 开宝箱事件 -->
     <div class="kaibao">
          <div class="search">
-            <span class="demonstration">{{$t('table.startDate')}}:</span>
+            <!-- <span class="demonstration">{{$t('table.startDate')}}:</span>
                 <el-date-picker v-model="startDate" align="right" type="date" value-format="yyyy-MM-dd"  :picker-options="pickerOptions"></el-date-picker>
              <span class="demonstration">{{$t('table.endDate')}}:</span>
                 <el-date-picker v-model="endDate" align="right" type="date" value-format="yyyy-MM-dd"  :picker-options="pickerOptions"></el-date-picker>
-                <el-button icon="el-icon-search" @click="inquire" circle></el-button>
-        
+                <el-button icon="el-icon-search" @click="inquire" circle></el-button> -->
+            <el-date-picker
+                v-model="timeInterval"
+                value-format="yyyy-MM-dd"
+                type="daterange"
+                align="right"
+                @change="search(timeInterval)"
+                unlink-panels
+                range-separator="-"
+                :start-placeholder="this.$t('table.startDate')"
+                :end-placeholder="this.$t('table.endDate')"
+                :picker-options="pickerOptions">
+            </el-date-picker>
             <div class="type">
                 <span class="demonstration">{{$t('table.Treasureboxtype')}}</span>
                 <el-select v-model="value" :placeholder="$t('button.pleasechoose')">
@@ -50,27 +61,8 @@ export default {
                 disabledDate(time) {
                     return time.getTime() > Date.now();
                 },
-                shortcuts: [{
-                    text: this.$t('message.today'),
-                    onClick(picker) {
-                    picker.$emit('pick', new Date());
-                    }
-                }, {
-                    text: this.$t('message.yesterday'),
-                    onClick(picker) {
-                    const date = new Date();
-                    date.setTime(date.getTime() - 3600 * 1000 * 24);
-                    picker.$emit('pick', date);
-                    }
-                }, {
-                    text: this.$t('message.aweekago'),
-                    onClick(picker) {
-                    const date = new Date();
-                    date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-                    picker.$emit('pick', date);
-                    }
-                }]
             },
+            timeInterval:['',''],
             className:'bbbb',
             autoResize:true,
             chartData:{
@@ -100,10 +92,20 @@ export default {
   mounted(){
         this.endDate = this.getEndTime()
         this.startDate = this.getStartTime()
+        this.timeInterval = [this.startDate,this.endDate]
         this.getTableData()
         this.getOptions()
     },
     methods:{
+        search(timeInterval){
+            this.endDate = timeInterval[1]
+            this.startDate = timeInterval[0]
+            if(this.currentPage === 1){
+                this.getTableData()
+            }else{
+                this.currentPage=1
+            }
+        },
         getEndTime() {
             const myday = new Date()
             const year = myday.getFullYear()
@@ -130,8 +132,8 @@ export default {
             }
             readeventList(data).then(response => {
                 if(response){
-                    this.tableData = response.data.list
-                    this.totalCount = response.data.totalCount
+                    this.tableData = response.data.list?response.data.list:[]
+                    this.totalCount = response.data.totalCount?response.data.totalCount:0
                     this.getLineData()
                 }
                 this.loading = false
@@ -183,14 +185,6 @@ export default {
         typeIndex(index) {
             return index + (this.currentPage - 1) * 8 + 1
         },
-        //查询
-        inquire(){
-            if(this.currentPage==1){
-                this.getTableData()
-            }else{
-                this.currentPage=1
-            }
-        }
     },
     watch: {
     'currentPage': function () {

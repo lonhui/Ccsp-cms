@@ -1,12 +1,20 @@
 
 <template>
+    <!-- 分享内容、触发型事件 -->
     <div class="invite">
         <div class="search">
-            <span class="demonstration">{{$t('table.startDate')}}:</span>
-                <el-date-picker v-model="startDate" align="right" type="date" value-format="yyyy-MM-dd"></el-date-picker>
-                <span class="demonstration">{{$t('table.endDate')}}:</span>
-                <el-date-picker v-model="endDate" align="right" type="date" value-format="yyyy-MM-dd"></el-date-picker>
-                <el-button icon="el-icon-search" @click="inquire" circle></el-button>
+            <el-date-picker
+                v-model="timeInterval"
+                value-format="yyyy-MM-dd"
+                type="daterange"
+                align="right"
+                @change="search(timeInterval)"
+                unlink-panels
+                range-separator="-"
+                :start-placeholder="this.$t('table.startDate')"
+                :end-placeholder="this.$t('table.endDate')"
+                :picker-options="pickerOptions">
+            </el-date-picker>
              <!-- 需要修改 -->
             <!-- <div class="type">
                 <span class="demonstration">事件类型</span>
@@ -38,6 +46,12 @@ import {readeventList} from '@/api/event'
 export default {
     data(){
         return{
+            timeInterval:['',''],
+            pickerOptions: {
+                disabledDate(time) {
+                    return time.getTime() > Date.now();
+                }
+            },
             startDate:'',
             endDate:'',
             tableData:[],
@@ -61,9 +75,19 @@ export default {
      mounted(){
         this.endDate = this.getEndTime()
         this.startDate = this.getStartTime()
+        this.timeInterval = [this.startDate,this.endDate]
         this.getTableData()
     },
     methods:{
+        search(timeInterval){
+            this.endDate = timeInterval[1]
+            this.startDate = timeInterval[0]
+            if(this.currentPage === 1){
+                this.getTableData()
+            }else{
+                this.currentPage = 1
+            }
+        },
         getEndTime() {
             const myday = new Date()
             const year = myday.getFullYear()
@@ -101,14 +125,6 @@ export default {
         //序号
         typeIndex(index) {
             return index + (this.currentPage - 1) * 8 + 1
-        },
-        //查询
-        inquire(){
-            if(this.currentPage === 1){
-                this.getTableData()
-            }else{
-                this.currentPage = 1
-            }
         }
     },
     watch: {

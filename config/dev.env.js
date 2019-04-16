@@ -4,5 +4,5 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  API_ROOT: '"http://54.255.145.253:9060"',
+  API_ROOT: '"http://ccsp.caping.co.id"',
 })

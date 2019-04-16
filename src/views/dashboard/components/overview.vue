@@ -6,14 +6,13 @@
             value-format="yyyy-MM-dd"
             type="daterange"
             align="right"
-            @change="test(value)"
+            @change="search(value)"
             unlink-panels
             range-separator="-"
             :start-placeholder="this.$t('table.startDate')"
             :end-placeholder="this.$t('table.endDate')"
             :picker-options="pickerOptions">
         </el-date-picker>
-
         <el-button type="primary" 
             icon="el-icon-download" 
             @click="$exportExcel('table_v','Overview')">
@@ -22,7 +21,7 @@
         </div>
         <div class="tab1">
           <el-table id="table_v" :data="tableData" border v-loading="loading">
-             <el-table-column align="center" prop="allUser" :label="$t('route.totalusers')"></el-table-column>
+            <el-table-column align="center" prop="allUser" :label="$t('route.totalusers')"></el-table-column>
             <el-table-column align="center" prop="coin" :label="$t('table.Generatepoints')"></el-table-column>
             <el-table-column align="center" prop="coinPersonCount" :label="$t('table.Totapointearned')"></el-table-column>
             <el-table-column align="center" prop="money" :label="$t('table.Genergoldcoins')"></el-table-column>
@@ -35,7 +34,12 @@
           </el-table>
         </div> 
         <div class="block">
-          <el-pagination :current-page.sync="currentPage" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+          <el-pagination 
+            :current-page.sync="currentPage" 
+            :page-size="8" 
+            layout="total, prev, pager, next" 
+            :total="totalCount">
+          </el-pagination>
         </div>
     </div>
 </template>
@@ -82,7 +86,7 @@ export default {
     this.getlist()
   },
   methods: {
-    test(value){
+    search(value){
       this.endTime = value[1]
       this.startTime = value[0]
       if(this.currentPage === 1){
