@@ -2,20 +2,33 @@
 <!-- 用户设备列表 -->
     <div class="userEList">
         <div class="input-button">
-            <span class="activeTime">{{$t('table.startDate')}}</span>
-            <el-date-picker v-model="activeTime" align="right" type="date" value-format="yyyy-MM-dd" :placeholder="$t('message.selectdate')" :picker-options="pickerOptions1"></el-date-picker>
-            <span class="endTime">{{$t('table.endDate')}}</span>
-            <el-date-picker v-model="endTime" align="right" type="date" value-format="yyyy-MM-dd" :placeholder="$t('message.selectdate')" :picker-options="pickerOptions1"></el-date-picker>
-        </div>
+            <el-date-picker
+                v-model="timeInterval"
+                value-format="yyyy-MM-dd"
+                type="daterange"
+                align="right"
+                @change="search(timeInterval)"
+                unlink-panels
+                range-separator="-"
+                :start-placeholder="this.$t('table.startDate')"
+                :end-placeholder="this.$t('table.endDate')"
+                :picker-options="pickerOptions">
+            </el-date-picker>
+        <!-- </div>
         <br>
-        <div>
+        <div> -->
             <el-input :placeholder="$t('button.enteruid')" v-model="input_uid" style="width:200px" clearable></el-input>
             <el-input :placeholder="$t('table.pleaseenterthedevicename')" v-model="input_deviceName" style="width:200px" clearable></el-input>
             <el-input :placeholder="$t('button.PleasedeviceID')" v-model="input_deviceId" style="width:200px" clearable></el-input>
             <el-button icon="el-icon-search" @click="inquire" circle></el-button>
+            <el-button type="primary" 
+                icon="el-icon-download" 
+                @click="$exportExcel('table_v',$t('route.userequipmentlist'))">
+                {{$t('button.exportExcel')}}
+            </el-button>
         </div>
         <div class="tabl">
-            <el-table :data="DataList" border style="width: 80%" v-loading="loading">
+            <el-table id="table_v" :data="DataList" border style="max-width: 900px" v-loading="loading">
                 <el-table-column align="center" type="index" :index="typeIndex" width="70px" :label="$t('table.rank')"></el-table-column>
                 <el-table-column align="center" prop="uid" :label="$t('table.userID')" width="130px"></el-table-column>
                 <el-table-column align="center" prop="create_time" :label="$t('table.useractivationtime')" width="180px"></el-table-column>
@@ -35,30 +48,11 @@ import {getDeviceList} from '@/api/user'
 export default {
     data() {
         return {
-            pickerOptions1: {
+            timeInterval:['',''],
+            pickerOptions: {
                 disabledDate(time) {
                     return time.getTime() > Date.now();
-                },
-                shortcuts: [{
-                    text: this.$t('message.today'),
-                    onClick(picker) {
-                        picker.$emit('pick', new Date());
-                    }
-                }, {
-                    text: this.$t('message.yesterday'),
-                    onClick(picker) {
-                        const date = new Date();
-                        date.setTime(date.getTime() - 3600 * 1000 * 24);
-                        picker.$emit('pick', date);
-                    }
-                }, {
-                    text: this.$t('message.aweekago'),
-                    onClick(picker) {
-                        const date = new Date();
-                        date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-                        picker.$emit('pick', date);
-                    }
-                }]
+                }
             },
             // 表格数据
             DataList:[],
@@ -78,9 +72,19 @@ export default {
     mounted(){
         this.activeTime = this.getStartTime()
         this.endTime = this.getEndTime()
+        this.timeInterval = [this.activeTime,this.endTime]
         this.getDataList()
     },
     methods: {
+        search(timeInterval){
+            this.activeTime = timeInterval[0]
+            this.endTime = timeInterval[1]
+            if(this.currentPage1===1){
+                this.getDataList()
+            }else{
+                this.currentPage1 = 1
+            }
+        },
       inquire() {
           if(this.currentPage1===1){
               this.getDataList()
@@ -112,7 +116,7 @@ export default {
       getDataList() {
         this.loading = true
         let data={
-            pageSize:8,
+            pageSize:10,
             pageNum:this.currentPage1,
             startTime:this.activeTime,
             endTime:this.endTime,

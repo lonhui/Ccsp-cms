@@ -7,7 +7,7 @@
                 <el-button type="success" plain @click="Shelf">{{$t('button.Shelf')}}</el-button>
                 <el-button icon="el-icon-circle-plus-outline" type="primary" plain @click="add">{{$t('button.Capingcommodity')}}</el-button>
                 <el-button icon="el-icon-circle-plus-outline" type="primary" plain @click="addH5">{{$t('button.JDCommodity')}}</el-button>
-                <el-button type="primary" icon="el-icon-download" @click="$exportExcel('table_v','Product List')">{{$t('button.exportExcel')}}</el-button>
+                <el-button type="primary" icon="el-icon-download" @click="$exportExcel('table_v',$t('route.productlist'))">{{$t('button.exportExcel')}}</el-button>
                 <div class="select">
                     <el-select v-model="value" placeholder="请选择">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>

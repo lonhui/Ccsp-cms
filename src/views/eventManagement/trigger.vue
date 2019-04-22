@@ -15,6 +15,11 @@
                 :end-placeholder="this.$t('table.endDate')"
                 :picker-options="pickerOptions">
             </el-date-picker>
+             <el-button type="primary" 
+                icon="el-icon-download" 
+                @click="$exportExcel('table_v',$t('route.triggeredevents'))">
+                    {{$t('button.exportExcel')}}
+            </el-button>
              <!-- 需要修改 -->
             <!-- <div class="type">
                 <span class="demonstration">事件类型</span>
@@ -25,7 +30,7 @@
             <!-- 、、、、 -->
         </div>
         <div class="biaoge">
-             <el-table :data="tableData" border style="width: 100%" v-loading="loading">
+             <el-table id="table_v" :data="tableData" border style="width: 100%" v-loading="loading">
                 <el-table-column type="index" :index="typeIndex" width="100px" :label="$t('table.id')"></el-table-column>
                 <el-table-column prop="totalMember" :label="$t('table.Totalnumberofparticipants')"></el-table-column>
                 <el-table-column prop="activeCount" :label="$t('table.Totalnumberofparticipation')"></el-table-column>

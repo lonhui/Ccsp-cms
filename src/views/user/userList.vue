@@ -4,9 +4,14 @@
             <div class="search">
                 <el-input :placeholder="$t('button.enteruid')" v-model="inputData" clearable style="width:200px"></el-input>
                 <el-button icon="el-icon-search" circle @click="getUserDatas"></el-button>
+                <el-button type="primary" 
+                    icon="el-icon-download" 
+                    @click="$exportExcel('table_v',$t('route.userlist'))">
+                    {{$t('button.exportExcel')}}
+                </el-button>
             </div>
             <div>
-                <el-table :data="userDatas" border style="width: 70%" v-loading="loading">
+                <el-table id="table_v" :data="userDatas" border style="max-width: 900px" v-loading="loading">
                     <el-table-column align="center" type="index" :index="typeIndex" cc :label="$t('table.no')" width="70"></el-table-column>
                     <el-table-column align="center" prop="uid" :label="$t('table.userID')" width="110"></el-table-column>
                     <el-table-column align="center" prop="total_coin" :label="$t('table.Totalnumberofpoints')" width="140"></el-table-column>
@@ -22,7 +27,7 @@
             </div>
             <div>
                 <div class="block" >
-                    <el-pagination :current-page.sync="currentPage1" :page-size="8" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+                    <el-pagination :current-page.sync="currentPage1" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
                 </div>
             </div>
         </div>
@@ -80,7 +85,7 @@ export default {
         getUserDatas() {
             this.loading = true
             let data={
-                pageSize:8,
+                pageSize:10,
                 pageNum:this.currentPage1,
                 uid:Number(this.inputData)
             }

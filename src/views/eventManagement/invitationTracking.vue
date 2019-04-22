@@ -15,9 +15,14 @@
                     :end-placeholder="this.$t('table.endDate')"
                     :picker-options="pickerOptions">
                 </el-date-picker>
+                 <el-button type="primary" 
+                    icon="el-icon-download" 
+                    @click="$exportExcel('table_v',$t('route.invitationtracking'))">
+                        {{$t('button.exportExcel')}}
+                </el-button>
             </div>
             <div class="biaoge">
-                <el-table :data="tableData" border style="width: 65%" v-loading="loading">
+                <el-table id="table_v" :data="tableData" border style="width: 65%" v-loading="loading">
                     <el-table-column type="index" :index="typeIndex" width="100px" :label="$t('table.id')"></el-table-column>
                     <el-table-column prop="uid" :label="$t('table.userID')"></el-table-column>
                     <el-table-column prop="inviteCount" :label="$t('table.Numberopeopleinvited')"></el-table-column>

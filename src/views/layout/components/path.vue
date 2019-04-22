@@ -15,9 +15,6 @@ export default {
     computed: {
         getpath(){
             this.path=this.$router.path;
-        
-
-            
         }
     },
 }

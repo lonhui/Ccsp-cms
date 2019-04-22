@@ -2,14 +2,31 @@
 <!-- 事件  -->
   <div id="incident">
     <div class="search">
-      <span class="demonstration">{{$t('table.startDate')}}:</span>
+      <!-- <span class="demonstration">{{$t('table.startDate')}}:</span>
       <el-date-picker v-model="startTime" align="right" type="date" value-format="yyyy-MM-dd" :picker-options="pickerOptions1"></el-date-picker>
       <span class="demonstration">{{$t('table.endDate')}}:</span>
       <el-date-picker v-model="endTime" align="right" type="date" value-format="yyyy-MM-dd" :picker-options="pickerOptions1"></el-date-picker>
-      <el-button icon="el-icon-search" @click="inquire" circle></el-button>
+      <el-button icon="el-icon-search" @click="inquire" circle></el-button> -->
+      <el-date-picker
+            v-model="value"
+            value-format="yyyy-MM-dd"
+            type="daterange"
+            align="right"
+            @change="search(value)"
+            unlink-panels
+            range-separator="-"
+            :start-placeholder="this.$t('table.startDate')"
+            :end-placeholder="this.$t('table.endDate')"
+            :picker-options="pickerOptions">
+        </el-date-picker>
+      <el-button type="primary" 
+            icon="el-icon-download" 
+            @click="$exportExcel('table_v',$t('route.event'))">
+              {{$t('button.exportExcel')}}
+        </el-button>
     </div>
     <div class="tab1">
-      <el-table :data="eventDatas" border style="width: 100%"  v-loading="loading">
+      <el-table id="table_v" :data="eventDatas" border style="width: 100%"  v-loading="loading">
         <el-table-column align="center" prop="name" :label="$t('table.Eventname')" ></el-table-column>
         <el-table-column align="center" prop="ename" :label="$t('table.title')" width="200"></el-table-column>
         <el-table-column align="center" prop="totalCoin" :label="$t('button.integral')"></el-table-column>
@@ -25,30 +42,10 @@ import {getEventList} from '@/api/dashboard'
 export default {
   data() {
     return {
-      pickerOptions1: {
+      pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now();
-        },
-        shortcuts: [{
-          text: this.$t('message.today'),
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: this.$t('message.yesterday'),
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: this.$t('message.aweekago'),
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }]
+        }
       },
       // 时间参数
       endTime: '',
@@ -57,14 +54,21 @@ export default {
       eventDatas: [],
       // 加载参数
       loading: false,
+      value:['','']
     }
   },
   mounted() {
     this.endTime = this.getEndTime()
     this.startTime = this.getStartTime()
+    this.value = [this.startTime,this.endTime]
     this.getEventDatas()
   },
   methods: {
+        search(value){
+            this.endTime = this.value[1]
+            this.startTime = this.value[0]
+            this.getEventDatas()
+        },
     // 加载
     openFullScreen() {
         this.loading = true;

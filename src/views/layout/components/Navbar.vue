@@ -53,13 +53,13 @@ export default {
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch('ToggleSideBar')
+      // this.$store.dispatch('ToggleSideBar')
     },
     logout() {
-       this.$router.push({ path: '/' })
-      // this.$store.dispatch('LogOut').then(() => {
-      //   location.reload() // 为了重新实例化vue-router对象 避免bug
-      // })
+      this.$router.push({ path: '/' })
+      this.$store.dispatch('LogOut').then(() => {
+        location.reload() // 为了重新实例化vue-router对象 避免bug
+      })
     }
   }
 }
@@ -74,6 +74,7 @@ export default {
     line-height: 58px;
     height: 50px;
     float: left;
+    margin-left: 45px;
     padding: 0 10px;
   }
   .errLog-container {

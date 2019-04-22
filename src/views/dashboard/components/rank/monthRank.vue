@@ -6,9 +6,14 @@
       <span class="demonstration">{{$t('table.endDate')}}</span>
       <el-date-picker v-model="endTime" align="right" type="date" value-format="yyyy-MM-dd" placeholder="选择日期" :picker-options="pickerOptions1"></el-date-picker>
       <el-button icon="el-icon-search" @click="getRankingDatas"></el-button>
+      <el-button type="primary" 
+            icon="el-icon-download" 
+            @click="$exportExcel('table_v',$t('button.monthlyrankings'))">
+              {{$t('button.exportExcel')}}
+        </el-button>
     </div>
     <div class="table1">
-      <el-table :data="rankingDatas" border style="width: 500px" v-loading="loading">
+      <el-table id="table_v" :data="rankingDatas" border style="width: 500px" v-loading="loading">
         <el-table-column align="center" type="index"  :label="$t('table.rank')" width="100px"></el-table-column>
         <el-table-column align="center" prop="uid" :label="$t('table.username')" width="200px"></el-table-column>
         <el-table-column align="center" prop="money" :label="$t('table.totalnumberofgoldcoins')" v-if="value2==1"></el-table-column>

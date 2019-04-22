@@ -14,6 +14,11 @@
                 :end-placeholder="this.$t('table.endDate')"
                 :picker-options="pickerOptions">
             </el-date-picker>
+            <el-button type="primary" 
+                icon="el-icon-download" 
+                @click="$exportExcel('table_v',$t('route.invitationevent'))">
+                    {{$t('button.exportExcel')}}
+            </el-button>
             <!-- 需要修改 -->
             <!-- <div class="type">
                 <span class="demonstration">邀请类型</span>
@@ -24,7 +29,7 @@
             <!-- 、、、、 -->
         </div>
         <div class="biaoge">
-             <el-table :data="tableData" border style="width: 90%" v-loading="loading">
+             <el-table id="table_v" :data="tableData" border style="width: 90%" v-loading="loading">
                 <el-table-column type="index" :index="typeIndex" width="100px" :label="$t('table.id')"></el-table-column>
                 <el-table-column prop="day" :label="$t('table.date')" width="135"></el-table-column>
                 <el-table-column prop="inviteCount" :label="$t('table.Numbereoplenvited')" width="160"></el-table-column>

@@ -15,9 +15,9 @@
         </el-date-picker>
         <el-button type="primary" 
             icon="el-icon-download" 
-            @click="$exportExcel('table_v','Overview')">
+            @click="$exportExcel('table_v',$t('route.overview'))">
               {{$t('button.exportExcel')}}
-          </el-button>
+        </el-button>
         </div>
         <div class="tab1">
           <el-table id="table_v" :data="tableData" border v-loading="loading">

@@ -1,13 +1,6 @@
 <template>
     <div class="read">
          <div>
-             <!-- <span class="demonstration">{{$t('table.startDate')}}:</span>
-                <el-date-picker v-model="startTime" align="right" type="date" value-format="yyyy-MM-dd" :placeholder="$t('button.selectdate')" :picker-options="pickerOptions1"></el-date-picker>
-             <span class="demonstration">{{$t('table.endDate')}}:</span>
-                <el-date-picker v-model="endTime" align="right" type="date" value-format="yyyy-MM-dd" :placeholder="$t('button.selectdate')" :picker-options="pickerOptions1"></el-date-picker>
-                <el-button icon="el-icon-search" @click="inquire" circle></el-button> -->
-
-
             <el-date-picker
                 v-model="timeInterval"
                 value-format="yyyy-MM-dd"
@@ -20,6 +13,11 @@
                 :end-placeholder="this.$t('table.endDate')"
                 :picker-options="pickerOptions">
             </el-date-picker>
+            <el-button type="primary" 
+                icon="el-icon-download" 
+                @click="$exportExcel('table_v',$t('route.signin'))">
+                    {{$t('button.exportExcel')}}
+            </el-button>
              <!-- 需要修改 -->
             <!-- <div class="type">
                 <span class="demonstration">签到类型</span>
@@ -31,7 +29,7 @@
         </div>
         
         <div class="biaoge">
-            <el-table :data="tableData" border style="width: 100%" v-loading="loading">
+            <el-table id="table_v" :data="tableData" border style="width: 100%" v-loading="loading">
                 <el-table-column type="index" :index="typeIndex" width="100px" :label="$t('table.id')"></el-table-column>
                 <el-table-column prop="totalMember" :label="$t('table.totalattendance')"></el-table-column>
                 <el-table-column prop="totalCoin" :label="$t('table.sendthetotalpoints')"></el-table-column>

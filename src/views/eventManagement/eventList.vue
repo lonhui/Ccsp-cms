@@ -16,7 +16,7 @@
             </el-date-picker>
             <el-button type="primary" 
                 icon="el-icon-download" 
-                @click="$exportExcel('table_v','Event List')">
+                @click="$exportExcel('table_v',$t('route.event'))">
                     {{$t('button.exportExcel')}}
             </el-button>
         </div>

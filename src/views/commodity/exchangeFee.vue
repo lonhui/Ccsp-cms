@@ -23,9 +23,14 @@
               :value="item.value">
             </el-option>
           </el-select>
+          <el-button type="primary" 
+            icon="el-icon-download" 
+            @click="$exportExcel('table_v',$t('route.callchargemanagement'))">
+              {{$t('button.exportExcel')}}
+        </el-button>
         </div>
         <div class="tabl">
-            <el-table :data="DataList" border style="width: 100%" v-loading="loading">
+            <el-table id="table_v" :data="DataList" border style="width: 100%" v-loading="loading">
               <el-table-column type="index" :index="typeIndex" width="100px" :label="$t('table.id')"></el-table-column>
               <el-table-column prop="mobile" :label="$t('table.Exchangecode')"></el-table-column>
               <el-table-column prop="state" :label="$t('table.Exchangestatus')" width="90px">
@@ -38,7 +43,7 @@
               <el-table-column prop="createTime" :label="$t('table.Exchangetime')" ></el-table-column>
               <el-table-column :label="$t('table.actions')" width="80" v-if="value===2">
                 <template slot-scope="scope">
-                    <el-button type="text" size="small" @click="openUpdata">{{$t('table.edit')}}</el-button>
+                    <el-button type="text" size="small" @click="openUpdata(scope.row)">{{$t('table.edit')}}</el-button>
                 </template>
               </el-table-column>
           </el-table>
@@ -99,7 +104,7 @@ export default {
             this.currentPage1 = 1
         }
       },
-      openUpdata(){
+      openUpdata(row){
         this.updataShow = true
       },
       closeUpdata(){

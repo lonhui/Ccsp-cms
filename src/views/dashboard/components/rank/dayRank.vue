@@ -1,12 +1,17 @@
 <template>
   <div>
     <div class="search">
-      <span class="demonstration">{{$t('button.selectdate')}}：</span>
-      <el-date-picker v-model="time" align="right" type="date" value-format="yyyy-MM-dd" :picker-options="pickerOptions1"></el-date-picker>
-      <el-button icon="el-icon-search" @click="inquire" circle></el-button>
+        <span class="demonstration">{{$t('button.selectdate')}}：</span>
+        <el-date-picker v-model="time" align="right" type="date" value-format="yyyy-MM-dd" :picker-options="pickerOptions1"></el-date-picker>
+        <el-button icon="el-icon-search" @click="inquire" circle></el-button>
+        <el-button type="primary" 
+            icon="el-icon-download" 
+            @click="$exportExcel('table_v',$t('button.dailyranking'))">
+                {{$t('button.exportExcel')}}
+        </el-button>
     </div>
     <div class="tab1">
-      <el-table :data="rankingDatas" border style="width: 500px" v-loading="loading">
+      <el-table id="table_v" :data="rankingDatas" border style="width: 500px" v-loading="loading">
         <el-table-column align="center" type="index"  width="100px" :label="$t('table.rank')"></el-table-column>
         <el-table-column align="center" prop="uid" :label="$t('table.username')" width="200px"></el-table-column>
         <el-table-column align="center" prop="money" :label="$t('table.totalnumberofgoldcoins')" v-if="value2==1"></el-table-column>
