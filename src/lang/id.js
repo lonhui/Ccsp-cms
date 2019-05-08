@@ -361,6 +361,8 @@ export default {
     TermsAgreement:'Ketentuan perjanjian',
     RedeemerID:'ID Penebus',
     Callamount:'Jumlah panggilan',
+    color:'Warna',
+    size:'Ukuran'
   }
 }
 

@@ -1,6 +1,6 @@
 import axios from 'axios'
 // eslint-disable-next-line
-import { Message, MessageBox } from 'element-ui'
+import { Message } from 'element-ui'
 import store from '../store'
 import { getToken } from '@/utils/auth'
 

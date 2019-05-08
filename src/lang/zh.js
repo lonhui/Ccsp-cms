@@ -362,8 +362,7 @@ export default {
     TermsAgreement:'协议条款',
     RedeemerID:'兑换人ID',
     Callamount:'话费金额',
-
-
-
+    color:'颜色',
+    size:'尺寸'
   } 
 }

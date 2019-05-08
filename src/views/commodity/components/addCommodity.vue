@@ -43,21 +43,29 @@
          <el-form-item :label="$t('button.isSpecial')" class="property" v-if="form.productType==2">
             <el-switch v-model="form.is_special"></el-switch><span class="special-prompt">（{{$t('message.isSpecial')}}）</span>
         </el-form-item>
+        <!-- 颜色（类别为实物时出现的选填项） -->
+        <el-form-item :label="$t('table.color')" class="property" v-show="form.productCategory === 2">
+            <el-input v-model="form.color" style="width:300px"></el-input>
+        </el-form-item>
+        <!-- 尺寸（类别为实物时出现的选填项）-->
+        <el-form-item :label="$t('table.size')" class="property" v-show="form.productCategory === 2">
+            <el-input v-model="form.size" style="width:300px"></el-input>
+        </el-form-item>
         <!-- 商品价格 -->
         <el-form-item :label="$t('table.Commodityprice')" class="property">
-            <el-input-number v-model="form.currentPrice" controls-position="right" @change="handleChange" :min="0"></el-input-number>
+            <el-input-number v-model="form.currentPrice" controls-position="right" :min="0"></el-input-number>
         </el-form-item>
         <!-- 商品原价 -->
         <el-form-item :label="$t('table.ProducOriginalPrice')" class="property">
-            <el-input-number v-model="form.originalPrice" controls-position="right" @change="handleChange" :min="0"></el-input-number>
+            <el-input-number v-model="form.originalPrice" controls-position="right" :min="0"></el-input-number>
         </el-form-item>
         <!-- 商品总量 -->
         <el-form-item :label="$t('table.ProductTotal')" class="property">
-            <el-input-number v-model="form.total" controls-position="right" @change="handleChange" :min="0"></el-input-number>
+            <el-input-number v-model="form.total" controls-position="right" :min="0"></el-input-number>
         </el-form-item>
         <!-- 商品余量 -->
         <el-form-item :label="$t('table.ProductBalance')" class="property">
-            <el-input-number v-model="form.current" controls-position="right" @change="handleChange" :min="0"></el-input-number>
+            <el-input-number v-model="form.current" controls-position="right" :min="0"></el-input-number>
         </el-form-item>
         <!-- 失效时间 -->
         <el-form-item :label="$t('table.Failuretime')">
@@ -96,21 +104,21 @@
         <!-- 商品详情 -->
          <el-form-item :label="$t('table.productDetails')" prop="fullIntro">
             <quill-editor v-model="form.fullIntro"
-                        ref="myQuillEditor"
-                        :options="editorOption"
-                        @blur="onEditorBlur($event)"
-                        @focus="onEditorFocus($event)"
-                        @ready="onEditorReady($event)">
+                ref="myQuillEditor"
+                :options="editorOption"
+                @blur="onEditorBlur($event)"
+                @focus="onEditorFocus($event)"
+                @ready="onEditorReady($event)">
             </quill-editor>
         </el-form-item>
         <!-- 协议条款 -->
          <el-form-item :label="$t('table.TermsAgreement')" prop="termsConditions">
             <quill-editor v-model="form.termsConditions"
-                        ref="myQuillEditor"
-                        :options="editorOption"
-                        @blur="onEditorBlur($event)"
-                        @focus="onEditorFocus($event)"
-                        @ready="onEditorReady($event)">
+                ref="myQuillEditor"
+                :options="editorOption"
+                @blur="onEditorBlur($event)"
+                @focus="onEditorFocus($event)"
+                @ready="onEditorReady($event)">
             </quill-editor>
         </el-form-item>
         <el-form-item>
@@ -262,9 +270,6 @@ export default {
                     })
                 }
             })
-        },
-        handleChange(value) {
-            // console.log(value);
         },
             //上传图片start
         handleAvatarSuccess(res, file) {

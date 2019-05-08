@@ -359,6 +359,8 @@ export default {
     TermsAgreement:'Terms of agreement',
     RedeemerID:'Redeemer ID',
     Callamount:'Call amount',
+    color:'Color',
+    size:'Size'
   }
 }
 

@@ -6,16 +6,24 @@
 				<el-button type="warning" plain @click="Dropoff">{{$t('button.Dropoff')}}</el-button>
                 <el-button type="success" plain @click="Shelf">{{$t('button.Shelf')}}</el-button>
                 <el-button icon="el-icon-circle-plus-outline" type="primary" plain @click="add">{{$t('button.Capingcommodity')}}</el-button>
-                <el-button icon="el-icon-circle-plus-outline" type="primary" plain @click="addH5">{{$t('button.JDCommodity')}}</el-button>
+                <!-- 添加京东商品按钮 -->
+                <!-- <el-button icon="el-icon-circle-plus-outline" type="primary" plain @click="addH5">{{$t('button.JDCommodity')}}</el-button> -->
                 <el-button type="primary" icon="el-icon-download" @click="$exportExcel('table_v',$t('route.productlist'))">{{$t('button.exportExcel')}}</el-button>
-                <div class="select">
-                    <el-select v-model="value" placeholder="请选择">
+                
+               <div class="select">
+                    <!-- 类型选择 -->
+                    <!-- <el-select v-model="value" placeholder="请选择">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </el-select> -->
+                    <!-- 选择状态 -->
+                    <el-select v-model="statusValue" :placeholder="$t('button.pleasechoose')">
+                        <el-option :label="$t('table.status1')" :value='1'></el-option>
+                        <el-option :label="$t('table.status0')" :value='0'></el-option>
                     </el-select>
                 </div>
 			</div>
 			<div class="list">
-                <el-table id="table_v" ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" v-loading="loading">
+                <el-table id="table_v" ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" v-loading="loading">
                     <el-table-column align="center" type="selection" width="55"></el-table-column>
                     <el-table-column align="center" prop="id" width="100px" :label="$t('table.ProductNumber')"></el-table-column>
                     <el-table-column align="center" prop="image" :label="$t('table.image')"  width="100">
@@ -30,10 +38,10 @@
                         <el-table-column align="center" prop="addTime" :label="$t('table.createTime')" width="160px"></el-table-column>
                         <el-table-column align="center" prop="endTime" :label="$t('table.Failuretime')" width="160px"></el-table-column>
                         <el-table-column align="center" prop="state" :label="$t('table.status')" width="80px">
-                        <template slot-scope="scope">
-                            <a href="javascript:;">{{scope.row.state==1?$t('table.status1'):$t('table.status0')}}</a>
-                        </template>
-                    </el-table-column>
+                            <template slot-scope="scope">
+                                <a href="javascript:;">{{scope.row.state==1?$t('table.status1'):$t('table.status0')}}</a>
+                            </template>
+                        </el-table-column>
                     <el-table-column align="center" :label="$t('table.actions')" width="80">
                         <template slot-scope="scope">
                             <el-button type="text" size="small" @click="openUpdateShow(scope.$index,scope.row)">{{$t('table.edit')}}</el-button>
@@ -42,7 +50,7 @@
                 </el-table>
 			</div>
         <div class="block">
-            <el-pagination :current-page.sync="currentPage1" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+            <el-pagination :current-page.sync="currentPage" :page-size="10" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
         </div>
     </div>
     <div class="components">
@@ -64,9 +72,9 @@ export default {
     data() {
       return {
         iconUploading: false,
-        tableData3: [],
+        tableData: [],
         multipleSelection: [],
-        currentPage1: 1,
+        currentPage: 1,
         totalCount:0,
         updateShow:false,
         loading:false,
@@ -82,18 +90,14 @@ export default {
             image:''
         },
         addCommodityShow:0,//0展示列表，1展示app商品添加，2展示h5商品添加
-        options: [{
-          value: 1,
-          label: this.$t('table.Recharge')
-        },{
-          value: 2,
-          label: this.$t('table.coupon')
-        }],
         productType: 1,
         imageUrl: '',
         a:{
           imageType:8
         },
+        // 状态筛选数据
+        statusValue:1,
+        // 商品类型筛选数据
         options: [{
           value:'',
           label: this.$t('button.Allgoods')
@@ -104,7 +108,7 @@ export default {
           value:1,
           label: this.$t('button.JDCommodity')
         }],
-        value: ''
+        value: null
       }
     },
     components:{
@@ -112,7 +116,7 @@ export default {
         'v-addH5':addH5
     },
     mounted(){
-      this.getTableData3()
+      this.getTableData()
     },
     methods: {
         addH5(){
@@ -123,179 +127,185 @@ export default {
         },
         closeH5(){
             this.addCommodityShow=0
-            this.getTableData3()
+            this.getTableData()
         },
         closeAdd(){
             this.addCommodityShow = 0
-            this.getTableData3()
+            this.getTableData()
         },
-    //上传图片start
-    handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-        this.form.image = res.Message
-        this.iconUploading = false
-    },
-    handleAvatarError(err, file) {
-        this.$message.error(err)
-        this.iconUploading = false
-      },
-    beforeAvatarUpload(file) {
-        const isJPG = ['image/jpeg', 'image/jpg', 'image/png'].indexOf(file.type) > -1
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
-    },
-    handleAvatarProgress() {
-        this.iconUploading = true
-    },
-    //上传图片end
-
-    openUpdateShow(index,row){
-        this.idx = index;
-        const item = this.tableData3[index]
-        if(item.isShow==1){
-             this.form = {
-                id:item.id,//商品ID
-                name: item.name,//商品名称
-                productCategory:item.productCategory,//商品类别
-                currentPrice:item.currentPrice,//商品价格
-                state:item.state,//商品状态 1为有效，0为无效
-                image:item.image,//商品图片
-                sourceWeb:item.sourceWeb,//来源网站
-                shortIntro:item.shortIntro,//商品短介绍
+        //上传图片start
+        handleAvatarSuccess(res, file) {
+            this.imageUrl = URL.createObjectURL(file.raw);
+            this.form.image = res.Message
+            this.iconUploading = false
+        },
+        handleAvatarError(err, file) {
+            this.$message.error(err)
+            this.iconUploading = false
+        },
+        beforeAvatarUpload(file) {
+            const isJPG = ['image/jpeg', 'image/jpg', 'image/png'].indexOf(file.type) > -1
+            const isLt2M = file.size / 1024 / 1024 < 2;
+            if (!isJPG) {
+            this.$message.error('上传头像图片只能是 JPG 格式!');
             }
-            this.addCommodityShow = 2
-        }else{
-             this.form = {
-                id:item.id,//商品ID
-                name: item.name,//商品名称
-                productType:item.productType,//商品类型
-                productCategory:item.productCategory,//商品类别
-                currentPrice:item.currentPrice,//商品价格
-                originalPrice:item.originalPrice,//商品原始价格
-                total:item.total,//商品数量
-                is_special:item.is_special,
-                current:item.current,//商品剩余数量
-                endTime:item.endTime,//失效时间
-                state:item.state,//商品状态 1为有效，0为无效
-                image:item.image,//商品图片
-                sourceWeb:item.sourceWeb,//来源网站
-                shortIntro:item.shortIntro,//商品短介绍
-                fullIntro:item.fullIntro,//商品详细介绍
-                termsConditions:item.termsConditions,//协议条款
+            if (!isLt2M) {
+            this.$message.error('上传头像图片大小不能超过 2MB!');
             }
-            if(this.form.productType==1){
-                this.form.pulsa_code=item.pulsa_code
+            return isJPG && isLt2M;
+        },
+        handleAvatarProgress() {
+            this.iconUploading = true
+        },
+        openUpdateShow(index,row){
+            this.idx = index;
+            const item = this.tableData[index]
+            if(item.isShow == 1){
+                this.form = {
+                    id:item.id,//商品ID
+                    name: item.name,//商品名称
+                    productCategory:item.productCategory,//商品类别
+                    currentPrice:item.currentPrice,//商品价格
+                    state:item.state,//商品状态 1为有效，0为无效
+                    image:item.image,//商品图片
+                    sourceWeb:item.sourceWeb,//来源网站
+                    shortIntro:item.shortIntro,//商品短介绍
+                }
+                this.addCommodityShow = 2
+            }else{
+                this.form = {
+                    id:item.id,//商品ID
+                    name: item.name,//商品名称
+                    productType:item.productType,//商品类型
+                    productCategory:item.productCategory,//商品类别
+                    currentPrice:item.currentPrice,//商品价格
+                    originalPrice:item.originalPrice,//商品原始价格
+                    total:item.total,//商品数量
+                    is_special:item.is_special,
+                    current:item.current,//商品剩余数量
+                    endTime:item.endTime,//失效时间
+                    state:item.state,//商品状态 1为有效，0为无效
+                    image:item.image,//商品图片
+                    sourceWeb:item.sourceWeb,//来源网站
+                    shortIntro:item.shortIntro,//商品短介绍
+                    fullIntro:item.fullIntro,//商品详细介绍
+                    termsConditions:item.termsConditions,//协议条款
+                    color:item.color,
+                    size:item.size
+                }
+                if(this.form.productType==1){
+                    this.form.pulsa_code=item.pulsa_code
+                }
+                this.addCommodityShow = 1
             }
+        },
+        // 添加
+        add(){
+            this.form=null
             this.addCommodityShow = 1
-        }
-      },
-      add(){
-          this.form=null
-        this.addCommodityShow = 1
-      },
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-	  },
-      getTableData3(){
-        this.loading = true
-        var that = this;
-        let data = {
-          pageNum:this.currentPage1,
-          pageSize:10,
-          isShow:this.value
-        }
-        getcommodityList(data).then(response=>{
-            const datas = response.data
-            this.tableData3 = datas.data
-            this.totalCount = datas.total
-            this.loading = false
-        },(error)=>{
-          console.log(error)
-        })
-      },
-      //下架
-      Dropoff(){
-         const id=[]
-         if(this.multipleSelection.length<1){
-             this.$message({
-                message: this.$t('message.ProductSelect'),
-                type: 'error'
-            })
-         }else{
-            for(let i=0;i<this.multipleSelection.length;i++){
-              id.push(this.multipleSelection[i].id)
+        },
+        toggleSelection(rows) {
+            if (rows) {
+            rows.forEach(row => {
+                this.$refs.multipleTable.toggleRowSelection(row);
+            });
+            } else {
+            this.$refs.multipleTable.clearSelection();
             }
+        },
+        handleSelectionChange(val) {
+            this.multipleSelection = val;
+        },
+        // 获取表格数据
+        getTableData(){
+            this.loading = true
+            var that = this;
             let data = {
-              ids:id,
-              state:0
+            pageNum:this.currentPage,
+            pageSize:10,
+            state:this.statusValue
             }
-            dropoffAndShelf(data).then(response=>{
-              this.$message({
-                  message: this.$t('message.updateSucc'),
-                  type: 'success'
-              })
-              this.getTableData3()
+            this.value !== null?data.isShow = this.value:null
+            getcommodityList(data).then(response=>{
+                const datas = response.data
+                this.tableData = datas.data
+                this.totalCount = datas.total
+                this.loading = false
             },(error)=>{
+            console.log(error)
+            })
+        },
+        //下架
+        Dropoff(){
+            const id=[]
+            if(this.multipleSelection.length<1){
+                this.$message({
+                    message: this.$t('message.ProductSelect'),
+                    type: 'error'
+                })
+            }else{
+                for(let i=0;i<this.multipleSelection.length;i++){
+                id.push(this.multipleSelection[i].id)
+                }
+                let data = {
+                ids:id,
+                state:0
+                }
+                dropoffAndShelf(data).then(response=>{
+                this.$message({
+                    message: this.$t('message.updateSucc'),
+                    type: 'success'
+                })
+                this.getTableData()
+                },(error)=>{
 
-            })
-          }    
-      },
-      //上架
-      Shelf(){
-         const id=[]
-         if(this.multipleSelection.length<1){
-             this.$message({
-                message: this.$t('message.ProductSelect'),
-                type: 'error'
-            })
-         }else{
-            for(let i=0;i<this.multipleSelection.length;i++){
-            id.push(this.multipleSelection[i].id)
+                })
+            }    
+        },
+        //上架
+        Shelf(){
+            const id=[]
+            if(this.multipleSelection.length<1){
+                this.$message({
+                    message: this.$t('message.ProductSelect'),
+                    type: 'error'
+                })
+            }else{
+                for(let i=0;i<this.multipleSelection.length;i++){
+                id.push(this.multipleSelection[i].id)
+                }
+                let data = {
+                ids:id,
+                state:1
+                }
+                dropoffAndShelf(data).then(response => {
+                this.$message({
+                    message: this.$t('message.updateSucc'),
+                    type: 'success'
+                })
+                this.getTableData()
+                })
             }
-            let data = {
-              ids:id,
-              state:1
+        }
+    },
+    watch: {
+        'currentPage': function () {
+        this.getTableData()
+        },
+        'value': function (){
+            this.getTableData()
+        },
+        'updateShow':function(){
+            if(this.updateShow == true){
+                document.body.style.overflow = "hidden"
+            }else{
+                document.body.style.overflow = "auto"
             }
-            dropoffAndShelf(data).then(response => {
-              this.$message({
-                  message: this.$t('message.updateSucc'),
-                  type: 'success'
-              })
-              this.getTableData3()
-            })
-         }
-      }
-    },
-     watch: {
-    'currentPage1': function () {
-      this.getTableData3()
-    },
-    'value': function (){
-        this.getTableData3()
-    },
-    'updateShow':function(){
-        if(this.updateShow == true){
-            document.body.style.overflow = "hidden"
-        }else{
-             document.body.style.overflow = "auto"
+        },
+        'statusValue':function(){
+            this.getTableData()
         }
     }
-  }
   }
 </script>
 
