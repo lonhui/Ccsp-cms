@@ -39,8 +39,7 @@ export default {
     Administratorlist:'管理员列表',
     Rolelist:'角色列表',
     commodityExchange:'商品兑换',
-
-
+    blacklist:'黑名单'
   },
   message: {
     switchLangSucc: '语言切换成功',
@@ -89,6 +88,9 @@ export default {
     productCategoryCannotNull:'商品类别不能为空！',
     pulsa_codeCannotNull:'话费金额不能为空！',
     isSpecial:'当且仅有一个兑换码时打开此按钮!',
+    chooseTheLengthOfBlack:'请选择拉黑时长',
+    unblocksuss:'解封成功！',
+    addblocksuss:'加入黑名单成功!'
   },
   button: {
     add: '新增',
@@ -139,8 +141,9 @@ export default {
     Capingcommodity:'Caping商品',
     Allgoods:'全部商品',
     isSpecial:'是否为特殊优惠券',
-    exportExcel:'导出Excel'
-    
+    exportExcel:'导出Excel',
+    day:'天',
+    permanent:'永久'
   },
   table: {
     id: '序号',
@@ -363,6 +366,10 @@ export default {
     RedeemerID:'兑换人ID',
     Callamount:'话费金额',
     color:'颜色',
-    size:'尺寸'
+    size:'尺寸',
+    numberOfPointsEarned:"获得积分次数",
+    blackTime:"拉黑时间",
+    unblock:"解封",
+    black:"拉黑"
   } 
 }

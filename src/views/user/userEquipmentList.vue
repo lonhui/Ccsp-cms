@@ -14,9 +14,6 @@
                 :end-placeholder="this.$t('table.endDate')"
                 :picker-options="pickerOptions">
             </el-date-picker>
-        <!-- </div>
-        <br>
-        <div> -->
             <el-input :placeholder="$t('button.enteruid')" v-model="input_uid" style="width:200px" clearable></el-input>
             <el-input :placeholder="$t('table.pleaseenterthedevicename')" v-model="input_deviceName" style="width:200px" clearable></el-input>
             <el-input :placeholder="$t('button.PleasedeviceID')" v-model="input_deviceId" style="width:200px" clearable></el-input>

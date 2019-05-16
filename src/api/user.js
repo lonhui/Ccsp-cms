@@ -58,5 +58,29 @@ export function getDetailCoin(params) {
   })
 }
 
+// 获取黑名单
+export function getBlackList(data) {
+  return request({
+    url: process.env.API_ROOT+'/cms/user/black/list',
+    method: 'post',
+    data
+  })
+}
 
+// 拉黑用户
+export function setBlackList(params) {
+  return request({
+    url: process.env.API_ROOT+'/cms/user/blockade',
+    method: 'post',
+    params
+  })
+}
 
+//解封用户
+export function unblock(params) {
+  return request({
+    url: process.env.API_ROOT+'/cms/user/unblock',
+    method: 'get',
+    params
+  })
+}

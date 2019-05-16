@@ -39,7 +39,7 @@ export default {
     Administratorlist:'Daftar administrator',
     Rolelist:'Daftar peran',
     commodityExchange:'Pertukaran komoditi',
-
+    blacklist:'Daftar hitam'
   },
   message: {
     switchLangSucc: 'Pengalihan bahasa berhasil',
@@ -88,6 +88,10 @@ export default {
     productCategoryCannotNull:'Kategori produk tidak boleh kosong!',
     pulsa_codeCannotNull:'Jumlah panggilan tidak boleh kosong!',
     isSpecial:'Buka tombol ini ketika hanya ada satu kode penukaran!',
+    chooseTheLengthOfBlack:'Silakan pilih panjang hitam',
+    unblocksuss:'Membuka blokir kesuksesan!',
+    addblocksuss:'Bergabunglah dengan daftar hitam dengan sukses!'
+
   },
   button: {
     add: 'menambahkan',
@@ -139,7 +143,9 @@ export default {
     Capingcommodity:'Caping Barang',
     Allgoods:'Semua barang',
     isSpecial:'Apakah ini kupon spesial',
-    exportExcel:'Ekspor Excel'
+    exportExcel:'Ekspor Excel',
+    day:'Hari',
+    permanent:'Permanen'
 
   },
   table: {
@@ -362,7 +368,11 @@ export default {
     RedeemerID:'ID Penebus',
     Callamount:'Jumlah panggilan',
     color:'Warna',
-    size:'Ukuran'
+    size:'Ukuran',
+    numberOfPointsEarned:"Jumlah poin yang diperoleh",
+    blackTime:"Waktu hitam",
+    unblock:"Buka blokir",
+    black:"Hitam"
   }
 }
 

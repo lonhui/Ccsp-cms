@@ -2,8 +2,11 @@
     <div id="userList">
         <div v-if="!show" class="list">
             <div class="search">
+                <!-- id搜索框 -->
                 <el-input :placeholder="$t('button.enteruid')" v-model="inputData" clearable style="width:200px"></el-input>
+                <!-- 搜索按钮 -->
                 <el-button icon="el-icon-search" circle @click="getUserDatas"></el-button>
+                <!-- 导出Excel -->
                 <el-button type="primary" 
                     icon="el-icon-download" 
                     @click="$exportExcel('table_v',$t('route.userlist'))">
@@ -11,16 +14,30 @@
                 </el-button>
             </div>
             <div>
-                <el-table id="table_v" :data="userDatas" border style="max-width: 900px" v-loading="loading">
-                    <el-table-column align="center" type="index" :index="typeIndex" cc :label="$t('table.no')" width="70"></el-table-column>
-                    <el-table-column align="center" prop="uid" :label="$t('table.userID')" width="110"></el-table-column>
-                    <el-table-column align="center" prop="total_coin" :label="$t('table.Totalnumberofpoints')" width="140"></el-table-column>
+                <el-table id="table_v" :data="userDatas" border v-loading="loading">
+                    <el-table-column align="center" type="index" :index="typeIndex" :label="$t('table.no')" m-width="100"></el-table-column>
+                    <el-table-column align="center" prop="uid" :label="$t('table.userID')" m-width="110"></el-table-column>
+                    <el-table-column align="center" prop="total_coin" :label="$t('table.Totalnumberofpoints')" m-width="140"></el-table-column>
                     <el-table-column align="center" prop="total_money" :label="$t('table.totalnumberofgoldcoins')"></el-table-column>
-                    <el-table-column align="center" prop="create_time" :label="$t('table.useractivationtime')" width="170"></el-table-column>
-                    <el-table-column align="center" prop="total_invite_user" :label="$t('table.invitedusers')" width="140"></el-table-column>
-                    <el-table-column align="center" :label="$t('table.detail')" width="110">
+                    <el-table-column align="center" prop="create_time" :label="$t('table.useractivationtime')" m-width="170"></el-table-column>
+                    <el-table-column align="center" prop="total_invite_user" :label="$t('table.invitedusers')" m-width="140"></el-table-column>
+                    <el-table-column align="center" :label="$t('table.detail')" m-width="110">
                         <template slot-scope="scope">
-                            <el-button type="text" size="small" @click="openDetailShow(scope.$index,scope.row)">{{$t('table.seedetails')}}</el-button>
+                            <el-button type="primary" plain size="small" @click="openDetailShow(scope.$index,scope.row)">{{$t('table.seedetails')}}</el-button>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" :label="$t('table.actions')" m-width="110">
+                        <template slot-scope="scope">
+                            <el-popover placement="left" m-width="220" trigger="manual" :ref="'popover-' + scope.row.id">
+                                <el-button size="mini" type="text"  @click="pClose(scope.row.id)">{{$t('button.cancel')}}</el-button>
+                                <p style="text-align: center;margin: 15px 0px">{{$t('message.chooseTheLengthOfBlack')}}</p>
+                                <div style="text-align: center; margin: 0">
+                                    
+                                    <el-button size="mini" type="primary"  @click="addtoblacklist(scope.row,1)">3{{$t('button.day')}}</el-button>
+                                    <el-button size="mini" type="danger" @click="addtoblacklist(scope.row,2)">{{$t('button.permanent')}}</el-button>
+                                </div>
+                                <el-button  type="warning" plain slot="reference" @click="pOpen(scope.row.id)">{{$t('table.black')}}</el-button>
+                            </el-popover>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -38,7 +55,7 @@
 
 <script>
 import detail from './components/detail'
-import {getUserList} from '@/api/user'
+import {getUserList,setBlackList} from '@/api/user'
 
 export default {
     components: {
@@ -52,18 +69,40 @@ export default {
             // 分页参数
             currentPage1: 1,
             totalCount: 0,
-            // 表格数据
-            userDatas: [],
-            // 加载参数
-            loading:false,
-            //搜索框数据
-            inputData:null,
+            userDatas: [],// 表格数据
+            loading:false,// 加载参数
+            inputData:null, //搜索框数据
         }
     },
     mounted(){
         this.getUserDatas()
     },
     methods: {
+        pOpen(id){
+            this.$refs[`popover-` + id].doShow()
+        },
+        pClose(id){
+            this.$refs[`popover-` + id].doClose()
+        },
+        // 加入黑名单
+        addtoblacklist(row,type){
+            this.$refs[`popover-` + row.id].doClose()
+            let data = {
+                uid : row.uid,
+                type : type
+            }
+            setBlackList(data).then(res => {
+                if(res.code === 0){
+                    this.$message({
+                        message: row.uid + ' ' + this.$t('message.addblocksuss'),
+                        type: 'success'
+                    });
+                    this.getUserDatas()
+                }else{
+                    this.$message.error(res.message )
+                }
+            })
+        },
         // 子组件操作
         openDetailShow(index,row) {
             const item = this.userDatas[index]

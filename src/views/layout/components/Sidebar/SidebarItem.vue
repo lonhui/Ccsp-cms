@@ -74,14 +74,23 @@ export default {
             if(!getToken()){
                 this.$router.push('/')
             }else{
-
-            
             this.$http.get(process.env.API_ROOT+'/cms/sys/user/menu',{'headers':{
                     'X-abn-session-token':getToken()
                 }}
                 ).then(function(response){
                     const datas = response.data
                     const menuList = datas.data
+                    // ==================
+                    menuList.push({
+                        id:35,
+                        link:'blackList',
+                        name:"黑名单",
+                        elink:"Blacklist",
+                        vlink:"Daftar hitam",
+                        parent_id:11
+                    })
+                    console.log(menuList)
+                    // ==================
                     for(let i = 0;i < menuList.length;i++){
                         if(menuList[i].parent_id===0){
                             if(menuList[i].id===31){
@@ -134,8 +143,9 @@ export default {
                                 this.item1[j].subs.push(sub)
                            }
                         }
-                    }
+                    } 
                 }
+                
             },function(error){
                 // console.log(error)
             })

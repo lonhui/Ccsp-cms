@@ -39,6 +39,7 @@ export default {
     Administratorlist:'Administrator list',
     Rolelist:'Role list',
     commodityExchange:'Commodity exchange',
+    blacklist:'Blacklist'
   },
   message: {
     switchLangSucc: 'Language switching successful',
@@ -87,6 +88,9 @@ export default {
     productCategoryCannotNull:'Product category cannot be empty!',
     pulsa_codeCannotNull:'The amount of the call cannot be empty!',
     isSpecial:'Open this button when there is only one redemption code!',
+    chooseTheLengthOfBlack:'Please choose the length of black',
+    unblocksuss:'Unblocking success!',
+    addblocksuss:'Join the blacklist successfully!'
   },
   button: {
     add: 'add',
@@ -137,7 +141,9 @@ export default {
     Capingcommodity:'Caping commodity',
     Allgoods:'All goods',
     isSpecial:'Is it a special coupon',
-    exportExcel:'Export Excel'
+    exportExcel:'Export Excel',
+    day:'day',
+    permanent:'permanent'
   },
   table: {
     id: 'No.',
@@ -360,7 +366,11 @@ export default {
     RedeemerID:'Redeemer ID',
     Callamount:'Call amount',
     color:'Color',
-    size:'Size'
+    size:'Size',
+    numberOfPointsEarned:"Number of points earned",
+    blackTime:"Black time",
+    unblock:"Unblock",
+    black:"Black"
   }
 }
 

@@ -61,7 +61,13 @@ export const constantRouterMap = [
         component:()=>import('@/views/user/userEquipmentList'),
         name:'userEquipmentList',
         meta:{title:'userequipmentlist'}
-      }
+      },
+      {
+        path:'blackList',
+        component:()=>import('@/views/user/blackList'),
+        name:'blacklist',
+        meta:{title:'blacklist'}
+      },
     ]
   },
    //管理员设置
