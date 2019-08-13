@@ -91,10 +91,12 @@ export default {
               'X-abn-session-token': getToken()
             }
           })
-          .then(
-            function(response) {
+          .then((response) => {
               const datas = response.data
               const menuList = datas.data
+              if(menuList === null){
+                this.$router.push('/')
+              }
               for (let i = 0; i < menuList.length; i++) {
                 if (menuList[i].parent_id === 0) {
                   if (menuList[i].id === 31) {

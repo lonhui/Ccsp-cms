@@ -1,12 +1,10 @@
 <template>
   <el-menu class="navbar" mode="horizontal">
-    <hamburger class="hamburger-container" :isActive="sidebar.opened" :toggleClick="toggleSideBar"></hamburger>
+    <!-- :isActive="sidebar.opened" -->
+    <hamburger class="hamburger-container" :isActive="true" :toggleClick="toggleSideBar"></hamburger>
     <breadcrumb></breadcrumb>
 
     <div class="right-menu">
-      <!-- 错误日志 -->
-      <error-log class="errLog-container right-menu-item"></error-log>
-
       <!-- 选择语言 -->
       <lang-select class="international right-menu-item"></lang-select>
 
@@ -38,14 +36,12 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import ErrorLog from '@/components/ErrorLog'
 import LangSelect from '@/components/LangSelect'
  
 export default {
   components: {
     Breadcrumb,
     Hamburger,
-    ErrorLog,
     LangSelect
   },
   computed: {

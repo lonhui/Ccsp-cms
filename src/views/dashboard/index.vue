@@ -38,6 +38,7 @@ import overview from "./components/overview";
 // import dailyData from './components/dailyData'
 import leaderboard from "./components/leaderboard";
 import incident from "./components/incident";
+import {setToken} from "@/utils/auth.js"
 
 export default {
   name: "dashboard",
@@ -76,8 +77,8 @@ export default {
           value = window.decodeURIComponent(_arrS[i].substring(pos + 1));
         _rs[name] = value;
       }
-      if (_rs !== undefined && _rs.t !== null) {
-        setCookie("Admin-Token", _rs.t, 1);
+      if (_rs !== undefined && _rs.t !== null && _rs.t !== undefined) {
+        setToken(_rs.t);
       }
     }
   }

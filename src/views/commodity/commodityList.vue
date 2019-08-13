@@ -67,7 +67,6 @@
 import  addCommodity from './components/addCommodity'
 import  addH5 from './components/addH5'
 import {getcommodityList,dropoffAndShelf} from '@/api/commodity'
-import {setCookie} from '@/utils/Cookie'
 
 export default {
     data() {
