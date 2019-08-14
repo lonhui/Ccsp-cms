@@ -67,19 +67,19 @@ const user = {
     },
 
     // 获取用户菜单列表
-    GetUserMenus({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        getUserMenus()
-          .then(response => {
-            const data = response.data
-            commit('SET_ALLOWED_MENUS', data)
-            resolve(data)
-          })
-          .catch(error => {
-            reject(error)
-          })
-      })
-    },
+    // GetUserMenus({ commit, state }) {
+    //   return new Promise((resolve, reject) => {
+    //     getUserMenus()
+    //       .then(response => {
+    //         const data = response.data
+    //         commit('SET_ALLOWED_MENUS', data)
+    //         resolve(data)
+    //       })
+    //       .catch(error => {
+    //         reject(error)
+    //       })
+    //   })
+    // },
 
     // 登出
     LogOut({ commit, state }) {

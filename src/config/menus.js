@@ -1,85 +1,108 @@
 export default [
   {
-    id: 17,
-    label: 'dataCenter',
-    children: [
-      {
-        id: 19,
-        label: 'userActive'
-      },
-      {
-        id: 18,
-        label: 'userRetention'
-      }
-    ]
-  },
-  {
-    id: 9,
-    label: 'myNews',
+    id: 11,
+    label: 'userManagement',
     children: [
       {
         id: 12,
-        label: 'waitVerify'
+        label: 'userlist'
       },
       {
         id: 13,
-        label: 'online'
+        label: 'userequipmentlist'
       },
       {
-        id: 14,
-        label: 'denied'
+        id: 34,
+        label: 'blacklist'
+      }
+    ]
+  },
+  {
+    id: 28,
+    label: 'administratorsettings',
+    children: [
+      {
+        id: 29,
+        label: 'Administratorlist'
       },
+      {
+        id: 30,
+        label: 'Rolelist'
+      }
+    ]
+  },
+  {
+    id: 14,
+    label: 'commoditymanagement',
+    children: [
       {
         id: 15,
-        label: 'deleted'
-      },
-      {
-        id: 11,
-        label: 'uploadNew'
-      },
-      {
-        id: 10,
-        label: 'draft'
+        label: 'productlist'
       },
       {
         id: 16,
-        label: 'pending'
-      }
-    ]
-  },
-  {
-    id: 6,
-    label: 'adManage',
-    children: [
-      {
-        id: 8,
-        label: 'addAd'
+        label: 'dailyTransactionRecord'
       },
       {
-        id: 7,
-        label: 'adList'
+        id: 17,
+        label: 'callchargemanagement'
+      },
+      {
+        id: 18,
+        label: 'discountcodemanagement'
+      },
+      {
+        id: 33,
+        label: 'commodityExchange'
       }
     ]
   },
   {
-    id: 1,
+    id: 19,
     label: 'systemManage',
     children: [
       {
-        id: 2,
-        label: 'userManage'
+        id: 20,
+        label: 'listofevents'
       },
       {
-        id: 3,
-        label: 'roleManage'
+        id: 32,
+        label: 'eventConfiguration'
       },
       {
-        id: 4,
-        label: 'systemConfig'
+        id: 21,
+        label: 'readingeventpreview'
       },
       {
-        id: 5,
-        label: 'appManage'
+        id: 23,
+        label: 'opentreasurecasepreview'
+      }
+      ,
+      {
+        id: 24,
+        label: 'invitationevent'
+      },
+      {
+        id: 25,
+        label: 'invitationtracking'
+      },
+      {
+        id: 26,
+        label: 'triggeredevents'
+      },
+      {
+        id: 27,
+        label: 'signin'
+      }
+    ]
+  },
+  {
+    id: 31,
+    label: 'systemConfiguration',
+    children: [
+      {
+        id: 31,
+        label: 'systemConfiguration'
       }
     ]
   }

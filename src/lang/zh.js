@@ -39,7 +39,8 @@ export default {
     Administratorlist:'管理员列表',
     Rolelist:'角色列表',
     commodityExchange:'商品兑换',
-    blacklist:'黑名单'
+    blacklist:'黑名单',
+    eventConfiguration:'事件配置'
   },
   message: {
     switchLangSucc: '语言切换成功',

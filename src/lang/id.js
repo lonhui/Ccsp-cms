@@ -39,7 +39,8 @@ export default {
     Administratorlist:'Daftar administrator',
     Rolelist:'Daftar peran',
     commodityExchange:'Pertukaran komoditi',
-    blacklist:'Daftar hitam'
+    blacklist:'Daftar hitam',
+    eventConfiguration:'Konfigurasi acara'
   },
   message: {
     switchLangSucc: 'Pengalihan bahasa berhasil',

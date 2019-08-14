@@ -39,7 +39,8 @@ export default {
     Administratorlist:'Administrator list',
     Rolelist:'Role list',
     commodityExchange:'Commodity exchange',
-    blacklist:'Blacklist'
+    blacklist:'Blacklist',
+    eventConfiguration:'Event configuration'
   },
   message: {
     switchLangSucc: 'Language switching successful',
