@@ -12,8 +12,9 @@ const service = axios.create({
 
 // request拦截器
 service.interceptors.request.use(config => {
-  if (store.getters.token) {
-    config.headers['X-abn-session-token'] = getToken() // 让每个请求携带自定义token
+  let token = getToken()
+  if (token != null && token.length > 30) {
+    config.headers['X-abn-session-token'] = token // 让每个请求携带自定义token
   }
   return config
 }, error => {

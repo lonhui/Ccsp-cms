@@ -206,16 +206,15 @@ export const constantRouterMap = [
   },
   //系统配置
   {
-    path: 'system',
+    path: '',
     component: Layout,
-    redirect: 'system',
-    name: 'systemConfiguration',
-    meta: { title: 'systemConfiguration', icon: 'setting', id: 31 },
+    redirect: 'noredirect',
+    name: 'system',
     children: [
       {
         path: 'system',
         component: () => import('@/views/systemConfig/configList'),
-        name: 'systemConfiguration',
+        name: 'system',
         meta: { title: 'systemConfiguration', id: 31 }
       }
     ]
