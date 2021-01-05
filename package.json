@@ -13,7 +13,7 @@
     "test": "npm run lint"
   },
   "dependencies": {
-    "axios": "0.17.1",
+    "axios": "0.21.1",
     "echarts": "^4.0.4",
     "element-ui": "^2.2.2",
     "file-saver": "^2.0.1",
